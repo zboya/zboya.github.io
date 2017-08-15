@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>boya blog</title>
+    <link>https://sheepbao.github.io/</link>
+    <description>Recent content on boya blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Tue, 15 Aug 2017 11:58:40 +0800</lastBuildDate>
+    
+	<atom:link href="https://sheepbao.github.io/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Test</title>
+      <link>https://sheepbao.github.io/post/test/</link>
+      <pubDate>Tue, 15 Aug 2017 11:58:40 +0800</pubDate>
+      
+      <guid>https://sheepbao.github.io/post/test/</guid>
+      <description>hugo test I am boya</description>
+    </item>
+    
+  </channel>
+</rss>
