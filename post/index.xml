@@ -94,7 +94,7 @@ kcp和tcp一样，也分客户端和监听端。
     </item>
     
     <item>
-      <title>sms golang实现的流媒体服务器</title>
+      <title>Golang逃逸分析</title>
       <link>https://sheepbao.github.io/post/golang_escape_analysis/</link>
       <pubDate>Sun, 11 Jun 2017 11:58:40 +0800</pubDate>
       
