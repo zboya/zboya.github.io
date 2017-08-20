@@ -1,0 +1,625 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+
+  <title>Golang代码规范</title>
+  <meta property="og:title" content="Golang代码规范" />
+  <meta name="twitter:title" content="Golang代码规范" />
+  <meta name="description" content="Golang代码规范 参考https://golang.org/doc/effective_go.html
+项目目录结构规范 PROJECT_NAME ├── README.md 介绍软件及文档入口 ├── bin 编译好的二进制文件,执行./build.sh自动生成，该目录也用于程序打包 ├── build.sh 自动编译的脚本 ├── doc 该项目的文档 ├── pack 打包后的程序放在此处 ├── pack.sh 自动打包的脚本，生成类似xxxx.20170713_14:45:35.tar.gz的文件，放在pack文件下 └── src 该项目的源代码 ├── main 项目主函数 ├── model 项目代码 ├── research 在实现该项目中探究的一些程序 └── vendor 存放go的库 ├── github.com/xxx 第三方库 └── xxx.com/obc 公司内部的公共库  项目的目录结构尽量做到简明、层次清楚
+文件名命名规范 用小写，尽量见名思义，看见文件名就可以知道这个文件下的大概内容，对于源代码里的文件，文件名要很好的代表了一个模块实现的功能。
+命名规范 包名 包名用小写,使用短命名,尽量和标准库不要冲突
+接口名 单个函数的接口名以&rdquo;er&rdquo;作为后缀，如Reader,Writer
+接口的实现则去掉“er”
+type Reader interface { Read(p []byte) (n int, err error) }  两个函数的接口名综合两个函数名
+type WriteFlusher interface { Write([]byte) (int, error) Flush() error }  三个以上函数的接口名，类似于结构体名">
+  <meta property="og:description" content="Golang代码规范 参考https://golang.org/doc/effective_go.html
+项目目录结构规范 PROJECT_NAME ├── README.md 介绍软件及文档入口 ├── bin 编译好的二进制文件,执行./build.sh自动生成，该目录也用于程序打包 ├── build.sh 自动编译的脚本 ├── doc 该项目的文档 ├── pack 打包后的程序放在此处 ├── pack.sh 自动打包的脚本，生成类似xxxx.20170713_14:45:35.tar.gz的文件，放在pack文件下 └── src 该项目的源代码 ├── main 项目主函数 ├── model 项目代码 ├── research 在实现该项目中探究的一些程序 └── vendor 存放go的库 ├── github.com/xxx 第三方库 └── xxx.com/obc 公司内部的公共库  项目的目录结构尽量做到简明、层次清楚
+文件名命名规范 用小写，尽量见名思义，看见文件名就可以知道这个文件下的大概内容，对于源代码里的文件，文件名要很好的代表了一个模块实现的功能。
+命名规范 包名 包名用小写,使用短命名,尽量和标准库不要冲突
+接口名 单个函数的接口名以&rdquo;er&rdquo;作为后缀，如Reader,Writer
+接口的实现则去掉“er”
+type Reader interface { Read(p []byte) (n int, err error) }  两个函数的接口名综合两个函数名
+type WriteFlusher interface { Write([]byte) (int, error) Flush() error }  三个以上函数的接口名，类似于结构体名">
+  <meta name="twitter:description" content="Golang代码规范 参考https://golang.org/doc/effective_go.html
+项目目录结构规范 PROJECT_NAME ├── README.md 介绍软件及文档入口 ├── bin 编译好的二进制文件,执行./build.sh自动生成，该目录也用于程序打包 ├── build.sh 自动编译的脚本 ├── doc 该项目的文档 ├── pack 打包后的程序放在此 …">
+  <meta name="author" content=""/>
+  <meta name="twitter:card" content="summary" />
+  <meta property="og:url" content="https://sheepbao.github.io/post/golang_code_specification/" />
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="boya blog" />
+
+  <meta name="generator" content="Hugo 0.26" />
+  <link rel="canonical" href="https://sheepbao.github.io/post/golang_code_specification/" />
+  <link rel="alternate" href="https://sheepbao.github.io/index.xml" type="application/rss+xml" title="boya blog">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.7.1/katex.min.css" integrity="sha384-wITovz90syo1dJWVh32uuETPVEtGigN07tkttEqPv+uR2SE/mbQcG7ATL28aI9H0" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" />
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://sheepbao.github.io/css/main.css" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" />
+  <link rel="stylesheet" href="https://sheepbao.github.io/css/pygment_highlights.css" />
+  <link rel="stylesheet" href="https://sheepbao.github.io/css/highlight.min.css" />
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/photoswipe/4.1.1/photoswipe.min.css" integrity="sha256-sCl5PUOGMLfFYctzDW3MtRib0ctyUvI9Qsmq2wXOeBY=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/photoswipe/4.1.1/default-skin/default-skin.min.css" integrity="sha256-BFeI1V+Vh1Rk37wswuOYn5lsTcaU96hGaI7OUVCLjPc=" crossorigin="anonymous" />
+
+
+
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+<div class="pswp__bg"></div>
+
+<div class="pswp__scroll-wrap">
+    
+    <div class="pswp__container">
+      <div class="pswp__item"></div>
+      <div class="pswp__item"></div>
+      <div class="pswp__item"></div>
+    </div>
+    
+    <div class="pswp__ui pswp__ui--hidden">
+    <div class="pswp__top-bar">
+      
+      <div class="pswp__counter"></div>
+      <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+      <button class="pswp__button pswp__button--share" title="Share"></button>
+      <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+      <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+      
+      
+      <div class="pswp__preloader">
+        <div class="pswp__preloader__icn">
+          <div class="pswp__preloader__cut">
+            <div class="pswp__preloader__donut"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+      <div class="pswp__share-tooltip"></div>
+    </div>
+    <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+    </button>
+    <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+    </button>
+    <div class="pswp__caption">
+      <div class="pswp__caption__center"></div>
+    </div>
+    </div>
+    </div>
+</div>
+
+</head>
+
+  <body>
+    <nav class="navbar navbar-default navbar-fixed-top navbar-custom">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#main-navbar">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="https://sheepbao.github.io/">boya blog</a>
+    </div>
+
+    <div class="collapse navbar-collapse" id="main-navbar">
+      <ul class="nav navbar-nav navbar-right">
+        
+
+        
+
+        
+      </ul>
+    </div>
+
+    <div class="avatar-container">
+      <div class="avatar-img-border">
+        
+      </div>
+    </div>
+
+  </div>
+</nav>
+
+
+
+
+    
+  
+  
+  
+
+
+
+
+  
+
+  <header class="header-section ">
+    
+    <div class="intro-header no-img">
+      
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+            <div class="post-heading">
+              <h1>Golang代码规范</h1>
+                
+                
+                  <span class="post-meta">
+  Posted on August 2, 2017
+  
+</span>
+
+
+                
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+
+    
+<div class="container" role="main">
+  <div class="row">
+    <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+      <article role="main" class="blog-post">
+        
+
+<h1 id="golang代码规范">Golang代码规范</h1>
+
+<p>参考<a href="https://golang.org/doc/effective_go.html">https://golang.org/doc/effective_go.html</a></p>
+
+<h3 id="项目目录结构规范">项目目录结构规范</h3>
+
+<pre><code>PROJECT_NAME
+├── README.md 介绍软件及文档入口
+├── bin 编译好的二进制文件,执行./build.sh自动生成，该目录也用于程序打包
+├── build.sh 自动编译的脚本
+├── doc 该项目的文档
+├── pack 打包后的程序放在此处
+├── pack.sh 自动打包的脚本，生成类似xxxx.20170713_14:45:35.tar.gz的文件，放在pack文件下
+└── src 该项目的源代码
+    ├── main 项目主函数
+    ├── model 项目代码
+    ├── research 在实现该项目中探究的一些程序
+    └── vendor 存放go的库
+        ├── github.com/xxx 第三方库
+        └── xxx.com/obc 公司内部的公共库
+</code></pre>
+
+<p>项目的目录结构尽量做到简明、层次清楚</p>
+
+<h4 id="文件名命名规范">文件名命名规范</h4>
+
+<p>用小写，尽量见名思义，看见文件名就可以知道这个文件下的大概内容，对于源代码里的文件，文件名要很好的代表了一个模块实现的功能。</p>
+
+<h3 id="命名规范">命名规范</h3>
+
+<h4 id="包名">包名</h4>
+
+<p>包名用小写,使用短命名,尽量和标准库不要冲突</p>
+
+<h4 id="接口名">接口名</h4>
+
+<p>单个函数的接口名以&rdquo;er&rdquo;作为后缀，如Reader,Writer</p>
+
+<p>接口的实现则去掉“er”</p>
+
+<pre><code>type Reader interface {
+        Read(p []byte) (n int, err error)
+}
+</code></pre>
+
+<p>两个函数的接口名综合两个函数名</p>
+
+<pre><code>type WriteFlusher interface {
+    Write([]byte) (int, error)
+    Flush() error
+}
+</code></pre>
+
+<p>三个以上函数的接口名，类似于结构体名</p>
+
+<pre><code>type Car interface {
+    Start([]byte) 
+    Stop() error
+    Recover()
+}
+</code></pre>
+
+<h4 id="变量">变量</h4>
+
+<p>全局变量：采用驼峰命名法，仅限在包内的全局变量，包外引用需要写接口，提供调用
+局部变量：驼峰式，小写字母开头</p>
+
+<h4 id="常量">常量</h4>
+
+<p>常量：大写，采用下划线</p>
+
+<h3 id="import-规范">import 规范</h3>
+
+<p>import在多行的情况下，goimports会自动帮你格式化，在一个文件里面引入了一个package，建议采用如下格式：</p>
+
+<pre><code>import (
+    &quot;fmt&quot;
+)
+</code></pre>
+
+<p>如果你的包引入了三种类型的包，标准库包，程序内部包，第三方包，建议采用如下方式进行组织你的包：</p>
+
+<pre><code>import (
+    &quot;encoding/json&quot;
+    &quot;strings&quot;
+
+    &quot;myproject/models&quot;
+    &quot;myproject/controller&quot;
+    &quot;git.obc.im/obc/utils&quot;
+
+    &quot;git.obc.im/dep/beego&quot;
+    &quot;git.obc.im/dep/mysql&quot;
+)  
+</code></pre>
+
+<p>在项目中不要使用相对路径引入包：</p>
+
+<p>// 这是不好的导入</p>
+
+<pre><code>import “../net”
+</code></pre>
+
+<p>// 这是正确的做法</p>
+
+<pre><code>import “xxxx.com/proj/net”
+</code></pre>
+
+<h4 id="函数名">函数名</h4>
+
+<p>函数名采用驼峰命名法，尽量不要使用下划线</p>
+
+<h3 id="错误处理">错误处理</h3>
+
+<p>error作为函数的值返回,必须尽快对error进行处理<br />
+采用独立的错误流进行处理<br />
+不要采用这种方式</p>
+
+<pre><code>    if err != nil {
+        // error handling
+    } else {
+        // normal code
+    }
+</code></pre>
+
+<p>而要采用下面的方式</p>
+
+<pre><code>    if err != nil {
+        // error handling
+        return // or continue, etc.
+    }
+    // normal code
+</code></pre>
+
+<p>如果返回值需要初始化，则采用下面的方式</p>
+
+<pre><code>x, err := f()
+if err != nil {
+    // error handling
+    return
+}
+// use x
+</code></pre>
+
+<h3 id="panic">Panic</h3>
+
+<p>在逻辑处理中禁用panic<br />
+在main包中只有当实在不可运行的情况采用panic，例如文件无法打开，数据库无法连接导致程序无法 正常运行，但是对于其他的package对外的接口不能有panic，只能在包内采用。
+建议在main包中使用log.Fatal来记录错误，这样就可以由log来结束程序。</p>
+
+<h3 id="recover">Recover</h3>
+
+<p>recover用于捕获runtime的异常，禁止滥用recover，在开发测试阶段尽量不要用recover，recover一般放在你认为会有不可预期的异常的地方。</p>
+
+<pre><code>func server(workChan &lt;-chan *Work) {
+    for work := range workChan {
+        go safelyDo(work)
+    }
+}
+
+func safelyDo(work *Work) {
+    defer func() {
+        if err := recover(); err != nil {
+            log.Println(&quot;work failed:&quot;, err)
+        }
+    }()
+    // do 函数可能会有不可预期的异常
+    do(work)
+}
+</code></pre>
+
+<h3 id="defer">Defer</h3>
+
+<p>defer在函数return之前执行，对于一些资源的回收用defer是好的，但也禁止滥用defer，defer是需要消耗性能的,所以频繁调用的函数尽量不要使用defer。</p>
+
+<pre><code>// Contents returns the file's contents as a string.
+func Contents(filename string) (string, error) {
+    f, err := os.Open(filename)
+    if err != nil {
+        return &quot;&quot;, err
+    }
+    defer f.Close()  // f.Close will run when we're finished.
+
+    var result []byte
+    buf := make([]byte, 100)
+    for {
+        n, err := f.Read(buf[0:])
+        result = append(result, buf[0:n]...) // append is discussed later.
+        if err != nil {
+            if err == io.EOF {
+                break
+            }
+            return &quot;&quot;, err  // f will be closed if we return here.
+        }
+    }
+    return string(result), nil // f will be closed if we return here.
+}
+</code></pre>
+
+<h3 id="控制结构">控制结构</h3>
+
+<h4 id="if">if</h4>
+
+<p>if接受初始化语句，约定如下方式建立局部变量</p>
+
+<pre><code>if err := file.Chmod(0664); err != nil {
+    return err
+}
+</code></pre>
+
+<h4 id="for">for</h4>
+
+<p>采用短声明建立局部变量</p>
+
+<pre><code>sum := 0
+for i := 0; i &lt; 10; i++ {
+    sum += i
+}
+</code></pre>
+
+<h4 id="range">range</h4>
+
+<p>如果只需要第一项（key），就丢弃第二个：</p>
+
+<pre><code>for key := range m {
+    if key.expired() {
+        delete(m, key)
+    }
+}
+</code></pre>
+
+<p>如果只需要第二项，则把第一项置为下划线</p>
+
+<pre><code>sum := 0
+for _, value := range array {
+    sum += value
+}
+</code></pre>
+
+<h4 id="return">return</h4>
+
+<p>尽早return：一旦有错误发生，马上返回</p>
+
+<pre><code>f, err := os.Open(name)
+if err != nil {
+    return err
+}
+d, err := f.Stat()
+if err != nil {
+    f.Close()
+    return err
+}
+codeUsing(f, d)
+</code></pre>
+
+<h3 id="方法的接收器">方法的接收器</h3>
+
+<p>名称
+一般采用strcut的第一个字母且为小写，而不是this，me或者self</p>
+
+<pre><code>    type T struct{} 
+    func (p *T)Get(){}
+</code></pre>
+
+<p>如果接收者是map,slice或者chan，不要用指针传递</p>
+
+<pre><code>//Map
+package main
+
+import (
+    &quot;fmt&quot;
+)
+
+type mp map[string]string
+
+func (m mp) Set(k, v string) {
+    m[k] = v
+}
+
+func main() {
+    m := make(mp)
+    m.Set(&quot;k&quot;, &quot;v&quot;)
+    fmt.Println(m)
+}
+</code></pre>
+
+<pre><code>//Channel
+package main
+
+import (
+    &quot;fmt&quot;
+)
+
+type ch chan interface{}
+
+func (c ch) Push(i interface{}) {
+    c &lt;- i
+}
+
+func (c ch) Pop() interface{} {
+    return &lt;-c
+}
+
+func main() {
+    c := make(ch, 1)
+    c.Push(&quot;i&quot;)
+    fmt.Println(c.Pop())
+}
+</code></pre>
+
+<p>如果需要对slice进行修改，通过返回值的方式重新赋值</p>
+
+<pre><code>//Slice
+package main
+
+import (
+    &quot;fmt&quot;
+)
+
+type slice []byte
+
+func main() {
+    s := make(slice, 0)
+    s = s.addOne(42)
+    fmt.Println(s)
+}
+
+func (s slice) addOne(b byte) []byte {
+    return append(s, b)
+}
+</code></pre>
+
+<p>如果接收者是含有sync.Mutex或者类似同步字段的结构体，必须使用指针传递避免复制</p>
+
+<pre><code>package main
+
+import (
+    &quot;sync&quot;
+)
+
+type T struct {
+    m sync.Mutex
+}
+
+func (t *T) lock() {
+    t.m.Lock()
+}
+
+/*
+Wrong !!!
+func (t T) lock() {
+    t.m.Lock()
+}
+*/
+
+func main() {
+    t := new(T)
+    t.lock()
+}
+</code></pre>
+
+<p>如果接收者是大的结构体或者数组，使用指针传递会更有效率。</p>
+
+<pre><code>package main
+
+import (
+    &quot;fmt&quot;
+)
+
+type T struct {
+    data [1024]byte
+}
+
+func (t *T) Get() byte {
+    return t.data[0]
+}
+
+func main() {
+    t := new(T)
+    fmt.Println(t.Get())
+}
+</code></pre>
+
+      </article>
+
+      <ul class="pager blog-pager">
+        
+          <li class="previous">
+            <a href="https://sheepbao.github.io/post/golang_udp_programing/" data-toggle="tooltip" data-placement="top" title="udp编程的那些事与golang udp的实践">&larr; Previous Post</a>
+          </li>
+        
+        
+          <li class="next">
+            <a href="https://sheepbao.github.io/post/aboutme/" data-toggle="tooltip" data-placement="top" title="About Me">Next Post &rarr;</a>
+          </li>
+        
+      </ul>
+
+      
+
+    </div>
+  </div>
+</div>
+
+    <footer>
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+        <ul class="list-inline text-center footer-links">
+          
+          
+        </ul>
+        <p class="credits copyright text-muted">
+          
+          
+          &nbsp;&bull;&nbsp;
+          2017
+
+          
+            &nbsp;&bull;&nbsp;
+            <a href="https://sheepbao.github.io/">boya blog</a>
+          
+        </p>
+        
+        <p class="credits theme-by text-muted">
+          <a href="http://gohugo.io">Hugo v0.26</a> powered &nbsp;&bull;&nbsp; Theme by <a href="http://deanattali.com/beautiful-jekyll/">Beautiful Jekyll</a> adapted to <a href="https://github.com/halogenica/beautifulhugo">Beautiful Hugo</a>
+          
+        </p>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.7.1/katex.min.js" integrity="sha384-/y1Nn9+QQAipbNQWU65krzJralCnuOasHncUFXGkdwntGeSvQicrYkiUBwsgUqc1" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.7.1/contrib/auto-render.min.js" integrity="sha384-dq1/gEHSxPZQ7DdrM82ID4YVol9BYyU7GbWlIwnwyPzotpoc57wDw/guX8EaYGPx" crossorigin="anonymous"></script>
+<script src="https://code.jquery.com/jquery-1.12.4.min.js" integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ=" crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+<script src="https://sheepbao.github.io/js/main.js"></script>
+<script src="https://sheepbao.github.io/js/highlight.min.js"></script>
+<script> hljs.initHighlightingOnLoad(); </script>
+<script> renderMathInElement(document.body); </script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/photoswipe/4.1.1/photoswipe.min.js" integrity="sha256-UplRCs9v4KXVJvVY+p+RSo5Q4ilAUXh7kpjyIP5odyc=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/photoswipe/4.1.1/photoswipe-ui-default.min.js" integrity="sha256-PWHOlUzc96pMc8ThwRIXPn8yH4NOLu42RQ0b9SpnpFk=" crossorigin="anonymous"></script>
+<script src="https://sheepbao.github.io/js/load-photoswipe.js"></script>
+
+
+
+  </body>
+</html>
+

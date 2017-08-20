@@ -1,0 +1,726 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+
+  <title>golang 简介</title>
+  <meta property="og:title" content="golang 简介" />
+  <meta name="twitter:title" content="golang 简介" />
+  <meta name="description" content="golang 简介 来历 很久以前，有一个IT公司，这公司有个传统，允许员工拥有20%自由时间来开发实验性项目。在2007的某一天，公司的几个大牛，正在用c&#43;&#43;开发一些比较繁琐但是核心的工作，主要包括庞大的分布式集群，大牛觉得很闹心，后来c&#43;&#43;委员会来他们公司演讲，说c&#43;&#43;将要添加大概35种新特性。这几个大牛的其中一个人，名为：Rob Pike，听后心中一万个xxx飘过，“c&#43;&#43;特性还不够多吗？简化c&#43;&#43;应该更有成就感吧”。于是乎，Rob Pike和其他几个大牛讨论了一下，怎么解决这个问题，过了一会，Rob Pike说要不我们自己搞个语言吧，名字叫“go”，非常简短，容易拼写。其他几位大牛就说好啊，然后他们找了块白板，在上面写下希望能有哪些功能（详见问尾）。接下来的时间里，大牛们开心的讨论设计这门语言的特性，经过漫长的岁月，他们决定，以c语言为原型，以及借鉴其他语言的一些特性，来解放程序员，解放自己，然后在2009年，go语言诞生。
+思想 Less can be more 大道至简,小而蕴真 让事情变得复杂很容易，让事情变得简单才难 深刻的工程文化
+优点  自带gc。 静态编译，编译好后，扔服务器直接运行。 简单的思想，没有继承，多态，类等。 丰富的库和详细的开发文档。 语法层支持并发，和拥有同步并发的channel类型，使并发开发变得非常方便。 简洁的语法，提高开发效率，同时提高代码的阅读性和可维护性。 超级简单的交叉编译，仅需更改环境变量。（花了我两天时间编译一个imagemagick到arm平台） 内含完善、全面的软件工程工具。Go语言自带的命令和工具相当地强大。通过它们，我们可以很轻松地完成Go语言程序的获取、编译、测试、安装、运行、运行分析等一系列工作，这几乎涉及了开发和维护一个软件的所有环节。  hello package main func main(){ println(&quot;hello, sewise&quot;) }  type 主要讲讲特有的类型，其他基本类型不做介绍
+slice 切片：可以理解为动态数组，类似c&#43;&#43;的vector 声明一个slice
+var slice []T 如： var ints []int  slice的追加
+ints=append(ints,1) ints=append(ints,2,3,4,5)  slice的截取
+newInts1:=ints[2:3] newInts2:=ints[2:] newInts3:=ints[:4]  map 字典：键值对
+var json map[string]string  interface 接口：方法的集合,是一种合约 栗子： 声明一个bird接口
+var bird interface{ fly() }  声明一个hen对象(实现bird接口)">
+  <meta property="og:description" content="golang 简介 来历 很久以前，有一个IT公司，这公司有个传统，允许员工拥有20%自由时间来开发实验性项目。在2007的某一天，公司的几个大牛，正在用c&#43;&#43;开发一些比较繁琐但是核心的工作，主要包括庞大的分布式集群，大牛觉得很闹心，后来c&#43;&#43;委员会来他们公司演讲，说c&#43;&#43;将要添加大概35种新特性。这几个大牛的其中一个人，名为：Rob Pike，听后心中一万个xxx飘过，“c&#43;&#43;特性还不够多吗？简化c&#43;&#43;应该更有成就感吧”。于是乎，Rob Pike和其他几个大牛讨论了一下，怎么解决这个问题，过了一会，Rob Pike说要不我们自己搞个语言吧，名字叫“go”，非常简短，容易拼写。其他几位大牛就说好啊，然后他们找了块白板，在上面写下希望能有哪些功能（详见问尾）。接下来的时间里，大牛们开心的讨论设计这门语言的特性，经过漫长的岁月，他们决定，以c语言为原型，以及借鉴其他语言的一些特性，来解放程序员，解放自己，然后在2009年，go语言诞生。
+思想 Less can be more 大道至简,小而蕴真 让事情变得复杂很容易，让事情变得简单才难 深刻的工程文化
+优点  自带gc。 静态编译，编译好后，扔服务器直接运行。 简单的思想，没有继承，多态，类等。 丰富的库和详细的开发文档。 语法层支持并发，和拥有同步并发的channel类型，使并发开发变得非常方便。 简洁的语法，提高开发效率，同时提高代码的阅读性和可维护性。 超级简单的交叉编译，仅需更改环境变量。（花了我两天时间编译一个imagemagick到arm平台） 内含完善、全面的软件工程工具。Go语言自带的命令和工具相当地强大。通过它们，我们可以很轻松地完成Go语言程序的获取、编译、测试、安装、运行、运行分析等一系列工作，这几乎涉及了开发和维护一个软件的所有环节。  hello package main func main(){ println(&quot;hello, sewise&quot;) }  type 主要讲讲特有的类型，其他基本类型不做介绍
+slice 切片：可以理解为动态数组，类似c&#43;&#43;的vector 声明一个slice
+var slice []T 如： var ints []int  slice的追加
+ints=append(ints,1) ints=append(ints,2,3,4,5)  slice的截取
+newInts1:=ints[2:3] newInts2:=ints[2:] newInts3:=ints[:4]  map 字典：键值对
+var json map[string]string  interface 接口：方法的集合,是一种合约 栗子： 声明一个bird接口
+var bird interface{ fly() }  声明一个hen对象(实现bird接口)">
+  <meta name="twitter:description" content="golang 简介 来历 很久以前，有一个IT公司，这公司有个传统，允许员工拥有20%自由时间来开发实验性项目。在2007的某一天，公司的几个大牛，正在用c&#43;&#43;开发一些比较繁琐但是核心的工作，主要包括庞大的分布式集群，大牛觉得很闹心，后来c&#43;&#43;委员会来他们公司演讲，说c&#43;&#43;将要添加大概35种新特性。这几个大牛的其中一个人，名为：Rob Pike，听后心中一万个xxx飘过，“c&#43;&#43;特性还不够多吗？简 …">
+  <meta name="author" content=""/>
+  <meta name="twitter:card" content="summary" />
+  <meta property="og:url" content="https://sheepbao.github.io/post/golang_brief_introduction/" />
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="boya blog" />
+
+  <meta name="generator" content="Hugo 0.26" />
+  <link rel="canonical" href="https://sheepbao.github.io/post/golang_brief_introduction/" />
+  <link rel="alternate" href="https://sheepbao.github.io/index.xml" type="application/rss+xml" title="boya blog">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.7.1/katex.min.css" integrity="sha384-wITovz90syo1dJWVh32uuETPVEtGigN07tkttEqPv+uR2SE/mbQcG7ATL28aI9H0" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" />
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://sheepbao.github.io/css/main.css" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" />
+  <link rel="stylesheet" href="https://sheepbao.github.io/css/pygment_highlights.css" />
+  <link rel="stylesheet" href="https://sheepbao.github.io/css/highlight.min.css" />
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/photoswipe/4.1.1/photoswipe.min.css" integrity="sha256-sCl5PUOGMLfFYctzDW3MtRib0ctyUvI9Qsmq2wXOeBY=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/photoswipe/4.1.1/default-skin/default-skin.min.css" integrity="sha256-BFeI1V+Vh1Rk37wswuOYn5lsTcaU96hGaI7OUVCLjPc=" crossorigin="anonymous" />
+
+
+
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+<div class="pswp__bg"></div>
+
+<div class="pswp__scroll-wrap">
+    
+    <div class="pswp__container">
+      <div class="pswp__item"></div>
+      <div class="pswp__item"></div>
+      <div class="pswp__item"></div>
+    </div>
+    
+    <div class="pswp__ui pswp__ui--hidden">
+    <div class="pswp__top-bar">
+      
+      <div class="pswp__counter"></div>
+      <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+      <button class="pswp__button pswp__button--share" title="Share"></button>
+      <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+      <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+      
+      
+      <div class="pswp__preloader">
+        <div class="pswp__preloader__icn">
+          <div class="pswp__preloader__cut">
+            <div class="pswp__preloader__donut"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+      <div class="pswp__share-tooltip"></div>
+    </div>
+    <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+    </button>
+    <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+    </button>
+    <div class="pswp__caption">
+      <div class="pswp__caption__center"></div>
+    </div>
+    </div>
+    </div>
+</div>
+
+</head>
+
+  <body>
+    <nav class="navbar navbar-default navbar-fixed-top navbar-custom">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#main-navbar">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="https://sheepbao.github.io/">boya blog</a>
+    </div>
+
+    <div class="collapse navbar-collapse" id="main-navbar">
+      <ul class="nav navbar-nav navbar-right">
+        
+
+        
+
+        
+      </ul>
+    </div>
+
+    <div class="avatar-container">
+      <div class="avatar-img-border">
+        
+      </div>
+    </div>
+
+  </div>
+</nav>
+
+
+
+
+    
+  
+  
+  
+
+
+
+
+  
+
+  <header class="header-section ">
+    
+    <div class="intro-header no-img">
+      
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+            <div class="post-heading">
+              <h1>golang 简介</h1>
+                
+                
+                  <span class="post-meta">
+  Posted on January 22, 2017
+  
+</span>
+
+
+                
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+
+    
+<div class="container" role="main">
+  <div class="row">
+    <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+      <article role="main" class="blog-post">
+        
+
+<h1 id="golang-简介">golang 简介</h1>
+
+<h2 id="来历">来历</h2>
+
+<p>很久以前，有一个IT公司，这公司有个传统，允许员工拥有20%自由时间来开发实验性项目。在2007的某一天，公司的几个大牛，正在用c++开发一些比较繁琐但是核心的工作，主要包括庞大的分布式集群，大牛觉得很闹心，后来c++委员会来他们公司演讲，说c++将要添加大概35种新特性。这几个大牛的其中一个人，名为：Rob Pike，听后心中一万个xxx飘过，“c++特性还不够多吗？简化c++应该更有成就感吧”。于是乎，Rob Pike和其他几个大牛讨论了一下，怎么解决这个问题，过了一会，Rob Pike说要不我们自己搞个语言吧，名字叫“go”，非常简短，容易拼写。其他几位大牛就说好啊，然后他们找了块白板，在上面写下希望能有哪些功能（详见问尾）。接下来的时间里，大牛们开心的讨论设计这门语言的特性，经过漫长的岁月，他们决定，以c语言为原型，以及借鉴其他语言的一些特性，来解放程序员，解放自己，然后在2009年，go语言诞生。</p>
+
+<h2 id="思想">思想</h2>
+
+<p>Less can be more
+大道至简,小而蕴真
+让事情变得复杂很容易，让事情变得简单才难
+深刻的工程文化</p>
+
+<h2 id="优点">优点</h2>
+
+<ol>
+<li>自带gc。</li>
+<li>静态编译，编译好后，扔服务器直接运行。</li>
+<li>简单的思想，没有继承，多态，类等。</li>
+<li>丰富的库和详细的开发文档。</li>
+<li>语法层支持并发，和拥有同步并发的channel类型，使并发开发变得非常方便。</li>
+<li>简洁的语法，提高开发效率，同时提高代码的阅读性和可维护性。</li>
+<li>超级简单的交叉编译，仅需更改环境变量。（花了我两天时间编译一个imagemagick到arm平台）</li>
+<li>内含完善、全面的软件工程工具。Go语言自带的命令和工具相当地强大。通过它们，我们可以很轻松地完成Go语言程序的获取、编译、测试、安装、运行、运行分析等一系列工作，这几乎涉及了开发和维护一个软件的所有环节。</li>
+</ol>
+
+<h2 id="hello">hello</h2>
+
+<pre><code class="language-go">package main
+
+func main(){
+    println(&quot;hello, sewise&quot;)
+}
+</code></pre>
+
+<h2 id="type">type</h2>
+
+<p>主要讲讲特有的类型，其他基本类型不做介绍</p>
+
+<h4 id="slice">slice</h4>
+
+<p><strong>切片</strong>：可以理解为动态数组，类似c++的vector
+声明一个slice</p>
+
+<pre><code class="language-go">    var slice []T
+    如：
+    var ints []int
+</code></pre>
+
+<p>slice的追加</p>
+
+<pre><code class="language-go">    ints=append(ints,1)
+    ints=append(ints,2,3,4,5)
+</code></pre>
+
+<p>slice的截取</p>
+
+<pre><code class="language-go">    newInts1:=ints[2:3]
+    newInts2:=ints[2:]
+    newInts3:=ints[:4]
+</code></pre>
+
+<h4 id="map">map</h4>
+
+<p><strong>字典</strong>：键值对</p>
+
+<pre><code class="language-go">    var json map[string]string
+</code></pre>
+
+<h4 id="interface">interface</h4>
+
+<p>接口：方法的集合,是一种合约
+栗子：
+声明一个<code>bird</code>接口</p>
+
+<pre><code class="language-go">    var bird interface{
+        fly()
+    }
+</code></pre>
+
+<p>声明一个<code>hen</code>对象(实现bird接口)</p>
+
+<pre><code class="language-go">    type hen struct {
+        weight int
+        hasFeather bool
+    }
+    
+    func (h hen)fly(){
+        fmt.Println(&quot;iI can fly&quot;)
+    }
+    
+    type func (h hen)eat(){
+        h.weight++
+        fmt.Println(&quot;yes, I can eat&quot;)
+    }
+    
+</code></pre>
+
+<p>声明一个<code>pig</code>对象(未实现bird接口,因为pig不会fly)</p>
+
+<pre><code class="language-go">    type pig struct {
+        age int
+        weignt int
+        hasFeather bool
+    }
+    
+    func (p pig)run(){
+        fmt.Println(&quot;I can run&quot;)
+    }
+    
+    func (p pig)eat(){
+        p.weight += 100
+        fmt.Println(&quot;Yes, I can eat so much&quot;)
+    }
+    
+    func (p pig)sleep(){
+        fmt.Println(&quot;I slept all my life&quot;)
+    }
+    
+    // pig can't fly
+</code></pre>
+
+<h4 id="channel">channel</h4>
+
+<p>通道：轻量集队列，传递某种类型的值的通道</p>
+
+<pre><code class="language-go">    var ch chan int
+    ch=make(chan int,1)
+</code></pre>
+
+<p>往ch写入一个数据</p>
+
+<pre><code class="language-go">    ch&lt;-8888
+</code></pre>
+
+<p>从ch读取数据</p>
+
+<pre><code class="language-go">    out:=&lt;-ch
+</code></pre>
+
+<p>特性：
+channel是有长度的，当channel的缓冲为满时，再往里写入就会阻塞，当channel的缓冲为空时，从channel读就会阻塞</p>
+
+<pre><code class="language-go">package main
+
+import (
+	&quot;fmt&quot;
+	&quot;time&quot;
+)
+
+func main() {
+	ch := make(chan int)
+	fmt.Println(&quot;ch len:&quot;, len(ch))
+	go func() {
+	    // 往缓冲满的channel里写数据（阻塞）
+		// ch &lt;- 1
+		// 从缓冲为空的channel里读数据（阻塞）
+		&lt;-ch
+		fmt.Println(&quot;I am in minor goroutine&quot;)
+	}()
+	fmt.Println(&quot;I am in main goroutine&quot;)
+	time.Sleep(2 * time.Second)
+}
+</code></pre>
+
+<p>当长度为0是，就是不带缓冲的channel
+长度大于0，就是带缓冲的channel</p>
+
+<h2 id="并发">并发</h2>
+
+<p>关键字：<code>go</code> 启动go程
+一个普通的函数或方法调用前加上关键字go，即可启动一个goroutine</p>
+
+<pre><code class="language-go">    go func(){
+        fmt.Println(&quot;start func&quot;)
+        time.Sleep(120*time.Second)
+    }()
+</code></pre>
+
+<p>竞争条件检测
+<code>-race</code>
+race.go</p>
+
+<pre><code class="language-go">package main
+
+import (
+	&quot;fmt&quot;
+	&quot;time&quot;
+)
+
+func main() {
+	a := 1
+	go func() {
+		a = 2
+	}()
+	a = 3
+	fmt.Println(&quot;a is &quot;, a)
+
+	time.Sleep(2 * time.Second)
+}
+</code></pre>
+
+<p>检测：执行<code>go run -race race.go</code></p>
+
+<pre><code>a is  3
+==================
+WARNING: DATA RACE
+Write at 0x00c420072188 by goroutine 6:
+  main.main.func1()
+      /Users/bao/program/go/gowork/hello/src/research/race.go:11 +0x3b
+
+Previous write at 0x00c420072188 by main goroutine:
+  main.main()
+      /Users/bao/program/go/gowork/hello/src/research/race.go:13 +0x9f
+
+Goroutine 6 (running) created at:
+  main.main()
+      /Users/bao/program/go/gowork/hello/src/research/race.go:12 +0x8e
+==================
+Found 1 data race(s)
+</code></pre>
+
+<p>结果分析：
+goroutine6运行到第11行和main goroutine运行到13行的时候触发竞争了。而且goroutine6是在第12行的时候产生的。</p>
+
+<h2 id="package">package</h2>
+
+<p>包的管理，关键字<code>import</code>，<code>GOPATH</code></p>
+
+<h4 id="gopath">gopath</h4>
+
+<p>gopath是一个路径列表，存放go项目工程
+<code>GOPATH</code>文件目录结构</p>
+
+<pre><code>├── bin  二进制文件目录
+├── pkg  编译好的库文件目录
+└── src  源码目录  
+</code></pre>
+
+<p>平常项目的目录结构</p>
+
+<pre><code>├── bin  二进制文件目录
+├── pkg  编译好的库文件目录
+└── src  源码目录  
+    ├── main  入口函数目录
+    └── vendor  当前项目的库目录
+        └── sheepbao.com 
+            └── glog
+</code></pre>
+
+<h4 id="import">import</h4>
+
+<p>比如上面的项目，我要在<code>main.go</code>引入<code>glog</code>包</p>
+
+<pre><code class="language-go">package main
+
+// 引入glog包
+import &quot;sheepbao.com/glog&quot;
+
+func main(){
+    glog.Println(&quot;test&quot;)
+}
+</code></pre>
+
+<h2 id="go的工程工具简介">go的工程工具简介</h2>
+
+<h3 id="test">test</h3>
+
+<p>go的命令工具 <code>test</code>,用来做测试</p>
+
+<h4 id="单元测试">单元测试</h4>
+
+<p><code>go test</code>
+只测试函数名被它正确匹配的测试函数
+<code>go test -v -run=&quot;French|Canal&quot;</code></p>
+
+<p>栗子：
+add.go</p>
+
+<pre><code class="language-go">package test
+
+func addOne(i int) int {
+	return i + 1
+}
+</code></pre>
+
+<p>add_test.go</p>
+
+<pre><code class="language-go">package test
+
+import &quot;testing&quot;
+
+func TestAddOne(t *testing.T) {
+	result := addOne(1)
+	if result != 2 {
+		t.Error(&quot;1+1!=2&quot;)
+	}
+}
+</code></pre>
+
+<pre><code>bao@baoMac test$ go test -v .
+=== RUN   TestAddOne
+--- PASS: TestAddOne (0.00s)
+PASS
+ok      _/Users/bao/program/go/gowork/hello/src/research/test   0.006s
+</code></pre>
+
+<h4 id="基准测试">基准测试</h4>
+
+<p><code>go test -bench=.</code>
+内存的分配情况
+<code>go test -bench=FuncName -benchmem</code>
+栗子：
+stringsCon.go</p>
+
+<pre><code class="language-go">package bench
+
+import (
+	&quot;fmt&quot;
+)
+
+func Sprintf(s1, s2, s3 string) string {
+	return fmt.Sprintf(&quot;%s%s%s&quot;, s1, s2, s3)
+}
+
+func AddString(s1, s2, s3 string) string {
+	return s1 + s2 + s3
+}
+
+</code></pre>
+
+<p>stringCon_test.go</p>
+
+<pre><code class="language-go">package bench
+
+import &quot;testing&quot;
+
+var (
+	s1 = &quot;make it run!&quot;
+	s2 = &quot;make it right!&quot;
+	s3 = &quot;make it fast!&quot;
+)
+
+func BenchmarkSprintf(b *testing.B) {
+	for i := 0; i &lt; b.N; i++ {
+		Sprintf(s1, s2, s3)
+	}
+}
+
+func BenchmarkAddString(b *testing.B) {
+	for i := 0; i &lt; b.N; i++ {
+		AddString(s1, s2, s3)
+	}
+}
+
+</code></pre>
+
+<p><code>go test -bench=.</code></p>
+
+<pre><code>bao@baoMac bench$ go test -bench=.
+testing: warning: no tests to run
+BenchmarkSprintf-4       5000000               349 ns/op
+BenchmarkAddString-4    20000000                61.7 ns/op
+PASS
+ok      _/Users/bao/program/go/gowork/hello/src/research/bench  3.414s
+</code></pre>
+
+<h4 id="样本测试">样本测试</h4>
+
+<pre><code class="language-go">package et
+
+import (
+	&quot;fmt&quot;
+)
+
+func ExampleHello() {
+	fmt.Println(&quot;hello, sewise&quot;)
+	// Output: hello, sewise
+}
+</code></pre>
+
+<pre><code>bao@baoMac example$ go  test -v .
+=== RUN   ExampleHello
+--- PASS: ExampleHello (0.00s)
+PASS
+ok      _/Users/bao/program/go/gowork/hello/src/research/example        0.006s
+</code></pre>
+
+<p>如果把上面的<code>// Output: hello, sewise</code>改为<code>// Output: hello, sewis</code>
+则样本测试不能通过</p>
+
+<pre><code>bao@baoMac example$ go  test -v .
+=== RUN   ExampleHello
+--- FAIL: ExampleHello (0.00s)
+got:
+hello, sewise
+want:
+hello, sewis
+FAIL
+exit status 1
+FAIL    _/Users/bao/program/go/gowork/hello/src/research/example        0.006s
+</code></pre>
+
+<h3 id="pprof">pprof</h3>
+
+<p>go的命令工具 <code>pprof</code>,用来性能分析（内存使用，泄露和cpu消耗）
+go tool pprof</p>
+
+<ul>
+<li>查看cpu使用：
+<code>go tool pprof http://localhost:8089/debug/pprof/profile</code>
+终端查看：
+<img src="http://static.zybuluo.com/sheepbao/xbwcyiaq2iqrw3edp0ao1cby/image_1b72f0lh9tir1prf1r2012codlt13.png" alt="image_1b72f0lh9tir1prf1r2012codlt13.png-164.9kB" /></li>
+</ul>
+
+<p>可视化(原是svg文件，下图为截图)：</p>
+
+<p><img src="http://static.zybuluo.com/sheepbao/cziflvqf93949fyqn6l1rcbg/image_1b72f233avto14d7on4h3nlm51g.png" alt="image_1b72f233avto14d7on4h3nlm51g.png-129.8kB" />
+* 查看内存使用
+<code>go tool pprof http://localhost:8089/debug/pprof/heap</code>
+终端查看：
+<img src="http://static.zybuluo.com/sheepbao/hecvqkxzcx6ebp11iufokwzi/image_1b72elqek180t8b315kn20hhlr9.png" alt="image_1b72elqek180t8b315kn20hhlr9.png-177.3kB" /></p>
+
+<p>可视化(原是svg文件，下图为截图：</p>
+
+<p><img src="http://static.zybuluo.com/sheepbao/utd87agb3qitikgk7cvsyl25/image_1b72euk7b1knr1d1n1ugq2pe19kim.png" alt="image_1b72euk7b1knr1d1n1ugq2pe19kim.png-176.7kB" /></p>
+
+<p><code>go tool  pprof --text http://localhost:6060/debug/pprof/heap</code></p>
+
+<p><a href="https://github.com/hyper0x/go_command_tutorial">go命令教程</a></p>
+
+<h2 id="资料">资料</h2>
+
+<p><a href="http://www.csdn.net/article/2012-07-04/2807113-less-is-exponentially-more">http://www.csdn.net/article/2012-07-04/2807113-less-is-exponentially-more</a></p>
+
+<p><a href="http://www.jianshu.com/p/91e40c3e3acb?hmsr=toutiao.io&amp;utm_medium=toutiao.io&amp;utm_source=toutiao.io">http://www.jianshu.com/p/91e40c3e3acb?hmsr=toutiao.io&amp;utm_medium=toutiao.io&amp;utm_source=toutiao.io</a></p>
+
+<p><a href="http://smallsoho.com/2016/11/20/Go简明教程.html?hmsr=toutiao.io&amp;utm_medium=toutiao.io&amp;utm_source=toutiao.io">http://smallsoho.com/2016/11/20/Go简明教程.html?hmsr=toutiao.io&amp;utm_medium=toutiao.io&amp;utm_source=toutiao.io</a></p>
+
+<h2 id="大牛真身">大牛真身</h2>
+
+<p>最大牌的当属B和C语言设计者、Unix和Plan 9创始人、1983年图灵奖获得者Ken Thompson，这份名单中还包括了Unix核心成员Rob Pike（go语言之父）、java HotSpot虚拟机和js v8引擎的开发者Robert Griesemer、Memcached作者Brad Fitzpatrick，等等。</p>
+
+<h2 id="功能">功能</h2>
+
+<ul>
+<li>规范的语法（不需要符号表来解析）</li>
+<li>垃圾回收（独有）</li>
+<li>无头文件</li>
+<li>明确的依赖</li>
+<li>无循环依赖</li>
+<li>常量只能是数字</li>
+<li>int和int32是两种类型</li>
+<li>字母大小写设置可见性（letter case sets visibility）</li>
+<li>任何类型（type）都有方法（不是类型）</li>
+<li>没有子类型继承（不是子类）</li>
+<li>包级别初始化以及明确的初始化顺序</li>
+<li>文件被编译到一个包里</li>
+<li>包package-level globals presented in any order</li>
+<li>没有数值类型转换（常量起辅助作用）</li>
+<li>接口隐式实现（没有“implement”声明）</li>
+<li>嵌入（不会提升到超类）</li>
+<li>方法按照函数声明（没有特别的位置要求）</li>
+<li>方法即函数</li>
+<li>接口只有方法（没有数据）</li>
+<li>方法通过名字匹配（而非类型）</li>
+<li>没有构造函数和析构函数</li>
+<li>postincrement（如++i）是状态，不是表达式</li>
+<li>没有preincrement(i++)和predecrement</li>
+<li>赋值不是表达式</li>
+<li>明确赋值和函数调用中的计算顺序（没有“sequence point”）</li>
+<li>没有指针运算</li>
+<li>内存一直以零值初始化</li>
+<li>局部变量取值合法</li>
+<li>方法中没有“this”</li>
+<li>分段的堆栈</li>
+<li>没有静态和其它类型的注释</li>
+<li>没有模板</li>
+<li>内建string、slice和map</li>
+<li>数组边界检查</li>
+</ul>
+
+      </article>
+
+      <ul class="pager blog-pager">
+        
+          <li class="previous">
+            <a href="https://sheepbao.github.io/post/mylife_2016/" data-toggle="tooltip" data-placement="top" title="我的2016-成长之年">&larr; Previous Post</a>
+          </li>
+        
+        
+          <li class="next">
+            <a href="https://sheepbao.github.io/post/golang_stream_server/" data-toggle="tooltip" data-placement="top" title="sms golang实现的流媒体服务器">Next Post &rarr;</a>
+          </li>
+        
+      </ul>
+
+      
+
+    </div>
+  </div>
+</div>
+
+    <footer>
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+        <ul class="list-inline text-center footer-links">
+          
+          
+        </ul>
+        <p class="credits copyright text-muted">
+          
+          
+          &nbsp;&bull;&nbsp;
+          2017
+
+          
+            &nbsp;&bull;&nbsp;
+            <a href="https://sheepbao.github.io/">boya blog</a>
+          
+        </p>
+        
+        <p class="credits theme-by text-muted">
+          <a href="http://gohugo.io">Hugo v0.26</a> powered &nbsp;&bull;&nbsp; Theme by <a href="http://deanattali.com/beautiful-jekyll/">Beautiful Jekyll</a> adapted to <a href="https://github.com/halogenica/beautifulhugo">Beautiful Hugo</a>
+          
+        </p>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.7.1/katex.min.js" integrity="sha384-/y1Nn9+QQAipbNQWU65krzJralCnuOasHncUFXGkdwntGeSvQicrYkiUBwsgUqc1" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.7.1/contrib/auto-render.min.js" integrity="sha384-dq1/gEHSxPZQ7DdrM82ID4YVol9BYyU7GbWlIwnwyPzotpoc57wDw/guX8EaYGPx" crossorigin="anonymous"></script>
+<script src="https://code.jquery.com/jquery-1.12.4.min.js" integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ=" crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+<script src="https://sheepbao.github.io/js/main.js"></script>
+<script src="https://sheepbao.github.io/js/highlight.min.js"></script>
+<script> hljs.initHighlightingOnLoad(); </script>
+<script> renderMathInElement(document.body); </script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/photoswipe/4.1.1/photoswipe.min.js" integrity="sha256-UplRCs9v4KXVJvVY+p+RSo5Q4ilAUXh7kpjyIP5odyc=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/photoswipe/4.1.1/photoswipe-ui-default.min.js" integrity="sha256-PWHOlUzc96pMc8ThwRIXPn8yH4NOLu42RQ0b9SpnpFk=" crossorigin="anonymous"></script>
+<script src="https://sheepbao.github.io/js/load-photoswipe.js"></script>
+
+
+
+  </body>
+</html>
+

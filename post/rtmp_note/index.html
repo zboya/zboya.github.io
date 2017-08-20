@@ -1,0 +1,671 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+
+  <title>RTMP协议学习笔记</title>
+  <meta property="og:title" content="RTMP协议学习笔记" />
+  <meta name="twitter:title" content="RTMP协议学习笔记" />
+  <meta name="description" content="RTMP协议笔记 请用电脑或者手机横屏查看，不然会格式乱。
+RTMP的背景和应用 每项技术都有起来源，RTMP也不例外，RTMP是Adobe公司公布的一项协议,Adobe是一家世界领先数字媒体和在线营销方案的供应商。在H5崛起之前，几乎所有的浏览器都用Flash player播放多媒体资源，而服务端和浏览器之间就是用RTMP协议或者在RTMP协议变种后的协议进行通信的。
+RTMP协议概览 握手、消息块概念 握手的目的是为了确认对端RTMP的Version和确认对端能互相通信。 消息块就是消息的载体，是RTMP协议最重要的载体，这个载体是有一定格式的，如果把Client和Server端当作铁路的两个站点，那这个消息块就是火车，它负责运输货物。正如火车有火车头、车厢一样，消息块也有基本头，消息头和消息负载。RTMP协议当中，除了握手协议，其他的数据都是以消息块的方式发送的，发送一个消息时，当块大小比需要发送的消息的字节数更大时，一个消息块就相当于一个消息，否则消息需要分成多个消息块。  握手 &#43;-&#43;-&#43;-&#43;-&#43;-&#43;-&#43; &#43;-&#43;-&#43;-&#43;-&#43;-&#43;-&#43; | Client | | Server | &#43;-&#43;-&#43;-&#43;-&#43;-&#43;-&#43; &#43;-&#43;-&#43;-&#43;-&#43;-&#43;-&#43; |-------- C0C1 --------&gt;| |&lt;------ S0S1S2 --------| |--------- C2 ---------&gt;|   C0和S0的格式（1 byte）
+&#43;-&#43;-&#43;-&#43;-&#43;-&#43;-&#43;-&#43;-&#43; | version | &#43;-&#43;-&#43;-&#43;-&#43;-&#43;-&#43;-&#43;-&#43;  C1和S1的格式
+&#43;-&#43;-&#43;-&#43;-&#43;-&#43;-&#43;-&#43;-&#43;-&#43;-&#43; | time (4 bytes) | &#43;-&#43;-&#43;-&#43;-&#43;-&#43;-&#43;-&#43;-&#43;-&#43;-&#43; | zero (4 bytes) | &#43;-&#43;-&#43;-&#43;-&#43;-&#43;-&#43;-&#43;-&#43;-&#43;-&#43; | random bytes | &#43;-&#43;-&#43;-&#43;-&#43;-&#43;-&#43;-&#43;-&#43;-&#43;-&#43; |random bytes(cont) | | .... | &#43;-&#43;-&#43;-&#43;-&#43;-&#43;-&#43;-&#43;-&#43;-&#43;-&#43;  time: 4 字节 本字段包含时间戳。该时间戳应该是发送这个数据块的端点的后续块的时间起始点。可以是 0 ,或其他的任何值。为了同步多个流,端点可能发送其块流的当前值。 zero: 4 字节 本字段必须是全零。 random bytes: 1528 字节。 本字段可以包含任何值。因为每个端点必须用自己初始化的握手和对端初始化的">
+  <meta property="og:description" content="RTMP协议笔记 请用电脑或者手机横屏查看，不然会格式乱。
+RTMP的背景和应用 每项技术都有起来源，RTMP也不例外，RTMP是Adobe公司公布的一项协议,Adobe是一家世界领先数字媒体和在线营销方案的供应商。在H5崛起之前，几乎所有的浏览器都用Flash player播放多媒体资源，而服务端和浏览器之间就是用RTMP协议或者在RTMP协议变种后的协议进行通信的。
+RTMP协议概览 握手、消息块概念 握手的目的是为了确认对端RTMP的Version和确认对端能互相通信。 消息块就是消息的载体，是RTMP协议最重要的载体，这个载体是有一定格式的，如果把Client和Server端当作铁路的两个站点，那这个消息块就是火车，它负责运输货物。正如火车有火车头、车厢一样，消息块也有基本头，消息头和消息负载。RTMP协议当中，除了握手协议，其他的数据都是以消息块的方式发送的，发送一个消息时，当块大小比需要发送的消息的字节数更大时，一个消息块就相当于一个消息，否则消息需要分成多个消息块。  握手 &#43;-&#43;-&#43;-&#43;-&#43;-&#43;-&#43; &#43;-&#43;-&#43;-&#43;-&#43;-&#43;-&#43; | Client | | Server | &#43;-&#43;-&#43;-&#43;-&#43;-&#43;-&#43; &#43;-&#43;-&#43;-&#43;-&#43;-&#43;-&#43; |-------- C0C1 --------&gt;| |&lt;------ S0S1S2 --------| |--------- C2 ---------&gt;|   C0和S0的格式（1 byte）
+&#43;-&#43;-&#43;-&#43;-&#43;-&#43;-&#43;-&#43;-&#43; | version | &#43;-&#43;-&#43;-&#43;-&#43;-&#43;-&#43;-&#43;-&#43;  C1和S1的格式
+&#43;-&#43;-&#43;-&#43;-&#43;-&#43;-&#43;-&#43;-&#43;-&#43;-&#43; | time (4 bytes) | &#43;-&#43;-&#43;-&#43;-&#43;-&#43;-&#43;-&#43;-&#43;-&#43;-&#43; | zero (4 bytes) | &#43;-&#43;-&#43;-&#43;-&#43;-&#43;-&#43;-&#43;-&#43;-&#43;-&#43; | random bytes | &#43;-&#43;-&#43;-&#43;-&#43;-&#43;-&#43;-&#43;-&#43;-&#43;-&#43; |random bytes(cont) | | .... | &#43;-&#43;-&#43;-&#43;-&#43;-&#43;-&#43;-&#43;-&#43;-&#43;-&#43;  time: 4 字节 本字段包含时间戳。该时间戳应该是发送这个数据块的端点的后续块的时间起始点。可以是 0 ,或其他的任何值。为了同步多个流,端点可能发送其块流的当前值。 zero: 4 字节 本字段必须是全零。 random bytes: 1528 字节。 本字段可以包含任何值。因为每个端点必须用自己初始化的握手和对端初始化的">
+  <meta name="twitter:description" content="RTMP协议笔记 请用电脑或者手机横屏查看，不然会格式乱。
+RTMP的背景和应用 每项技术都有起来源，RTMP也不例外，RTMP是Adobe公司公布的一项协议,Adobe是一家世界领先数字媒体和在线营销方案的供应商。在H5崛起之前，几乎所有的浏览器都用Flash player播放多媒体资源，而服务端和浏览器之间就是用RTMP协议或者在RTMP协议变种后的协议进行通信的。
+RTMP协议概览 握手、消 …">
+  <meta name="author" content=""/>
+  <meta name="twitter:card" content="summary" />
+  <meta property="og:url" content="https://sheepbao.github.io/post/rtmp_note/" />
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="boya blog" />
+
+  <meta name="generator" content="Hugo 0.26" />
+  <link rel="canonical" href="https://sheepbao.github.io/post/rtmp_note/" />
+  <link rel="alternate" href="https://sheepbao.github.io/index.xml" type="application/rss+xml" title="boya blog">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.7.1/katex.min.css" integrity="sha384-wITovz90syo1dJWVh32uuETPVEtGigN07tkttEqPv+uR2SE/mbQcG7ATL28aI9H0" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" />
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://sheepbao.github.io/css/main.css" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" />
+  <link rel="stylesheet" href="https://sheepbao.github.io/css/pygment_highlights.css" />
+  <link rel="stylesheet" href="https://sheepbao.github.io/css/highlight.min.css" />
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/photoswipe/4.1.1/photoswipe.min.css" integrity="sha256-sCl5PUOGMLfFYctzDW3MtRib0ctyUvI9Qsmq2wXOeBY=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/photoswipe/4.1.1/default-skin/default-skin.min.css" integrity="sha256-BFeI1V+Vh1Rk37wswuOYn5lsTcaU96hGaI7OUVCLjPc=" crossorigin="anonymous" />
+
+
+
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+<div class="pswp__bg"></div>
+
+<div class="pswp__scroll-wrap">
+    
+    <div class="pswp__container">
+      <div class="pswp__item"></div>
+      <div class="pswp__item"></div>
+      <div class="pswp__item"></div>
+    </div>
+    
+    <div class="pswp__ui pswp__ui--hidden">
+    <div class="pswp__top-bar">
+      
+      <div class="pswp__counter"></div>
+      <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+      <button class="pswp__button pswp__button--share" title="Share"></button>
+      <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+      <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+      
+      
+      <div class="pswp__preloader">
+        <div class="pswp__preloader__icn">
+          <div class="pswp__preloader__cut">
+            <div class="pswp__preloader__donut"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+      <div class="pswp__share-tooltip"></div>
+    </div>
+    <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+    </button>
+    <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+    </button>
+    <div class="pswp__caption">
+      <div class="pswp__caption__center"></div>
+    </div>
+    </div>
+    </div>
+</div>
+
+</head>
+
+  <body>
+    <nav class="navbar navbar-default navbar-fixed-top navbar-custom">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#main-navbar">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="https://sheepbao.github.io/">boya blog</a>
+    </div>
+
+    <div class="collapse navbar-collapse" id="main-navbar">
+      <ul class="nav navbar-nav navbar-right">
+        
+
+        
+
+        
+      </ul>
+    </div>
+
+    <div class="avatar-container">
+      <div class="avatar-img-border">
+        
+      </div>
+    </div>
+
+  </div>
+</nav>
+
+
+
+
+    
+  
+  
+  
+
+
+
+
+  
+
+  <header class="header-section ">
+    
+    <div class="intro-header no-img">
+      
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+            <div class="post-heading">
+              <h1>RTMP协议学习笔记</h1>
+                
+                
+                  <span class="post-meta">
+  Posted on September 13, 2016
+  
+</span>
+
+
+                
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+
+    
+<div class="container" role="main">
+  <div class="row">
+    <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+      <article role="main" class="blog-post">
+        
+
+<h2 id="rtmp协议笔记">RTMP协议笔记</h2>
+
+<p>请用电脑或者手机横屏查看，不然会格式乱。</p>
+
+<h3 id="rtmp的背景和应用">RTMP的背景和应用</h3>
+
+<p>每项技术都有起来源，RTMP也不例外，RTMP是Adobe公司公布的一项<a href="http://www.adobe.com/devnet/rtmp.html">协议</a>,Adobe是一家世界领先数字媒体和在线营销方案的供应商。在H5崛起之前，几乎所有的浏览器都用Flash player播放多媒体资源，而服务端和浏览器之间就是用RTMP协议或者在RTMP协议变种后的协议进行通信的。</p>
+
+<h3 id="rtmp协议概览">RTMP协议概览</h3>
+
+<pre><code>握手、消息块概念
+握手的目的是为了确认对端RTMP的Version和确认对端能互相通信。
+消息块就是消息的载体，是RTMP协议最重要的载体，这个载体是有一定格式的，如果把Client和Server端当作铁路的两个站点，那这个消息块就是火车，它负责运输货物。正如火车有火车头、车厢一样，消息块也有基本头，消息头和消息负载。RTMP协议当中，除了握手协议，其他的数据都是以消息块的方式发送的，发送一个消息时，当块大小比需要发送的消息的字节数更大时，一个消息块就相当于一个消息，否则消息需要分成多个消息块。
+</code></pre>
+
+<h4 id="握手">握手</h4>
+
+<pre><code class="language-c">    +-+-+-+-+-+-+            +-+-+-+-+-+-+
+    |  Client   |            |  Server   |
+    +-+-+-+-+-+-+            +-+-+-+-+-+-+
+          |-------- C0C1 --------&gt;|     
+          |&lt;------ S0S1S2 --------|
+          |--------- C2 ---------&gt;|
+</code></pre>
+
+<ul>
+<li><p>C0和S0的格式（1 byte）</p>
+
+<pre><code class="language-c">+-+-+-+-+-+-+-+-+
+|  version      |
++-+-+-+-+-+-+-+-+
+</code></pre></li>
+
+<li><p>C1和S1的格式</p>
+
+<pre><code class="language-c">+-+-+-+-+-+-+-+-+-+-+
+|   time (4 bytes)  |
++-+-+-+-+-+-+-+-+-+-+
+|   zero (4 bytes)  |
++-+-+-+-+-+-+-+-+-+-+
+|   random bytes    |
++-+-+-+-+-+-+-+-+-+-+
+|random bytes(cont) |
+|       ....        |
++-+-+-+-+-+-+-+-+-+-+
+</code></pre>
+
+<p>time: 4 字节
+本字段包含时间戳。该时间戳应该是发送这个数据块的端点的后续块的时间起始点。可以是 0 ,或其他的任何值。为了同步多个流,端点可能发送其块流的当前值。
+zero: 4 字节
+本字段必须是全零。
+random bytes: 1528 字节。
+本字段可以包含任何值。因为每个端点必须用自己初始化的握手和对端初始化的</p></li>
+
+<li><p>C2和S2的格式</p>
+
+<pre><code class="language-c">+-+-+-+-+-+-+-+-+-+-+
+|   time (4 bytes)  |
++-+-+-+-+-+-+-+-+-+-+
+|   time2(4 bytes)  |
++-+-+-+-+-+-+-+-+-+-+
+|   random bytes    |
++-+-+-+-+-+-+-+-+-+-+
+|random bytes(cont) |
+|       ....        |
++-+-+-+-+-+-+-+-+-+-+
+</code></pre>
+
+<p>time: 4 字节
+本字段必须包含对等段发送的时间(对C2来说是S1 ,对S2来说是C1)。
+time2 : 4 字节
+本字段必须包含先前发送的并被对端读取的包的时间戳。
+random bytes: 1528 字节
+本字段必须包含对端发送的随机数据字段(对C2来说是S1 ,对S2来说是C1)。</p></li>
+
+<li><p>握手流程
+握手是一切的开始，Client和Server两个站点之前要运输货物，首先得先互相通知对方，确认铁轨是否符合火车运行，是否畅通无阻，是否能准确的运输货物到对端。</p>
+
+<ul>
+<li>实际的流程大概是这样的：</li>
+<li>Client发送带有1byte的C0和固定长度为1536byte的C1。<br /></li>
+<li>Server发送S0S1S2给Client。</li>
+<li>Client发送C2。
+<br /></li>
+</ul></li>
+</ul>
+
+<h4 id="消息块-chunk-block-由header-timestamp-不一定有-和data组成">消息块-Chunk Block（由Header、TimeStamp（不一定有）和Data组成）</h4>
+
+<pre><code class="language-c">    +-------------+----------------+-------------------+-----------+  
+    | Basic header|Chunk Msg Header|Extended Time Stamp|Chunk Data |  
+    +-------------+----------------+-------------------+-----------+ 
+</code></pre>
+
+<ul>
+<li><p>Basic Header (1~3 byte)</p>
+
+<pre><code class="language-c">+-+-+-+-+-+-+-+-+  
+| fmt | cs id   |     
++-+-+-+-+-+-+-+-+  
+</code></pre>
+
+<p>fmt：表示块类型，决定了Chunk Msg Header的格式，<br />
+它占第一个字节的0~1bit，2~7属于csid字节。
+csid ：表示块流id<br />
+csid在64~319的范围内时，<br />
+    csidTS=0，csid=（第二个字节的值）+64<br />
+csid在64~65599的范围内时，<br />
+    csidTS=0x3f，bit位全为1时，csid=（第二个字节的值×256）+（第三个字节的值）+64<br />
+csid在3~63的范围内时，<br />
+    csidTS=1~0x3e，即6位bit非全0也非全1时，csid=csidTS</p></li>
+</ul>
+
+<p><strong>注意</strong>：这里第一个字节的2~7位暂时称为<strong>csidTS</strong>，协议里并没有这么说明，只是个人阐述需要
+  <strong>说明</strong>：BH的长度范围为1~3 byte，具体多少byte是csidTS决定的，csid的值范围3～65599,0~2作为保留。</p>
+
+<ul>
+<li>Chunk Message Header (0,3,7,11 byte)<br /></li>
+</ul>
+
+<pre><code class="language-c">    +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+  
+    |         timestamp           |    message length     |  
+    +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+  
+    |message length (cont)|message type id| msg stream id |  
+    +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+  
+    |message stream id (cont) |  
+    +-+-+-+-+-+-+-+-+-+-+-+-+-+
+</code></pre>
+
+<ol>
+<li>fmt=0：长度11 byte，<br />
+在一个块流的开始和时间戳返回的时候必须有这种块<br /></li>
+<li>fmt=1：长度为7 byte，与fmt=0时，相比，该类型少了<code>Message Stream Id</code>，<br />
+具有可变大小消息的流,在第一个消息之后的每个消息的第一个块应该使用这个格式<br /></li>
+<li>fmt=2：长度3 byte，不包含<code>Message Stream Id</code>和<code>Message Length</code><br />
+具有固定大小消息的流,在第一个消息之后的每个消息的第一个块应该使用这个格式</li>
+<li>fmt=3：长度为0 byte，<br />
+当一个消息被分成多个块,除了第一块以外,所有的块都应使用这种类型<br /></li>
+</ol>
+
+<ul>
+<li><p>Extend Time Stamp (0,4 byte)</p>
+
+<pre><code class="language-c">+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+ 
+|         timestamp           |   
++-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+</code></pre>
+
+<p>只有当块消息头中的普通时间戳设置为 0x00ffffff(4.66h) 时,本字段才被传送。<br />
+如果普通时间戳的值小于 0x00ffffff ,那么本字段一定不能出现。如果时间戳<br />
+字段不出现本字段也一定不能出现。类型 3 的块一定不能含有本字段。本字段<br />
+在块消息头之后,块时间之前</p></li>
+
+<li><p>Chunk Data</p>
+
+<pre><code class="language-c">+-----------+
+|Chunk Data |
++-----------+
+</code></pre>
+
+<p>Chunk Data的实例就是Message</p></li>
+</ul>
+
+<h3 id="消息-message">消息-Message</h3>
+
+<ul>
+<li>Message Header<br /></li>
+</ul>
+
+<pre><code class="language-c">    +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+  
+    | Message Type| Payload length|  
+    +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+  
+    |       Timestamp             |  
+    +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+  
+    |       Stream ID       |  
+    +-+-+-+-+-+-+-+-+-+-+-+-+
+</code></pre>
+
+<ol>
+<li>Message Type（1 byte）<strong>以下简写为MT</strong><br />
+消息类型很重要，它代表了这个消息是什么类型，当写程序的时候需要根据不同的消息，做不同的处理。<br /></li>
+<li>Payload length（3 bytes)<br />
+表示负载的长度（big-endian 格式）<br /></li>
+<li>Timestamp (4 bytes)<br />
+时间戳（big-endian 格式）<br /></li>
+<li>Stream ID (3 bytes)<br />
+消息流ID（big-endian 格式）<br /></li>
+<li>Message Payload<br />
+真实的数据<br />
+<br /></li>
+</ol>
+
+<h3 id="消息的分类">消息的分类</h3>
+
+<h4 id="协议控制消息">协议控制消息</h4>
+
+<p>协议控制消息是用来与对端协调控制的，<strong>MT的范围1~7</strong>.
+1～2 用于chunk协议，3~6 用于rtmp协议本身，协议控制消息必须要求<br />
+<strong>Message Stream ID=0 和 Chunk Stream ID=2</strong>.</p>
+
+<ul>
+<li><strong>MT=1</strong>, Set Chunk Size 设置块的大小，通知对端用使用新的块大小,共4 bytes。<br /></li>
+</ul>
+
+<pre><code class="language-c">    ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++  
+    |Basic Header|Message Header|Ex Timestamp|Set chunk size |  
+    ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++   
+</code></pre>
+
+<ul>
+<li><strong>MT=2</strong>, Abort Message    取消消息，用于通知正在等待接收块以完成消息的对等端,丢弃一个块流中已经接收的部分并且取消对该消息的处理，共4 bytes。<br /></li>
+</ul>
+
+<pre><code class="language-c">    ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++  
+    |Basic Header|Message Header|Ex Timestamp|Chunk Stream ID|  
+    ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++  
+</code></pre>
+
+<ul>
+<li><strong>MT=3</strong>, Acknowledgement   确认消息，客户端或服务端在接收到数量与窗口大小相等的字节后发送确认消息到对方。窗口大小是在没有接收到接收者发送的确认消息之前发送的字节数的最大值。服务端在建立连接之后发送窗口大小。本消息指定序列号。序列号,是到当前时间为止已经接收到的字节数。 共4 bytes。<br /></li>
+</ul>
+
+<pre><code class="language-c">   ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++  
+   |Basic Header|Message Header|Ex Timestamp|Sequence Number|  
+   ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++  
+</code></pre>
+
+<ul>
+<li><strong>MT=4</strong>, User Control Message 用户控制消息，客户端或服务端发送本消息通知对方用户的控制事件。本消息承载事件类型和事件数据。消息数据的头两个字节用于标识事件类型。事件类型之后是事件数据。事件数据字段是可变长的。</li>
+</ul>
+
+<pre><code class="language-c">    +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++    
+    |Basic Header|Message Header|Ex Timestamp|Event Type|Event Data |  
+    +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ 
+</code></pre>
+
+<ul>
+<li><strong>MT=5</strong>, Window Acknowledgement Size 确认窗口大小,客户端或服务端发送本消息来通知对方发送确认(致谢)消息的窗口大小,共4 bytes.</li>
+</ul>
+
+<pre><code class="language-c">    +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++  
+    |Basic Header|Message Header|Ex Timestamp|Acknowledgement Window size |     
+    +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++  
+</code></pre>
+
+<ul>
+<li><strong>MT=6</strong>, Set Peer Bandwidth 设置对等端带宽，客户端或服务端发送本消息更新对等端的输出带宽。发送者可以在限制类型字段（1 bytes）把消息标记为硬(0),软(1),或者动态(2)。如果是硬限制对等端必须按提供的带宽发送数据。如果是软限制,对等端可以灵活决定带宽,发送端可以限制带宽?。如果是动态限制,带宽既可以是硬限制也可以是软限制。<br /></li>
+</ul>
+
+<pre><code class="language-c">    +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++  
+    |Basic Header|Message Header|Ex Timestamp|Acknowledgement Window size |  
+    +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++  
+    |  Limit type  |  
+    ++++++++++++++++  
+</code></pre>
+
+<h4 id="音频数据消息">音频数据消息</h4>
+
+<ul>
+<li><strong>MT=8</strong> Audio message, 客户端或服务端发送本消息用于发送音频数据。消息类型 8 ,保留为音频消息。<br /></li>
+</ul>
+
+<h4 id="视频数据消息">视频数据消息</h4>
+
+<ul>
+<li><strong>MT=9</strong> Video message, 客户端或服务端使用本消息向对方发送视频数据。消息类型值 9 ,保留为视频消息。<br /></li>
+</ul>
+
+<h4 id="元数据消息">元数据消息</h4>
+
+<ul>
+<li><strong>MT=15或者18</strong> Data message, 客户端或服务端通过本消息向对方发送元数据和用户数据。元数据包括数据的创建时间、时长、主题等细节。<br />
+消息类型为 18 的用 AMF0 编码,消息类型为 15 的用AMF3 编码。<br /></li>
+</ul>
+
+<h4 id="共享对象消息">共享对象消息</h4>
+
+<ul>
+<li><strong>MT=16或者19</strong> Shared object message, 共享对象是跨多个客户端,实例同步的 FLASH 对象(名值对的集合)。<br /></li>
+</ul>
+
+<h4 id="命令消息">命令消息</h4>
+
+<ul>
+<li><strong>MT=17或者20</strong>，Command message<br />
+命令消息都是用AMF编码的，AMF有两种，为AMF0和AMF3。命令消息有命令名，传输ID，和命名对象组成。<br />
+而命名对象是由一系列参数组成的。<br /></li>
+</ul>
+
+<h5 id="命令消息的类型">命令消息的类型</h5>
+
+<ul>
+<li><em>NetConnection</em>:代表服务端和客户端之间连接的更高层的对象。包含4个命令类型。<br /></li>
+</ul>
+
+<ol>
+<li>connect<br />
+该命令是client先发送给server，意思是我要连接，能建立连接吗？server返回含“_result”或者“_error”命令名,<br />
+返回“_result”,表示server能提供服务，client可以进行下一步。“_error”，很明显server端不能提供服务。<br /></li>
+<li>call<br />
+NetConnection 对象的调用方法在接收端运行远程过程调用。远程方法的名作为调用命令的参数。<br /></li>
+<li>close
+不知道为何协议里没写这个命令的内容，我猜应该是close connect。</li>
+<li>createStream<br />
+客户端发送本命令到服务端创建一个消息通讯的逻辑通道。音频,视频和元数据的发布是由创建流命令建立的流通道承载的。<br />
+NetConnection 本身是默认的流通道,具有流ID 0。协议和一少部分命令消息,包括创建流,就使用默认的通讯通道。</li>
+</ol>
+
+<ul>
+<li><em>NetStream</em>:代表发送音频流,视频流和其他相关数据的通道的对象。我们也发送像播放,暂停等控制数据流动的命令。<br /></li>
+</ul>
+
+<ol>
+<li>play<br /></li>
+</ol>
+
+<pre><code class="language-c">    +-------------+                                     +----------+    
+    | Play Client |                  |                  |  Server  |
+    +-------------+                  |                  +----------+
+           |          |Handshaking and Application|          |
+           |          |         connect done      |          |
+           |                         |                       |
+  ---+---- |---------Command Message(createStream) ---------&gt;|
+  Create   |                                                 |
+  Stream   |                                                 |
+  ---+---- |&lt;-------------- Command Message -----------------|
+           |       (_result- createStream response)          |
+           |                                                 |
+  ---+---- |------------ Command Message (play) ------------&gt;|
+    play   |                                                 |
+     |     |&lt;---------------- SetChunkSize ------------------|
+     |     |&lt;----- User Control (StreamIsRecorded) ----------|
+     |     |&lt;-------- UserControl (StreamBegin) -------------|
+     |     |&lt;---- Command Message(onStatus-play reset) ------|
+     |     |&lt;---- Command Message(onStatus-play start) ------|
+     |     |------------------ Audio Message----------------&gt;|
+     |     |------------------ Video Message----------------&gt;|
+                                     |
+                                     |
+            Keep receiving audio and video stream till finishes  
+
+</code></pre>
+
+<pre><code>a. 客户端从服务端接收到流创建成功消息,发送播放命令到服务端。  
+b. 接收到播放命令后,服务端发送协议消息设置块大小。  
+c. 服务端发送另一个协议消息(用户控制消息),并且在消息中指定事件” streamisrecorded” 和流 ID 。消息承载的头 2 个字,为事件类型,后4 个字节为流 ID 。  
+d. 服务端发送事件” streambegin” 的协议消息(用户控制),告知客户端流 ID 。 
+e. 服务端发送响应状态命令消息`NetStream.Play.Start`&amp;`NetStream.Play.reset` , 如果客户端发送的播放命令成功的话。只有当客户端发送的播放命令设置了 `reset`命令的条件下,服务端才发送`NetStream.Play.reset`消息。如果要发送的流 没有找的话,服务端发送`NetStream.Play.StreamNotFound`消息。在此之后服务端发送客户端要播放的音频和视频数据。  
+</code></pre>
+
+<ol>
+<li><p>play2</p>
+
+<p>和播放命令不同,play2命令可以切换到不同的码率,而不用改变已经播放的内容的时间线。服务端对播放 2 命令可以请求的多个码率维护多个文件。</p></li>
+
+<li><p>deleteStream</p>
+
+<p>当 NetStream 对象销毁的时候发送删除流命令。</p></li>
+
+<li><p>closeStream</p></li>
+
+<li><p>receiveAudio</p>
+
+<p>NetStream 对象发送接收音频消息通知服务端发送还是不发送音频到客户端。</p></li>
+
+<li><p>receiveVideo</p>
+
+<p>NetStream 对象发送 receiveVideo 消息通知服务端是否发送视频到客户端。</p></li>
+
+<li><p>publish</p></li>
+</ol>
+
+<pre><code class="language-c">    +-------------+                                     +----------+    
+    |  Client     |                  |                  |  Server  |
+    +-------------+                  |                  +----------+
+           |          |Handshaking and Application|          |
+           |          |         connect done      |          |
+           |                         |                       |
+  ---+---- |---------Command Message(createStream) ---------&gt;|
+  Create   |                                                 |
+  Stream   |                                                 |
+  ---+---- |&lt;-------------- Command Message -----------------|
+           |       (_result- createStream response)          |
+           |                                                 |
+  ---+---- |--------- Command Message (publish) ------------&gt;|
+  publish  |                                                 |
+     |     |&lt;-------- UserControl (StreamBegin) -------------|
+     |     |---------- Data Message (Metadata) -------------&gt;|
+     |     |------------------ Audio Message----------------&gt;|
+     |     |----------------- SetChunkSize -----------------&gt;|
+     |     |&lt;--------------- Command Message ----------------|
+     |     |            (_result- publish result)            |
+     |     |------------------ Video Message----------------&gt;|
+                                     |
+                                     |
+                       Until the stream is complete
+</code></pre>
+
+<pre><code>    客户端发送一个发布命令,发布一个命名流到服务端。使用这个名字,任何客户端可以播放该流并且接收音频,视频,和数据消息。  
+</code></pre>
+
+<ol>
+<li><p>seek</p>
+
+<p>客户端发送搜寻命令在一个媒体文件中或播放列表中搜寻偏移。</p></li>
+
+<li><p>pause</p>
+
+<p>客户端发送暂停命令告诉服务端暂停或开始一个命令。</p>
+
+<h4 id="聚合消息">聚合消息</h4></li>
+
+<li><p><strong>MT=22</strong> Aggregate message, 聚合消息是含有一个消息列表的一种消息。消息类型值 22 ,保留用于聚合消息。</p></li>
+</ol>
+
+<pre><code class="language-c">    +---------+-------------------------+  
+    | Header  | Aggregate Message body  |  
+    +---------+-------------------------+  
+            聚合消息的格式
+    +--------+--------------+--------------+--------+-------------+---------------+ - - - -
+    |Header 0|Message Data 0|Back Pointer 0|Header 1|Message Data 1|Back Pointer 1|
+    +--------+--------------+--------------+--------+--------------+--------------+ - - - -
+            聚合消息的body  
+</code></pre>
+
+<pre><code>Back Pointer包含了前面消息的大小（包括Header的大小）。这个设置匹配了 flv 文件格式,可用于后向搜索。  
+</code></pre>
+
+<h3 id="ps">PS</h3>
+
+<p><a href="http://sewise.com/">视智云-Sewise</a>，流媒体云平台服务商。
+Sewise提供最优秀的流媒体软件和技术服务，包括流媒体协议的接入、转换、封装、分析等；音视频的转码、裁剪、拼接、水印、抽帧、切片、元信息提取与处理、录制、HLS时移回播、编码、格式封装、加解密等；字幕的抽取、添加、匹配等。</p>
+
+      </article>
+
+      <ul class="pager blog-pager">
+        
+          <li class="previous">
+            <a href="https://sheepbao.github.io/post/golang_backend_mind_map/" data-toggle="tooltip" data-placement="top" title="golang 后端开发思维导图">&larr; Previous Post</a>
+          </li>
+        
+        
+          <li class="next">
+            <a href="https://sheepbao.github.io/post/golang_debug_gctrace/" data-toggle="tooltip" data-placement="top" title="golang开启GODEBUG gctrace =1 显示信息的含义">Next Post &rarr;</a>
+          </li>
+        
+      </ul>
+
+      
+
+    </div>
+  </div>
+</div>
+
+    <footer>
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+        <ul class="list-inline text-center footer-links">
+          
+          
+        </ul>
+        <p class="credits copyright text-muted">
+          
+          
+          &nbsp;&bull;&nbsp;
+          2017
+
+          
+            &nbsp;&bull;&nbsp;
+            <a href="https://sheepbao.github.io/">boya blog</a>
+          
+        </p>
+        
+        <p class="credits theme-by text-muted">
+          <a href="http://gohugo.io">Hugo v0.26</a> powered &nbsp;&bull;&nbsp; Theme by <a href="http://deanattali.com/beautiful-jekyll/">Beautiful Jekyll</a> adapted to <a href="https://github.com/halogenica/beautifulhugo">Beautiful Hugo</a>
+          
+        </p>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.7.1/katex.min.js" integrity="sha384-/y1Nn9+QQAipbNQWU65krzJralCnuOasHncUFXGkdwntGeSvQicrYkiUBwsgUqc1" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.7.1/contrib/auto-render.min.js" integrity="sha384-dq1/gEHSxPZQ7DdrM82ID4YVol9BYyU7GbWlIwnwyPzotpoc57wDw/guX8EaYGPx" crossorigin="anonymous"></script>
+<script src="https://code.jquery.com/jquery-1.12.4.min.js" integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ=" crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+<script src="https://sheepbao.github.io/js/main.js"></script>
+<script src="https://sheepbao.github.io/js/highlight.min.js"></script>
+<script> hljs.initHighlightingOnLoad(); </script>
+<script> renderMathInElement(document.body); </script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/photoswipe/4.1.1/photoswipe.min.js" integrity="sha256-UplRCs9v4KXVJvVY+p+RSo5Q4ilAUXh7kpjyIP5odyc=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/photoswipe/4.1.1/photoswipe-ui-default.min.js" integrity="sha256-PWHOlUzc96pMc8ThwRIXPn8yH4NOLu42RQ0b9SpnpFk=" crossorigin="anonymous"></script>
+<script src="https://sheepbao.github.io/js/load-photoswipe.js"></script>
+
+
+
+  </body>
+</html>
+

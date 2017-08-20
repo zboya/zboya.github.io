@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+
+  <title>Go1.9的主要更新</title>
+  <meta property="og:title" content="Go1.9的主要更新" />
+  <meta name="twitter:title" content="Go1.9的主要更新" />
+  <meta name="description" content="Go1.9的主要更新 golang每半年更新一次版本，上次最新的版本是Go1.8，而Go1.9将在今年8月释出。
+Go1.9中语法的更改只有一个，那就是增加了类型别名，大部分更改是工具链，运行时，库的更改，
+语法的更改 Go1.9中增加了类型别名这个语法，类型别名可以更优雅的实现当两个包之间struct的移动。类型别名的语法如下：
+type T1 = T2  意思是声明一个T2类型的别名T1.
+工具 并行编译 在Go1.9中并行编译啊包是默认的设置，如果需要关闭并行编译，需要设置环境变量GO19CONCURRENTCOMPILATION=0。
+./&hellip;可以匹配vendor了 应各位亲们的要求，之前./...不支持匹配vendor目录下的文件，现在Go1.9支持了。
+性能 通常来说，很难去描述这些更改对各种场景的性能影响。大部分程序都应该运行的更快了，因为gc的提升，代码生成的更好和核心库的优化。
+垃圾回收 在Go1.9之前，很多库函数都是会触发stop-the-world的，而现在只会触发并发的垃圾回收。比如：runtime.GC,debug.SetGCPerent and debug.FreeOSMemory,现在只会触发并发的垃圾回收，只会阻塞当前正在调用的goroutine，直到gc完成。
+debug.SetGCPrercent函数。。。 大对象的分配性能显著的提高，当应用程序使用超大的堆(&gt;50G)，里面包含许多大对象。
+runtime.ReadMemStats函数现在读取大堆的时间少于100us。
+核心库 并发的map 好吧，终于官方支持了，在sync包中新增了Map类型，这个Map是线程安全的map。
+time包支持显示单调 Go1.9的time包支持每个Time值都是单调时间，这样能使当系统时间改变的时候，计算两个时间差也是安全的。具体看package docs和design doc
+新的位操作包 Go1.9新增了一个包，叫math/bits,提供一些位操作的优化。
+参考 go1.9 release notes">
+  <meta property="og:description" content="Go1.9的主要更新 golang每半年更新一次版本，上次最新的版本是Go1.8，而Go1.9将在今年8月释出。
+Go1.9中语法的更改只有一个，那就是增加了类型别名，大部分更改是工具链，运行时，库的更改，
+语法的更改 Go1.9中增加了类型别名这个语法，类型别名可以更优雅的实现当两个包之间struct的移动。类型别名的语法如下：
+type T1 = T2  意思是声明一个T2类型的别名T1.
+工具 并行编译 在Go1.9中并行编译啊包是默认的设置，如果需要关闭并行编译，需要设置环境变量GO19CONCURRENTCOMPILATION=0。
+./&hellip;可以匹配vendor了 应各位亲们的要求，之前./...不支持匹配vendor目录下的文件，现在Go1.9支持了。
+性能 通常来说，很难去描述这些更改对各种场景的性能影响。大部分程序都应该运行的更快了，因为gc的提升，代码生成的更好和核心库的优化。
+垃圾回收 在Go1.9之前，很多库函数都是会触发stop-the-world的，而现在只会触发并发的垃圾回收。比如：runtime.GC,debug.SetGCPerent and debug.FreeOSMemory,现在只会触发并发的垃圾回收，只会阻塞当前正在调用的goroutine，直到gc完成。
+debug.SetGCPrercent函数。。。 大对象的分配性能显著的提高，当应用程序使用超大的堆(&gt;50G)，里面包含许多大对象。
+runtime.ReadMemStats函数现在读取大堆的时间少于100us。
+核心库 并发的map 好吧，终于官方支持了，在sync包中新增了Map类型，这个Map是线程安全的map。
+time包支持显示单调 Go1.9的time包支持每个Time值都是单调时间，这样能使当系统时间改变的时候，计算两个时间差也是安全的。具体看package docs和design doc
+新的位操作包 Go1.9新增了一个包，叫math/bits,提供一些位操作的优化。
+参考 go1.9 release notes">
+  <meta name="twitter:description" content="Go1.9的主要更新 golang每半年更新一次版本，上次最新的版本是Go1.8，而Go1.9将在今年8月释出。
+Go1.9中语法的更改只有一个，那就是增加了类型别名，大部分更改是工具链，运行时，库的更改，
+语法的更改 Go1.9中增加了类型别名这个语法，类型别名可以更优雅的实现当两个包之间struct的移动。类型别名的语法如下：
+type T1 = T2  意思是声明一个T2类型的别名T1.
+工 …">
+  <meta name="author" content=""/>
+  <meta name="twitter:card" content="summary" />
+  <meta property="og:url" content="https://sheepbao.github.io/post/go1.9_note/" />
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="boya blog" />
+
+  <meta name="generator" content="Hugo 0.26" />
+  <link rel="canonical" href="https://sheepbao.github.io/post/go1.9_note/" />
+  <link rel="alternate" href="https://sheepbao.github.io/index.xml" type="application/rss+xml" title="boya blog">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.7.1/katex.min.css" integrity="sha384-wITovz90syo1dJWVh32uuETPVEtGigN07tkttEqPv+uR2SE/mbQcG7ATL28aI9H0" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" />
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://sheepbao.github.io/css/main.css" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" />
+  <link rel="stylesheet" href="https://sheepbao.github.io/css/pygment_highlights.css" />
+  <link rel="stylesheet" href="https://sheepbao.github.io/css/highlight.min.css" />
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/photoswipe/4.1.1/photoswipe.min.css" integrity="sha256-sCl5PUOGMLfFYctzDW3MtRib0ctyUvI9Qsmq2wXOeBY=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/photoswipe/4.1.1/default-skin/default-skin.min.css" integrity="sha256-BFeI1V+Vh1Rk37wswuOYn5lsTcaU96hGaI7OUVCLjPc=" crossorigin="anonymous" />
+
+
+
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+<div class="pswp__bg"></div>
+
+<div class="pswp__scroll-wrap">
+    
+    <div class="pswp__container">
+      <div class="pswp__item"></div>
+      <div class="pswp__item"></div>
+      <div class="pswp__item"></div>
+    </div>
+    
+    <div class="pswp__ui pswp__ui--hidden">
+    <div class="pswp__top-bar">
+      
+      <div class="pswp__counter"></div>
+      <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+      <button class="pswp__button pswp__button--share" title="Share"></button>
+      <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+      <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+      
+      
+      <div class="pswp__preloader">
+        <div class="pswp__preloader__icn">
+          <div class="pswp__preloader__cut">
+            <div class="pswp__preloader__donut"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+      <div class="pswp__share-tooltip"></div>
+    </div>
+    <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+    </button>
+    <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+    </button>
+    <div class="pswp__caption">
+      <div class="pswp__caption__center"></div>
+    </div>
+    </div>
+    </div>
+</div>
+
+</head>
+
+  <body>
+    <nav class="navbar navbar-default navbar-fixed-top navbar-custom">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#main-navbar">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="https://sheepbao.github.io/">boya blog</a>
+    </div>
+
+    <div class="collapse navbar-collapse" id="main-navbar">
+      <ul class="nav navbar-nav navbar-right">
+        
+
+        
+
+        
+      </ul>
+    </div>
+
+    <div class="avatar-container">
+      <div class="avatar-img-border">
+        
+      </div>
+    </div>
+
+  </div>
+</nav>
+
+
+
+
+    
+  
+  
+  
+
+
+
+
+  
+
+  <header class="header-section ">
+    
+    <div class="intro-header no-img">
+      
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+            <div class="post-heading">
+              <h1>Go1.9的主要更新</h1>
+                
+                
+                  <span class="post-meta">
+  Posted on June 17, 2017
+  
+</span>
+
+
+                
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+
+    
+<div class="container" role="main">
+  <div class="row">
+    <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+      <article role="main" class="blog-post">
+        
+
+<h1 id="go1-9的主要更新">Go1.9的主要更新</h1>
+
+<p>golang每半年更新一次版本，上次最新的版本是Go1.8，而Go1.9将在今年8月释出。<br />
+Go1.9中语法的更改只有一个，那就是增加了<code>类型别名</code>，大部分更改是工具链，运行时，库的更改，</p>
+
+<h2 id="语法的更改">语法的更改</h2>
+
+<p>Go1.9中增加了类型别名这个语法，类型别名可以更优雅的实现当两个包之间struct的移动。类型别名的语法如下：</p>
+
+<pre><code>type T1 = T2
+</code></pre>
+
+<p>意思是声明一个T2类型的别名T1.</p>
+
+<h2 id="工具">工具</h2>
+
+<h3 id="并行编译">并行编译</h3>
+
+<p>在Go1.9中并行编译啊包是默认的设置，如果需要关闭并行编译，需要设置环境变量<code>GO19CONCURRENTCOMPILATION=0</code>。</p>
+
+<h3 id="可以匹配vendor了">./&hellip;可以匹配vendor了</h3>
+
+<p>应各位亲们的要求，之前<code>./...</code>不支持匹配<code>vendor</code>目录下的文件，现在Go1.9支持了。</p>
+
+<h2 id="性能">性能</h2>
+
+<p>通常来说，很难去描述这些更改对各种场景的性能影响。大部分程序都应该运行的更快了，因为gc的提升，代码生成的更好和核心库的优化。</p>
+
+<h3 id="垃圾回收">垃圾回收</h3>
+
+<p>在Go1.9之前，很多库函数都是会触发stop-the-world的，而现在只会触发并发的垃圾回收。比如：<code>runtime.GC</code>,<code>debug.SetGCPerent</code> and <code>debug.FreeOSMemory</code>,现在只会触发并发的垃圾回收，只会阻塞当前正在调用的goroutine，直到gc完成。<br />
+<code>debug.SetGCPrercent</code>函数。。。
+大对象的分配性能显著的提高，当应用程序使用超大的堆(&gt;50G)，里面包含许多大对象。</p>
+
+<p><code>runtime.ReadMemStats</code>函数现在读取大堆的时间少于100us。</p>
+
+<h2 id="核心库">核心库</h2>
+
+<h3 id="并发的map">并发的map</h3>
+
+<p>好吧，终于官方支持了，在<a href="https://tip.golang.org/pkg/sync/">sync</a>包中新增了<code>Map</code>类型，这个Map是线程安全的map。</p>
+
+<h3 id="time包支持显示单调">time包支持显示单调</h3>
+
+<p>Go1.9的time包支持每个Time值都是单调时间，这样能使当系统时间改变的时候，计算两个时间差也是安全的。具体看<a href="https://tip.golang.org/pkg/time/#hdr-Monotonic_Clocks">package docs</a>和<a href="https://golang.org/design/12914-monotonic">design doc</a></p>
+
+<h3 id="新的位操作包">新的位操作包</h3>
+
+<p>Go1.9新增了一个包，叫<a href="https://tip.golang.org/pkg/math/bits/">math/bits</a>,提供一些位操作的优化。</p>
+
+<h2 id="参考">参考</h2>
+
+<p><a href="https://tip.golang.org/doc/go1.9">go1.9 release notes</a></p>
+
+      </article>
+
+      <ul class="pager blog-pager">
+        
+          <li class="previous">
+            <a href="https://sheepbao.github.io/post/kcp_source_analysis/" data-toggle="tooltip" data-placement="top" title="kcp-go源码解析">&larr; Previous Post</a>
+          </li>
+        
+        
+          <li class="next">
+            <a href="https://sheepbao.github.io/post/golang_udp_programing/" data-toggle="tooltip" data-placement="top" title="udp编程的那些事与golang udp的实践">Next Post &rarr;</a>
+          </li>
+        
+      </ul>
+
+      
+
+    </div>
+  </div>
+</div>
+
+    <footer>
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+        <ul class="list-inline text-center footer-links">
+          
+          
+        </ul>
+        <p class="credits copyright text-muted">
+          
+          
+          &nbsp;&bull;&nbsp;
+          2017
+
+          
+            &nbsp;&bull;&nbsp;
+            <a href="https://sheepbao.github.io/">boya blog</a>
+          
+        </p>
+        
+        <p class="credits theme-by text-muted">
+          <a href="http://gohugo.io">Hugo v0.26</a> powered &nbsp;&bull;&nbsp; Theme by <a href="http://deanattali.com/beautiful-jekyll/">Beautiful Jekyll</a> adapted to <a href="https://github.com/halogenica/beautifulhugo">Beautiful Hugo</a>
+          
+        </p>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.7.1/katex.min.js" integrity="sha384-/y1Nn9+QQAipbNQWU65krzJralCnuOasHncUFXGkdwntGeSvQicrYkiUBwsgUqc1" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.7.1/contrib/auto-render.min.js" integrity="sha384-dq1/gEHSxPZQ7DdrM82ID4YVol9BYyU7GbWlIwnwyPzotpoc57wDw/guX8EaYGPx" crossorigin="anonymous"></script>
+<script src="https://code.jquery.com/jquery-1.12.4.min.js" integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ=" crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+<script src="https://sheepbao.github.io/js/main.js"></script>
+<script src="https://sheepbao.github.io/js/highlight.min.js"></script>
+<script> hljs.initHighlightingOnLoad(); </script>
+<script> renderMathInElement(document.body); </script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/photoswipe/4.1.1/photoswipe.min.js" integrity="sha256-UplRCs9v4KXVJvVY+p+RSo5Q4ilAUXh7kpjyIP5odyc=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/photoswipe/4.1.1/photoswipe-ui-default.min.js" integrity="sha256-PWHOlUzc96pMc8ThwRIXPn8yH4NOLu42RQ0b9SpnpFk=" crossorigin="anonymous"></script>
+<script src="https://sheepbao.github.io/js/load-photoswipe.js"></script>
+
+
+
+  </body>
+</html>
+
