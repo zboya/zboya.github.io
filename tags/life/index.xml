@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Life on boya blog</title>
+    <link>https://sheepbao.github.io/tags/life/</link>
+    <description>Recent content in Life on boya blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Sat, 31 Dec 2016 11:58:40 +0800</lastBuildDate>
+    
+	<atom:link href="https://sheepbao.github.io/tags/life/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>我的2016-成长之年</title>
+      <link>https://sheepbao.github.io/post/mylife_2016/</link>
+      <pubDate>Sat, 31 Dec 2016 11:58:40 +0800</pubDate>
+      
+      <guid>https://sheepbao.github.io/post/mylife_2016/</guid>
+      <description>type summary struct { Time time.Time // 2016.12.31 Author string // sheepbao Location string // shenzhen } func SayHelloTo2017() { println(` we try hard . cos we are creating the world . hello world !. hello 2017 ! `) }  说点啥 其实是看到挺多人写2016的总结，自己心痒也想写一个，当作记录吧，不写的话，很有可能以后就忘了，主要说说自己在2016的感受。
+感谢的话 感谢的有很多人，父母兄弟姐妹，亲戚好友都是很感谢的，木有他们也木有现在的我，2016大部分时间是在深圳，遇到不少人和不少事，最亲爱的Lavinia，以前listome的同事，现在sewise的同事，都很感谢。感谢Lavinia，给我的生活带来不一样的色彩，遇到你是我最大的幸运。感谢啊汪，牛逼的大学室友，虽然最后离我而去（离开深圳），说要上天，但还是很感谢。感谢徐总、陈哥和雯姐，我才有另一个机会，以不同的人生轨迹步入深圳，虽然我最后离开了，但是我也衷心希望listome越来越好。感谢肖大哥，教我很多互联网和编程知识，和你聊互联网历史很开心。感谢Richard和Eric，让我进入现在的公司，带领着我们前进，也认识很多优秀的同事，和他们学习了很多知识和技能，让我成长，特别是Kinov，总是孜孜不倦的教我，非常感谢，希望来年能更多的参与公司的项目，贡献自己的力量。
+补基础 万丈高楼平地起，知识结构也是一样的，基础的重要不言而喻，特别作为一个非科班出身的我，很多基础知识要补：
+ 看了个linux网络编程，内容很详细，由浅入深，可以学到linux下网络的编程是怎样的，也认识了很多底层的系统接口。 看了个go网络编程，很好的一本书，而且是中英文双语版，讲了go很多基础的网络编程，对http协议也讲的比较详细，这本书我几乎是在火车上看完的（深圳 往返 厦门）。 看了个The Go Programming Language，也叫go语言圣经，非常好的一本书，主要是例子超多，几乎整本书都在讲各种例子，而学习各种例子可以加深理解语言的特性。 看了个go并发编程实战，也是非常好的一本书，郝大写的，明年会出第二版，现在这个版本内容很多，虽然很详细，但有些内容还是有赘述且例子比较少。不过看完这本书完全可以用go写项目了。 看了个docker源码分析，内容很浅显，讲了docker的基本架构，源码分析的其实比较少，并没有深入，有点坑。 看了个计算机网络，感觉和大学的时候看的计算机网络 谢希仁版知识点重合，复习了一遍。 看了个数据结构，教授讲的很好，学习了基础的List、Queue、Stack、Tree和Graph，基本的排序和排序算法的复杂度，基本的遍历方法BFS和DFS。 看了个TML+CSS基础课程，我只想说真的好基础，离我自己写个网页还好大距离。 看了个JS实现人机大战之五子棋，业余时间按着课程写的小游戏，后来用go写了后台，用socket.io和前端通信，实现了双人在线版，也把自己电脑映射到公网，和异地朋友玩了一下。后来又写了个多人在线画画，前端js，后端go，通信用websocket。 2016写了几篇博客sheepbao，写博客确实是个好习惯，整理思路，加深自己的理解，有错的话，别人还会帮你提出来，多好，希望来年多写写。
+实战和项目 作为一枚码农，实战和项目是最能提高和锻炼自身水平的。2016的项目并不多，来到新公司，学习了很多流媒体的知识，一个领域就有其领域的专业知识，对于我，学习这些是必须的，今年主要学习各种流媒体应用层协议，来年要学学编解码和播放器的知识。
+ 写了个gomitmproxy，但并没有写完，主要学习了http和https协议，现在来看，代码应该重构了，终端的输出也要用TermUI写过。
+ go写了个消息系统</description>
+    </item>
+    
+  </channel>
+</rss>

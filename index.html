@@ -94,6 +94,18 @@
     <div class="collapse navbar-collapse" id="main-navbar">
       <ul class="nav navbar-nav navbar-right">
         
+          
+            <li>
+              <a title="aboutme" href="/about/">aboutme</a>
+            </li>
+          
+        
+          
+            <li>
+              <a title="posts" href="/post/">posts</a>
+            </li>
+          
+        
 
         
 
@@ -133,6 +145,11 @@
             <div class="page-heading">
               <h1>boya blog</h1>
                 
+                  
+                    <hr class="small">
+                    <span class="page-subheading">let&#39;s do it</span>
+                  
+                
                 
             </div>
           </div>
@@ -152,37 +169,32 @@
           
           
             <article class="post-preview">
-              <a href="https://sheepbao.github.io/post/aboutme/">
-                <h2 class="post-title">About Me</h2>
+              <a href="https://sheepbao.github.io/post/golang_code_slice/">
+                <h2 class="post-title">平时整理的一些golang代码片段</h2>
                 
               </a>
 
               <span class="post-meta">
-  Posted on August 15, 2017
+  Posted on August 22, 2017
   
 </span>
 
 
               <div class="post-entry">
                 
-                  
-
-<h2 id="about-me">About Me</h2>
-
-<p>I am boya who like coding and programming.</p>
-
-<h2 id="my-belief">My Belief</h2>
-
-<p>Keep it Simple and Stupid.<br />
-The more you know, the more you know you don&rsquo;t know!</p>
-
-<h2 id="email">Email</h2>
-
-<p>listomebao@gmail.com</p>
-
+                  golang 代码片段 by boya
+老司机请忽略！
+ 用chan实现斐波那契数列  import &quot;fmt&quot; func fibonacci(c, quit chan int) { x, y := 0, 1 for { select { case c &lt;- x: x, y = y, x+y case &lt;-quit: fmt.Println(&quot;quit&quot;) return } } } func main() { c := make(chan int) quit := make(chan int) go func() { for i := 0; i &lt; 10; i++ { fmt.Println(&lt;-c) } quit &lt;- 0 }() fibonacci(c, quit) }   字符串的简单映射  rot13 := func(r rune) rune { switch { case r &gt;= 'A' &amp;&amp; r &lt;= 'Z': return 'A' + (r-'A'+13)%26 case r &gt;= 'a' &amp;&amp; r &lt;= 'z': return 'a' + (r-'a'+13)%26fangfa } return r } fmt.
+                  <a href="https://sheepbao.github.io/post/golang_code_slice/" class="post-read-more">[Read More]</a>
                 
               </div>
 
+              
+                <span class="post-meta">
+                
+                  #<a href="https://sheepbao.github.io/tags/go/">Go</a>&nbsp;
+                
+                </span>
               
             </article>
           
@@ -213,6 +225,12 @@ type WriteFlusher interface { Write([]byte) (int, error) Flush() error }  三个
               </div>
 
               
+                <span class="post-meta">
+                
+                  #<a href="https://sheepbao.github.io/tags/go/">Go</a>&nbsp;
+                
+                </span>
+              
             </article>
           
             <article class="post-preview">
@@ -239,6 +257,12 @@ udp数据的封装 +---------+ | 应用数据 | +---------+ | | v v +---------+-
                 
               </div>
 
+              
+                <span class="post-meta">
+                
+                  #<a href="https://sheepbao.github.io/tags/go/">Go</a>&nbsp;
+                
+                </span>
               
             </article>
           
@@ -316,6 +340,12 @@ Go1.9中语法的更改只有一个，那就是增加了<code>类型别名</code
               </div>
 
               
+                <span class="post-meta">
+                
+                  #<a href="https://sheepbao.github.io/tags/go/">Go</a>&nbsp;
+                
+                </span>
+              
             </article>
           
             <article class="post-preview">
@@ -347,6 +377,12 @@ kcp和tcp一样，也分客户端和监听端。
               </div>
 
               
+                <span class="post-meta">
+                
+                  #<a href="https://sheepbao.github.io/tags/go/">Go</a>&nbsp;
+                
+                </span>
+              
             </article>
           
             <article class="post-preview">
@@ -372,6 +408,12 @@ When a variable (or an object) is allocated in a subroutine, a pointer to the va
                 
               </div>
 
+              
+                <span class="post-meta">
+                
+                  #<a href="https://sheepbao.github.io/tags/go/">Go</a>&nbsp;
+                
+                </span>
               
             </article>
           
@@ -431,6 +473,12 @@ cd sms
               </div>
 
               
+                <span class="post-meta">
+                
+                  #<a href="https://sheepbao.github.io/tags/go/">Go</a>&nbsp;
+                
+                </span>
+              
             </article>
           
             <article class="post-preview">
@@ -461,6 +509,12 @@ var bird interface{ fly() }  声明一个hen对象(实现bird接口)
               </div>
 
               
+                <span class="post-meta">
+                
+                  #<a href="https://sheepbao.github.io/tags/go/">Go</a>&nbsp;
+                
+                </span>
+              
             </article>
           
             <article class="post-preview">
@@ -489,6 +543,12 @@ var bird interface{ fly() }  声明一个hen对象(实现bird接口)
               </div>
 
               
+                <span class="post-meta">
+                
+                  #<a href="https://sheepbao.github.io/tags/life/">Life</a>&nbsp;
+                
+                </span>
+              
             </article>
           
             <article class="post-preview">
@@ -512,6 +572,12 @@ package main import ( &quot;bytes&quot; &quot;fmt&quot; &quot;strings&quot; &quo
                 
               </div>
 
+              
+                <span class="post-meta">
+                
+                  #<a href="https://sheepbao.github.io/tags/go/">Go</a>&nbsp;
+                
+                </span>
               
             </article>
           

@@ -6,21 +6,20 @@
     <description>Recent content on boya blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Tue, 15 Aug 2017 11:58:40 +0800</lastBuildDate>
+    <lastBuildDate>Tue, 22 Aug 2017 19:23:15 +0800</lastBuildDate>
     
 	<atom:link href="https://sheepbao.github.io/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
-      <title>About Me</title>
-      <link>https://sheepbao.github.io/post/aboutme/</link>
-      <pubDate>Tue, 15 Aug 2017 11:58:40 +0800</pubDate>
+      <title>平时整理的一些golang代码片段</title>
+      <link>https://sheepbao.github.io/post/golang_code_slice/</link>
+      <pubDate>Tue, 22 Aug 2017 19:23:15 +0800</pubDate>
       
-      <guid>https://sheepbao.github.io/post/aboutme/</guid>
-      <description>About Me I am boya who like coding and programming.
-My Belief Keep it Simple and Stupid.
-The more you know, the more you know you don&amp;rsquo;t know!
-Email listomebao@gmail.com</description>
+      <guid>https://sheepbao.github.io/post/golang_code_slice/</guid>
+      <description>golang 代码片段 by boya
+老司机请忽略！
+ 用chan实现斐波那契数列  import &amp;quot;fmt&amp;quot; func fibonacci(c, quit chan int) { x, y := 0, 1 for { select { case c &amp;lt;- x: x, y = y, x+y case &amp;lt;-quit: fmt.Println(&amp;quot;quit&amp;quot;) return } } } func main() { c := make(chan int) quit := make(chan int) go func() { for i := 0; i &amp;lt; 10; i++ { fmt.Println(&amp;lt;-c) } quit &amp;lt;- 0 }() fibonacci(c, quit) }   字符串的简单映射  rot13 := func(r rune) rune { switch { case r &amp;gt;= &#39;A&#39; &amp;amp;&amp;amp; r &amp;lt;= &#39;Z&#39;: return &#39;A&#39; + (r-&#39;A&#39;+13)%26 case r &amp;gt;= &#39;a&#39; &amp;amp;&amp;amp; r &amp;lt;= &#39;z&#39;: return &#39;a&#39; + (r-&#39;a&#39;+13)%26fangfa } return r } fmt.</description>
     </item>
     
     <item>
@@ -221,6 +220,18 @@ http代理 http请求响应的抓取 修改http请求 重复请求 同时监听�
 首先你得有个墙外的服务器，如阿里香港的服务器，为图中的Server，假设其ip地址为：22.222.222.222
   在Server执行: gomitmproxy -port 8888  在你自己电脑执行: gomitmproxy -port 8080 -raddr 22.222.222.222:8888  然后浏览器设置代理，ip为localhost，端口为8080,即可实现科学上网
 源码简析 对于网络编程，Anything is a socket! 实现http代理并不难，简单地说就是用代理服务器代替客户端去请求web服务，然后在把请求的结果返回给客户端。 先来个示意图：  1. 客户端发起一个到gomitmproxy的连接，并且提交了HTTP CONNECT请求。 2.</description>
+    </item>
+    
+    <item>
+      <title>About Me</title>
+      <link>https://sheepbao.github.io/about/aboutme/</link>
+      <pubDate>Thu, 12 May 2016 21:08:59 +0000</pubDate>
+      
+      <guid>https://sheepbao.github.io/about/aboutme/</guid>
+      <description>About Me I am boya who like coding and programming. Welcome to contact me.
+My Belief Keep it Simple and Stupid.
+The more you know, the more you know you don&amp;rsquo;t know!
+Email listomebao@gmail.com</description>
     </item>
     
   </channel>

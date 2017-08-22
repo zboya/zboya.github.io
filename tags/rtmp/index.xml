@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Rtmp on boya blog</title>
+    <link>https://sheepbao.github.io/tags/rtmp/</link>
+    <description>Recent content in Rtmp on boya blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Tue, 13 Sep 2016 11:58:40 +0800</lastBuildDate>
+    
+	<atom:link href="https://sheepbao.github.io/tags/rtmp/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>RTMP协议学习笔记</title>
+      <link>https://sheepbao.github.io/post/rtmp_note/</link>
+      <pubDate>Tue, 13 Sep 2016 11:58:40 +0800</pubDate>
+      
+      <guid>https://sheepbao.github.io/post/rtmp_note/</guid>
+      <description>RTMP协议笔记 请用电脑或者手机横屏查看，不然会格式乱。
+RTMP的背景和应用 每项技术都有起来源，RTMP也不例外，RTMP是Adobe公司公布的一项协议,Adobe是一家世界领先数字媒体和在线营销方案的供应商。在H5崛起之前，几乎所有的浏览器都用Flash player播放多媒体资源，而服务端和浏览器之间就是用RTMP协议或者在RTMP协议变种后的协议进行通信的。
+RTMP协议概览 握手、消息块概念 握手的目的是为了确认对端RTMP的Version和确认对端能互相通信。 消息块就是消息的载体，是RTMP协议最重要的载体，这个载体是有一定格式的，如果把Client和Server端当作铁路的两个站点，那这个消息块就是火车，它负责运输货物。正如火车有火车头、车厢一样，消息块也有基本头，消息头和消息负载。RTMP协议当中，除了握手协议，其他的数据都是以消息块的方式发送的，发送一个消息时，当块大小比需要发送的消息的字节数更大时，一个消息块就相当于一个消息，否则消息需要分成多个消息块。  握手 +-+-+-+-+-+-+ +-+-+-+-+-+-+ | Client | | Server | +-+-+-+-+-+-+ +-+-+-+-+-+-+ |-------- C0C1 --------&amp;gt;| |&amp;lt;------ S0S1S2 --------| |--------- C2 ---------&amp;gt;|   C0和S0的格式（1 byte）
++-+-+-+-+-+-+-+-+ | version | +-+-+-+-+-+-+-+-+  C1和S1的格式
++-+-+-+-+-+-+-+-+-+-+ | time (4 bytes) | +-+-+-+-+-+-+-+-+-+-+ | zero (4 bytes) | +-+-+-+-+-+-+-+-+-+-+ | random bytes | +-+-+-+-+-+-+-+-+-+-+ |random bytes(cont) | | .... | +-+-+-+-+-+-+-+-+-+-+  time: 4 字节 本字段包含时间戳。该时间戳应该是发送这个数据块的端点的后续块的时间起始点。可以是 0 ,或其他的任何值。为了同步多个流,端点可能发送其块流的当前值。 zero: 4 字节 本字段必须是全零。 random bytes: 1528 字节。 本字段可以包含任何值。因为每个端点必须用自己初始化的握手和对端初始化的</description>
+    </item>
+    
+  </channel>
+</rss>
