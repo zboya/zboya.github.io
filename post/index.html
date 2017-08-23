@@ -162,7 +162,7 @@
                 
                   golang 代码片段 by boya
 老司机请忽略！
- 用chan实现斐波那契数列  import &quot;fmt&quot; func fibonacci(c, quit chan int) { x, y := 0, 1 for { select { case c &lt;- x: x, y = y, x+y case &lt;-quit: fmt.Println(&quot;quit&quot;) return } } } func main() { c := make(chan int) quit := make(chan int) go func() { for i := 0; i &lt; 10; i++ { fmt.Println(&lt;-c) } quit &lt;- 0 }() fibonacci(c, quit) }   字符串的简单映射  rot13 := func(r rune) rune { switch { case r &gt;= 'A' &amp;&amp; r &lt;= 'Z': return 'A' + (r-'A'+13)%26 case r &gt;= 'a' &amp;&amp; r &lt;= 'z': return 'a' + (r-'a'+13)%26fangfa } return r } fmt.
+ 用chan实现斐波那契数列  import &quot;fmt&quot; func fibonacci(c, quit chan int) { x, y := 0, 1 for { select { case c &lt;- x: x, y = y, x+y case &lt;-quit: fmt.Println(&quot;quit&quot;) return } } } func main() { c := make(chan int) quit := make(chan int) go func() { for i := 0; i &lt; 10; i++ { fmt.Println(&lt;-c) } quit &lt;- 0 }() fibonacci(c, quit) }   字符串的简单映射  func main() { rot13 := func(r rune) rune { switch { case r &gt;= 'A' &amp;&amp; r &lt;= 'Z': return 'A' + (r-'A'+13)%26 case r &gt;= 'a' &amp;&amp; r &lt;= 'z': return 'a' + (r-'a'+13)%26 } return r } fmt.
                   <a href="https://sheepbao.github.io/post/golang_code_slice/" class="post-read-more">[Read More]</a>
                 
               </div>

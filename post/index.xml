@@ -19,7 +19,7 @@
       <guid>https://sheepbao.github.io/post/golang_code_slice/</guid>
       <description>golang 代码片段 by boya
 老司机请忽略！
- 用chan实现斐波那契数列  import &amp;quot;fmt&amp;quot; func fibonacci(c, quit chan int) { x, y := 0, 1 for { select { case c &amp;lt;- x: x, y = y, x+y case &amp;lt;-quit: fmt.Println(&amp;quot;quit&amp;quot;) return } } } func main() { c := make(chan int) quit := make(chan int) go func() { for i := 0; i &amp;lt; 10; i++ { fmt.Println(&amp;lt;-c) } quit &amp;lt;- 0 }() fibonacci(c, quit) }   字符串的简单映射  rot13 := func(r rune) rune { switch { case r &amp;gt;= &#39;A&#39; &amp;amp;&amp;amp; r &amp;lt;= &#39;Z&#39;: return &#39;A&#39; + (r-&#39;A&#39;+13)%26 case r &amp;gt;= &#39;a&#39; &amp;amp;&amp;amp; r &amp;lt;= &#39;z&#39;: return &#39;a&#39; + (r-&#39;a&#39;+13)%26fangfa } return r } fmt.</description>
+ 用chan实现斐波那契数列  import &amp;quot;fmt&amp;quot; func fibonacci(c, quit chan int) { x, y := 0, 1 for { select { case c &amp;lt;- x: x, y = y, x+y case &amp;lt;-quit: fmt.Println(&amp;quot;quit&amp;quot;) return } } } func main() { c := make(chan int) quit := make(chan int) go func() { for i := 0; i &amp;lt; 10; i++ { fmt.Println(&amp;lt;-c) } quit &amp;lt;- 0 }() fibonacci(c, quit) }   字符串的简单映射  func main() { rot13 := func(r rune) rune { switch { case r &amp;gt;= &#39;A&#39; &amp;amp;&amp;amp; r &amp;lt;= &#39;Z&#39;: return &#39;A&#39; + (r-&#39;A&#39;+13)%26 case r &amp;gt;= &#39;a&#39; &amp;amp;&amp;amp; r &amp;lt;= &#39;z&#39;: return &#39;a&#39; + (r-&#39;a&#39;+13)%26 } return r } fmt.</description>
     </item>
     
     <item>
