@@ -6,6 +6,8 @@
     <description>Recent content in Rtmp on boya blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
+    <managingEditor>listomebao@gmail.com (boya)</managingEditor>
+    <webMaster>listomebao@gmail.com (boya)</webMaster>
     <lastBuildDate>Tue, 13 Sep 2016 11:58:40 +0800</lastBuildDate>
     
 	<atom:link href="https://sheepbao.github.io/tags/rtmp/index.xml" rel="self" type="application/rss+xml" />
@@ -15,7 +17,7 @@
       <title>RTMP协议学习笔记</title>
       <link>https://sheepbao.github.io/post/rtmp_note/</link>
       <pubDate>Tue, 13 Sep 2016 11:58:40 +0800</pubDate>
-      
+      <author>listomebao@gmail.com (boya)</author>
       <guid>https://sheepbao.github.io/post/rtmp_note/</guid>
       <description>RTMP协议笔记 请用电脑或者手机横屏查看，不然会格式乱。
 RTMP的背景和应用 每项技术都有起来源，RTMP也不例外，RTMP是Adobe公司公布的一项协议,Adobe是一家世界领先数字媒体和在线营销方案的供应商。在H5崛起之前，几乎所有的浏览器都用Flash player播放多媒体资源，而服务端和浏览器之间就是用RTMP协议或者在RTMP协议变种后的协议进行通信的。

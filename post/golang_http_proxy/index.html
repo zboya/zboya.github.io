@@ -23,7 +23,7 @@ http代理 http请求响应的抓取 修改http请求 重复请求 同时监听�
   在Server执行: gomitmproxy -port 8888  在你自己电脑执行: gomitmproxy -port 8080 -raddr 22.222.222.222:8888  然后浏览器设置代理，ip为localhost，端口为8080,即可实现科学上网
 源码简析 对于网络编程，Anything is a socket! 实现http代理并不难，简单地说就是用代理服务器代替客户端去请求web服务，然后在把请求的结果返回给客户端。 先来个示意图：  1. 客户端发起一个到gomitmproxy的连接，并且提交了HTTP CONNECT请求。 2.">
   <meta name="twitter:description" content="用golang写一个http代理，可以抓包和科学上网 缘起 因为在工作中需要对上网进行限制，只让我们的app上网，意思就是放行app请求的所有域名或ip，而其他域名都禁止，所以我需要对app的http请求进行抓包。上网搜了一下，win下的fiddler不错，可惜我用的是Linux系统，fiddler不跨平台，找了下linux下的抓包软件，当然tcpdump和wireshare是足够强大的，完全可以 …">
-  <meta name="author" content=""/>
+  <meta name="author" content="boya"/>
   <meta name="twitter:card" content="summary" />
   <meta property="og:url" content="https://sheepbao.github.io/post/golang_http_proxy/" />
   <meta property="og:type" content="website" />
@@ -117,7 +117,19 @@ http代理 http请求响应的抓取 修改http请求 重复请求 同时监听�
         
           
             <li>
+              <a title="categories" href="/categories/">categories</a>
+            </li>
+          
+        
+          
+            <li>
               <a title="posts" href="/post/">posts</a>
+            </li>
+          
+        
+          
+            <li>
+              <a title="tags" href="/tags/">tags</a>
             </li>
           
         
@@ -411,6 +423,31 @@ func httpDump(req *http.Request, resp *http.Response) {
       </ul>
 
       
+        
+          <div class="disqus-comments">
+            <div id="disqus_thread"></div>
+<script>
+    var disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "sheepbao" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+          </div>
+        
+      
 
     </div>
   </div>
@@ -422,9 +459,29 @@ func httpDump(req *http.Request, resp *http.Response) {
       <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
         <ul class="list-inline text-center footer-links">
           
+              <li>
+                <a href="mailto:listomebao@gmail.com" title="Email me">
+                  <span class="fa-stack fa-lg">
+                    <i class="fa fa-circle fa-stack-2x"></i>
+                    <i class="fa fa-envelope fa-stack-1x fa-inverse"></i>
+                  </span>
+                </a>
+              </li>
+              <li>
+                <a href="https://github.com/sheepbao" title="GitHub">
+                  <span class="fa-stack fa-lg">
+                    <i class="fa fa-circle fa-stack-2x"></i>
+                    <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                  </span>
+                </a>
+              </li>
           
         </ul>
         <p class="credits copyright text-muted">
+          
+            
+              <a href="sheepbao.github.io">boya</a>
+                      
           
           
           &nbsp;&bull;&nbsp;

@@ -26,7 +26,7 @@ type Reader interface { Read(p []byte) (n int, err error) }  两个函数的接�
 type WriteFlusher interface { Write([]byte) (int, error) Flush() error }  三个以上函数的接口名，类似于结构体名">
   <meta name="twitter:description" content="Golang代码规范 参考https://golang.org/doc/effective_go.html
 项目目录结构规范 PROJECT_NAME ├── README.md 介绍软件及文档入口 ├── bin 编译好的二进制文件,执行./build.sh自动生成，该目录也用于程序打包 ├── build.sh 自动编译的脚本 ├── doc 该项目的文档 ├── pack 打包后的程序放在此 …">
-  <meta name="author" content=""/>
+  <meta name="author" content="boya"/>
   <meta name="twitter:card" content="summary" />
   <meta property="og:url" content="https://sheepbao.github.io/post/golang_code_specification/" />
   <meta property="og:type" content="website" />
@@ -120,7 +120,19 @@ type WriteFlusher interface { Write([]byte) (int, error) Flush() error }  三个
         
           
             <li>
+              <a title="categories" href="/categories/">categories</a>
+            </li>
+          
+        
+          
+            <li>
               <a title="posts" href="/post/">posts</a>
+            </li>
+          
+        
+          
+            <li>
+              <a title="tags" href="/tags/">tags</a>
             </li>
           
         
@@ -584,6 +596,31 @@ func main() {
       </ul>
 
       
+        
+          <div class="disqus-comments">
+            <div id="disqus_thread"></div>
+<script>
+    var disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "sheepbao" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+          </div>
+        
+      
 
     </div>
   </div>
@@ -595,9 +632,29 @@ func main() {
       <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
         <ul class="list-inline text-center footer-links">
           
+              <li>
+                <a href="mailto:listomebao@gmail.com" title="Email me">
+                  <span class="fa-stack fa-lg">
+                    <i class="fa fa-circle fa-stack-2x"></i>
+                    <i class="fa fa-envelope fa-stack-1x fa-inverse"></i>
+                  </span>
+                </a>
+              </li>
+              <li>
+                <a href="https://github.com/sheepbao" title="GitHub">
+                  <span class="fa-stack fa-lg">
+                    <i class="fa fa-circle fa-stack-2x"></i>
+                    <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                  </span>
+                </a>
+              </li>
           
         </ul>
         <p class="credits copyright text-muted">
+          
+            
+              <a href="sheepbao.github.io">boya</a>
+                      
           
           
           &nbsp;&bull;&nbsp;
