@@ -8,7 +8,7 @@
   <title>boya blog</title>
   <meta property="og:title" content="boya blog" />
   <meta name="twitter:title" content="boya blog" />
-  <meta name="author" content="boya"/>
+  <meta name="author" content=""/>
   <link href='https://sheepbao.github.io/img/favicon.ico' rel='icon' type='image/x-icon'/>
   <meta property="og:image" content="https://sheepbao.github.io/img/favicon.ico" />
   <meta name="twitter:image" content="https://sheepbao.github.io/img/favicon.ico" />
@@ -99,7 +99,7 @@
         
           
             <li>
-              <a title="aboutme" href="/about/">aboutme</a>
+              <a title="posts" href="/post/">posts</a>
             </li>
           
         
@@ -111,13 +111,13 @@
         
           
             <li>
-              <a title="posts" href="/post/">posts</a>
+              <a title="tags" href="/tags/">tags</a>
             </li>
           
         
           
             <li>
-              <a title="tags" href="/tags/">tags</a>
+              <a title="aboutme" href="/about/">aboutme</a>
             </li>
           
         
@@ -186,6 +186,38 @@
 
         <div class="posts-list">
           
+          
+            <article class="post-preview">
+              <a href="https://sheepbao.github.io/post/virtual_network_in_linux/">
+                <h2 class="post-title">Linux 中的虚拟网络-简介</h2>
+                
+              </a>
+
+              <span class="post-meta">
+  Posted on August 26, 2017
+  
+</span>
+
+
+              <div class="post-entry">
+                
+                  Linux 中的虚拟网络-简介 引言 随着云计算的兴起，计算机的虚拟化达到了空前的热度，计算机的虚拟化加强了服务器负载的能力，更有效的利用计算机资源。
+Linux中的真实网络设备 Linux的网络设备像一个双向的管道，数据从一头进，就会从另一头出，关键要看这两头是什么？真实的网络设备中，如下图的eth0，
+一头是网络协议栈，另一头网卡。用户发送数据的时候经过socket api调用，进入Linux 网络协议栈处理，再进入Linux 网络设备，最后进入网卡，
+如果是接收数据则反过来。
++-------------------------------------------+ | | | +-------------------+ | | | User Application | | | +-------------------+ | | | | |.................|.........................| | ↓ | | +----------+ | | | socket | | | +----------+ | | | | |.................|.........................| | ↓ | | +------------------------+ | | | Newwork Protocol Stack | | | +------------------------+ | | | | |.................|.........................| | ↓ | | +----------------+ | | | eth0 | | | +----------------+ | | 192.
+                  <a href="https://sheepbao.github.io/post/virtual_network_in_linux/" class="post-read-more">[Read More]</a>
+                
+              </div>
+
+              
+                <span class="post-meta">
+                
+                  #<a href="https://sheepbao.github.io/tags/linux/">linux</a>&nbsp;
+                
+                </span>
+              
+            </article>
           
             <article class="post-preview">
               <a href="https://sheepbao.github.io/post/golang_code_slice/">
@@ -570,36 +602,6 @@ var bird interface{ fly() }  声明一个hen对象(实现bird接口)
               
             </article>
           
-            <article class="post-preview">
-              <a href="https://sheepbao.github.io/post/golang_string_connect_performance/">
-                <h2 class="post-title">Golang 字符串连接性能探究</h2>
-                
-              </a>
-
-              <span class="post-meta">
-  Posted on December 12, 2016
-  
-</span>
-
-
-              <div class="post-entry">
-                
-                  Golang 字符串连接性能探究 为何探究 几乎所有的软件项目，不管是什么语言，都会用到处理字符串，而拼接字符是最基本，也最常用的。一般连接字符串都有好几种方式，不同的方式适合不同的场景，此次仅探究如果快速动态连接大量的字符串。
-相关问题  https://gocn.io/question/265&amp;sort_key=agree_count&amp;sort=DESC http://stackoverflow.com/questions/1760757/how-to-efficiently-concatenate-strings-in-go/23857998  探究的代码 还是代码最明了
-package main import ( &quot;bytes&quot; &quot;fmt&quot; &quot;strings&quot; &quot;time&quot; ) var way map[int]string func benchmarkStringFunction(n int, index int) (d time.Duration) { v := &quot;ni shuo wo shi bu shi tai wu liao le a?&quot; var s string var buf bytes.Buffer t0 := time.Now() for i := 0; i &lt; n; i++ { switch index { case 0: // fmt.Sprintf s = fmt.
-                  <a href="https://sheepbao.github.io/post/golang_string_connect_performance/" class="post-read-more">[Read More]</a>
-                
-              </div>
-
-              
-                <span class="post-meta">
-                
-                  #<a href="https://sheepbao.github.io/tags/go/">Go</a>&nbsp;
-                
-                </span>
-              
-            </article>
-          
         </div>
 
         
@@ -622,29 +624,9 @@ package main import ( &quot;bytes&quot; &quot;fmt&quot; &quot;strings&quot; &quo
       <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
         <ul class="list-inline text-center footer-links">
           
-              <li>
-                <a href="mailto:listomebao@gmail.com" title="Email me">
-                  <span class="fa-stack fa-lg">
-                    <i class="fa fa-circle fa-stack-2x"></i>
-                    <i class="fa fa-envelope fa-stack-1x fa-inverse"></i>
-                  </span>
-                </a>
-              </li>
-              <li>
-                <a href="https://github.com/sheepbao" title="GitHub">
-                  <span class="fa-stack fa-lg">
-                    <i class="fa fa-circle fa-stack-2x"></i>
-                    <i class="fa fa-github fa-stack-1x fa-inverse"></i>
-                  </span>
-                </a>
-              </li>
           
         </ul>
         <p class="credits copyright text-muted">
-          
-            
-              <a href="sheepbao.github.io">boya</a>
-                      
           
           
           &nbsp;&bull;&nbsp;

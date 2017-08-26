@@ -1,0 +1,653 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+
+  <title>boya blog</title>
+  <meta property="og:title" content="boya blog" />
+  <meta name="twitter:title" content="boya blog" />
+  <meta name="description" content="Writing databases and distributed systems in Go.
+Aug 912 min read
+Go Walkthrough: bytes &#43; strings packages
+In the previous post we covered byte streams but sometimes we need to work with bounded, in-memory byte slices instead. While working with a list of bytes seems simple enough, there are a lot of edge cases and common operations that make using the bytes package worthwhile. We’re also going to lump in the strings package in this post since its API is nearly identical although for use with strings.">
+  <meta property="og:description" content="Writing databases and distributed systems in Go.
+Aug 912 min read
+Go Walkthrough: bytes &#43; strings packages
+In the previous post we covered byte streams but sometimes we need to work with bounded, in-memory byte slices instead. While working with a list of bytes seems simple enough, there are a lot of edge cases and common operations that make using the bytes package worthwhile. We’re also going to lump in the strings package in this post since its API is nearly identical although for use with strings.">
+  <meta name="twitter:description" content="Writing databases and distributed systems in Go.
+Aug 912 min read
+Go Walkthrough: bytes &#43; strings packages
+In the previous post we covered byte streams but sometimes we need to work with bounded, …">
+  <meta name="author" content=""/>
+  <link href='https://sheepbao.github.io/img/favicon.ico' rel='icon' type='image/x-icon'/>
+  <meta property="og:image" content="https://sheepbao.github.io/img/favicon.ico" />
+  <meta name="twitter:image" content="https://sheepbao.github.io/img/favicon.ico" />
+  <meta name="twitter:card" content="summary" />
+  <meta property="og:url" content="https://sheepbao.github.io/en/go_walkthrough_bytes_strings/" />
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="boya blog" />
+
+  <meta name="generator" content="Hugo 0.26" />
+  <link rel="canonical" href="https://sheepbao.github.io/en/go_walkthrough_bytes_strings/" />
+  <link rel="alternate" href="https://sheepbao.github.io/index.xml" type="application/rss+xml" title="boya blog">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.7.1/katex.min.css" integrity="sha384-wITovz90syo1dJWVh32uuETPVEtGigN07tkttEqPv+uR2SE/mbQcG7ATL28aI9H0" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" />
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://sheepbao.github.io/css/main.css" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" />
+  <link rel="stylesheet" href="https://sheepbao.github.io/css/pygment_highlights.css" />
+  <link rel="stylesheet" href="https://sheepbao.github.io/css/highlight.min.css" />
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/photoswipe/4.1.1/photoswipe.min.css" integrity="sha256-sCl5PUOGMLfFYctzDW3MtRib0ctyUvI9Qsmq2wXOeBY=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/photoswipe/4.1.1/default-skin/default-skin.min.css" integrity="sha256-BFeI1V+Vh1Rk37wswuOYn5lsTcaU96hGaI7OUVCLjPc=" crossorigin="anonymous" />
+
+
+
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+<div class="pswp__bg"></div>
+
+<div class="pswp__scroll-wrap">
+    
+    <div class="pswp__container">
+      <div class="pswp__item"></div>
+      <div class="pswp__item"></div>
+      <div class="pswp__item"></div>
+    </div>
+    
+    <div class="pswp__ui pswp__ui--hidden">
+    <div class="pswp__top-bar">
+      
+      <div class="pswp__counter"></div>
+      <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+      <button class="pswp__button pswp__button--share" title="Share"></button>
+      <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+      <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+      
+      
+      <div class="pswp__preloader">
+        <div class="pswp__preloader__icn">
+          <div class="pswp__preloader__cut">
+            <div class="pswp__preloader__donut"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+      <div class="pswp__share-tooltip"></div>
+    </div>
+    <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+    </button>
+    <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+    </button>
+    <div class="pswp__caption">
+      <div class="pswp__caption__center"></div>
+    </div>
+    </div>
+    </div>
+</div>
+
+</head>
+
+  <body>
+    <nav class="navbar navbar-default navbar-fixed-top navbar-custom">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#main-navbar">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="https://sheepbao.github.io/">boya blog</a>
+    </div>
+
+    <div class="collapse navbar-collapse" id="main-navbar">
+      <ul class="nav navbar-nav navbar-right">
+        
+          
+            <li>
+              <a title="posts" href="/post/">posts</a>
+            </li>
+          
+        
+          
+            <li>
+              <a title="categories" href="/categories/">categories</a>
+            </li>
+          
+        
+          
+            <li>
+              <a title="tags" href="/tags/">tags</a>
+            </li>
+          
+        
+          
+            <li>
+              <a title="aboutme" href="/about/">aboutme</a>
+            </li>
+          
+        
+
+        
+
+        
+      </ul>
+    </div>
+
+    <div class="avatar-container">
+      <div class="avatar-img-border">
+        
+          <a title="boya blog" href="https://sheepbao.github.io/">
+            <img class="avatar-img" src="https://sheepbao.github.io/img/favicon.ico" alt="boya blog" />
+          </a>
+        
+      </div>
+    </div>
+
+  </div>
+</nav>
+
+
+
+
+    
+  
+  
+  
+
+
+
+
+  <div class="intro-header"></div>
+
+
+    
+<div class="container" role="main">
+  <div class="row">
+    <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+      <article role="main" class="blog-post">
+        <p>Writing databases and distributed systems in Go.</p>
+
+<p>Aug 912 min read</p>
+
+<p>Go Walkthrough: bytes + strings packages</p>
+
+<p>In the previous post we covered byte streams but sometimes we need to work with bounded, in-memory byte slices instead. While working with a list of bytes seems simple enough, there are a lot of edge cases and common operations that make using the bytes package worthwhile. We’re also going to lump in the strings package in this post since its API is nearly identical although for use with strings.</p>
+
+<p>This post is part of a series of walkthroughs to help you understand the Go standard library better. While generated documentation provides a wealth of information, it can be difficult to understand packages in a real world context. This series aims to provide context of how standard library packages are used in every day applications. If you have questions or comments you can reach me at @benbjohnson on Twitter.</p>
+
+<p>A brief aside on bytes vs strings</p>
+
+<p>Rob Pike has an excellent, thorough post on strings, bytes, runes, and characters but for the sake of this post I’d like to provide more concise definitions from an application developer standpoint.</p>
+
+<p>Byte slices represent a mutable, resizable, contiguous list of bytes. That’s a mouthful so let’s understand what that means.</p>
+
+<p>Given a slice of bytes:</p>
+
+<p>buf := []byte{1,2,3,4}
+It’s mutable so you can update elements:</p>
+
+<p>buf[3] = 5  // []byte{1,2,3,5}
+It’s resizable so you can shrink it or grow it:</p>
+
+<p>buf = buf[:2]           // []byte{1,2}
+buf = append(buf, 100)  // []byte{1,2,100}
+And it’s contiguous so each byte exists one after another in memory:</p>
+
+<p>1|2|3|4
+Strings, on the other hand, represent an immutable, fixed-size, contiguous list of bytes. That means that you can’t update a string — you can only create new ones. This is important from a performance standpoint. In high performance code, constantly creating new strings adds a lot of load on the garbage collector.</p>
+
+<p>From an application development perspective, strings tend to be easier to use when working with UTF-8 data, they can be used as map keys whereas byte slices cannot, and most APIs use strings for arguments containing character data. On the other hand, byte slices work well when you’re dealing with raw bytes such as processing byte streams. They are also good to use when you need to avoid allocations and can reuse them.</p>
+
+<p>Adapting strings &amp; slices for streams</p>
+
+<p>One of the most important features of the bytes and strings packages is that it provides a way to interface in-memory byte slices and strings as io.Readerand io.Writers.</p>
+
+<p>In-memory readers</p>
+
+<p>Two of the most underused tools in the Go standard library are the bytes.NewReader and strings.NewReader functions:</p>
+
+<p>func NewReader(b []byte) *Reader
+func NewReader(s string) *Reader
+These functions return an io.Reader implementation that wraps around your in-memory byte slice or string. But these aren’t just readers — they implement all the read-related interfaces in io including io.ReaderAt, io.WriterTo, io.ByteReader, io.ByteScanner, io.RuneReader, io.RuneScanner, &amp; io.Seeker.</p>
+
+<p>I frequently see code where byte slices or strings are written to a bytes.Bufferand then the buffer is used as a reader:</p>
+
+<p>var buf bytes.Buffer
+buf.WriteString(&ldquo;foo&rdquo;)
+http.Post(&ldquo;<a href="http://example.com/&quot;">http://example.com/&quot;</a>, &ldquo;text/plain&rdquo;, &amp;buf)
+However, this approach incurs heap allocations which will be slow and use additional memory. A better option is to use the strings.Reader:</p>
+
+<p>r := strings.NewReader(&ldquo;foobar&rdquo;)
+http.Post(&ldquo;<a href="http://example.com&quot;">http://example.com&quot;</a>, &ldquo;text/plain&rdquo;, r)
+This approach also works when you have multiple strings or byte slices by using the io.MultiReader:</p>
+
+<p>r := io.MultiReader(
+        strings.NewReader(&ldquo;HEADER&rdquo;),
+        bytes.NewReader([]byte{0,1,2,3,4}),
+        myFile,
+        strings.NewReader(&ldquo;FOOTER&rdquo;),
+)
+In-memory writer</p>
+
+<p>The bytes package also includes an in-memory implementation of io.Writercalled Buffer. It implements nearly all the io interfaces except io.Closer &amp; io.Seeker. There’s also a helper method called WriteString() for writing a string to the end of the buffer.</p>
+
+<p>I use Buffer extensively in unit tests for capturing log output from services. You can pass it as an argument to log.New() and then verify output later:</p>
+
+<p>var buf bytes.Buffer
+myService.Logger = log.New(&amp;buf, &ldquo;&rdquo;, log.LstdFlags)
+myService.Run()
+if !strings.Contains(buf.String(), &ldquo;service failed&rdquo;) {
+        t.Fatal(&ldquo;expected log message&rdquo;)
+}
+However, in production code, I rarely use Buffer. Despite its name, I don’t use it to buffer reads and writes since there’s a package called bufiospecifically for that purpose.</p>
+
+<p>Package organization</p>
+
+<p>At first glance the bytes and strings packages appear large but they are really just a collection of simple helper functions. We can group them into a handful of categories:</p>
+
+<p>Comparison functions
+Inspection functions
+Prefix/suffix functions
+Replacement functions
+Splitting &amp; joining functions
+Once we understand how the functions group together, the large API seems much more approachable.</p>
+
+<p>Comparison functions</p>
+
+<p>When you have two byte slices or strings you may need to ask one of two questions. First, are these two objects equal? Second, which one comes before the other when sorted?</p>
+
+<p>Equality</p>
+
+<p>The Equal() function answers our first question:</p>
+
+<p>func Equal(a, b []byte) bool
+This function only exists in the bytes package because strings can be compared with the == operator.</p>
+
+<p>Although checking for equality seems easy, one common mistake is to use strings.ToUpper() to perform case-insensitive equality checks:</p>
+
+<p>if strings.ToUpper(a) == strings.ToUpper(b) {
+       return true
+}
+This is flawed because it requires 2 allocations of new strings. A better approach is to use EqualFold():</p>
+
+<p>func EqualFold(s, t []byte) bool
+func EqualFold(s, t string) bool
+The term “Fold” refers to Unicode case-folding. It encompasses regular uppercase &amp; lowercase rules for A-Z as well as rules for other languages such as converting φ to ϕ.</p>
+
+<p>Comparison</p>
+
+<p>To determine the sort order for two byte slices or strings, we’ll useCompare():</p>
+
+<p>func Compare(a, b []byte) int
+func Compare(a, b string) int
+This function returns -1 if a is less than b, 1 if a is greater than b, and 0 if aand b are equal. This function exists in the strings package only for symmetry with the bytes package. Russ Cox even calls out in the function’s comments that “basically no one should use strings.Compare.” Instead, use the built-in &lt; and &gt; operators.</p>
+
+<p>“Basically no one should use strings.Compare”, Russ Cox
+Typically you’ll want to know if a byte slice is less than another byte slice for the purpose of sorting. The sort.Interface requires this for its Less() function. To convert from the ternary return value of Compare() to the boolean required by Less(), we simply check for equality with -1:</p>
+
+<p>type ByteSlices [][]byte
+func (p ByteSlices) Less(i, j int) bool {
+        return bytes.Compare(p[i], p[j]) == -1
+}
+Inspection functions</p>
+
+<p>The bytes &amp; strings packages provide several ways to find data within your byte slices and strings.</p>
+
+<p>Counting</p>
+
+<p>If you are validating input from a user, it’s important to verify that certain bytes exist (or don’t exist). You can use the Contains() function to check for existence of one or more subslices or substrings:</p>
+
+<p>func Contains(b, subslice []byte) bool
+func Contains(s, substr string) bool
+For example, you may not allow input with certain off-color words:</p>
+
+<p>if strings.Contains(input, &ldquo;darn&rdquo;) {
+        return errors.New(&ldquo;inappropriate input&rdquo;)
+}
+If you need to obtain the exact number of times a subslice or substring was used, you can use Count():</p>
+
+<p>func Count(s, sep []byte) int
+func Count(s, sep string) int
+Another use for Count() is to return the number of runes in a string. By passing in an empty slice or blank string as the sep argument, Count() will return the number of runes + 1. This is different from len() which will return the number of bytes. The distinction is important when dealing with multi-byte Unicode characters:</p>
+
+<p>strings.Count(&ldquo;I ❤ ☃&rdquo;, &ldquo;&rdquo;)  // 6
+len(&ldquo;I ❤ ☃&rdquo;)                // 9
+The first line above may seem odd because there are 5 runes but remember that Count() returns the rune count plus one.</p>
+
+<p>Indexing</p>
+
+<p>Asserting contents is important but sometimes you’ll need to find the exact position of a subslice or substring. You can do this using the index functions:</p>
+
+<p>Index(s, sep []byte) int
+IndexAny(s []byte, chars string) int
+IndexByte(s []byte, c byte) int
+IndexFunc(s []byte, f func(r rune) bool) int
+IndexRune(s []byte, r rune) int
+There are multiple index functions for different use cases. Index() finds a multi-byte subslice. IndexByte() finds a single byte within a slice.IndexRune() finds a unicode code-point within a UTF-8 interpreted byte slice. IndexAny() works like IndexRune() but searches for multiple code-points at the same time. Finally, IndexFunc() allows you to pass in a custom function to evaluate each rune in your byte slice until a match.</p>
+
+<p>There’s also a matching set of functions for searching for the first instance of the end of a byte slice or string:</p>
+
+<p>LastIndex(s, sep []byte) int
+LastIndexAny(s []byte, chars string) int
+LastIndexByte(s []byte, c byte) int
+LastIndexFunc(s []byte, f func(r rune) bool) int
+I don’t use the index functions much because I find that I typically need to build something more complex such as a parser.</p>
+
+<p>Prefixing, suffixing, &amp; trimming</p>
+
+<p>Working with content at the beginning and end of a byte slice or string is a special case of inspection but it’s a important enough to warrant its own section.</p>
+
+<p>Checking for prefixes &amp; suffixes</p>
+
+<p>Prefixes come up a lot in programming. For example, HTTP paths are typically grouped by functionality with common prefixes. Another example is special characters at the beginning of a string such as “@” for mentioning a user.</p>
+
+<p>The HasPrefix() and HasSuffix() functions allow you to check for these situations:</p>
+
+<p>func HasPrefix(s, prefix []byte) bool
+func HasPrefix(s, prefix string) bool
+func HasSuffix(s, suffix []byte) bool
+func HasSuffix(s, suffix string) bool
+These functions may seem too simple to bother with but one common mistake I see is when developers forget to check for zero length values:</p>
+
+<p>if str[0] == &lsquo;@&rsquo; {
+        return true
+}
+This code looks simple enough but if str is blank then the program will panic. The HasPrefix() function includes this validation for you:</p>
+
+<p>if strings.HasPrefix(str, &ldquo;@&rdquo;) {
+        return true
+}
+Trimming</p>
+
+<p>The term “trimming” in the bytes and strings packages refers to removing bytes or runes from the beginning and/or end of a byte slice or string. The most generic function for this is Trim():</p>
+
+<p>func Trim(s []byte, cutset string) []byte
+func Trim(s string, cutset string) string
+This will remove any runes in cutset from the beginning and end of your string. You can also trim from just the beginning or just the end of your string using TrimLeft() and TrimRight(), respectively.</p>
+
+<p>But generic trimming isn’t very common. Most of the time you want to trim white space characters and you can use TrimSpace() for this:</p>
+
+<p>func TrimSpace(s []byte) []byte
+func TrimSpace(s string) string
+You might think that trimming with a “ \n\t” cutset is enough butTrimSpace() will trim all Unicode defined white space. This includes not only the space, newline, and tab characters but also more unusual white space characters such as thin space or hair space.</p>
+
+<p>TrimSpace() is actually just a thin wrapper around TrimFunc() which is a function for evaluating leading and trailing runes for trimming:</p>
+
+<p>func TrimSpace(s string) string {
+        return TrimFunc(s, unicode.IsSpace)
+}
+This makes it simple to create your own whitespace trimmer for only trailing characters:</p>
+
+<p>TrimRightFunc(s, unicode.IsSpace)
+Finally, if you want to trim exact prefixes or suffixes instead of character sets, there are the TrimPrefix() and TrimSuffix() functions:</p>
+
+<p>func TrimPrefix(s, prefix []byte) []byte
+func TrimPrefix(s, prefix string) string
+func TrimSuffix(s, suffix []byte) []byte
+func TrimSuffix(s, suffix string) string
+These can go hand in hand with the HasPrefix() and HasSuffix() functions if you want to replace a prefix or suffix. For example, I use this to implement Bash-style home directory completion for paths my config files:</p>
+
+<p>// Look up user&rsquo;s home directory.
+u, err := user.Current()
+if err != nil {
+    return err
+} else if u.HomeDir == &ldquo;&rdquo; {
+    return errors.New(&ldquo;home directory does not exist&rdquo;)
+}
+// Replace tilde prefix with home directory.
+if strings.HasPrefix(path, &ldquo;~/&ldquo;) {
+    path = filepath.Join(u.HomeDir, strings.TrimPrefix(path, &ldquo;~/&ldquo;))
+}
+Replacement functions</p>
+
+<p>Basic replacement</p>
+
+<p>Swapping out subslices or substrings is sometimes necessary. For the most simple cases, the Replace() function is all you need:</p>
+
+<p>func Replace(s, old, new []byte, n int) []byte
+func Replace(s, old, new string, n int) string
+It swaps out any instance of old with new in your string. You can set n to a non-negative number to limit the number of replacements. This function is good if you have a simple placeholder in a user defined template. For example, you want to let users specify “$NOW” and have it replaced with the current time:</p>
+
+<p>now := time.Now().Format(time.Kitchen)
+println(strings.Replace(data, &ldquo;$NOW&rdquo;, now, -1)
+If you have multiple mappings then you’ll need to use strings.Replacer. This works by specifying old/new pairs to strings.NewReplacer():</p>
+
+<p>r := strings.NewReplacer(&ldquo;$NOW&rdquo;, now, &ldquo;$USER&rdquo;, &ldquo;mary&rdquo;)
+println(r.Replace(&ldquo;Hello $USER, it is $NOW&rdquo;))
+// Output: Hello mary, it is 3:04PM
+Case replacement</p>
+
+<p>You may assume that casing is simple — upper &amp; lower case — but Go works with Unicode and Unicode is never that simple. There are 3 types of casing: upper, lower, and title case.</p>
+
+<p>Uppercase and lowercase are straight foward for most languages and you can use the ToUpper() and ToLower() functions:</p>
+
+<p>func ToUpper(s []byte) []byte
+func ToUpper(s string) string
+func ToLower(s []byte) []byte
+func ToLower(s string) string
+However, some languages have different rules for casing. Turkish, for example, uppercases its i as İ. For these special case languages, there are special versions of these functions:</p>
+
+<p>strings.ToUpperSpecial(unicode.TurkishCase, &ldquo;i&rdquo;)
+Next we have title case and the ToTitle() function:</p>
+
+<p>func ToTitle(s []byte) []byte
+func ToTitle(s string) string
+You may be surprised, however, when you use ToTitle() and all your characters are uppercased:</p>
+
+<p>println(strings.ToTitle(&ldquo;the count of monte cristo&rdquo;))
+// Output: THE COUNT OF MONTE CRISTO
+That’s because in Unicode, title case is a specific type of casing and not a way to capitalize the first character in each word. For the most part, title case and upper case are the same but there are a few code points which have differences. For example, the ǉ code point (yes, that’s one code point) is uppercased as Ǉ but title cased as ǈ.</p>
+
+<p>What you’re probably looking for is the Title() function:</p>
+
+<p>func Title(s []byte) []byte
+func Title(s string) string
+This outputs the expected result:</p>
+
+<p>println(strings.Title(&ldquo;the count of monte cristo&rdquo;))
+// Output: The Count Of Monte Cristo
+Mapping runes</p>
+
+<p>One other function for replacing data in a bytes slice or string is Map():</p>
+
+<p>func Map(mapping func(r rune) rune, s []byte) []byte
+func Map(mapping func(r rune) rune, s string) string
+This function lets you pass in a function to evaluate every rune and replace it. Admittedly, I didn’t even know this function existed until I started writing this post so I can’t give any personal anecdote.</p>
+
+<p>Splitting &amp; joining functions</p>
+
+<p>Many times we have delimited strings that we need to break apart. For example, paths in Unix are joined with colons and the CSV file format is essentially just fields of data delimited by commas.</p>
+
+<p>Substring splitting</p>
+
+<p>For simple subslice or substring splitting, we have the Split() functions:</p>
+
+<p>func Split(s, sep []byte) [][]byte
+func SplitAfter(s, sep []byte) [][]byte
+func SplitAfterN(s, sep []byte, n int) [][]byte
+func SplitN(s, sep []byte, n int) [][]byte
+func Split(s, sep string) []string
+func SplitAfter(s, sep string) []string
+func SplitAfterN(s, sep string, n int) []string
+func SplitN(s, sep string, n int) []string
+These break up byte slices or strings by a delimiter and return the subslices or substrings. The “After” functions include the delimiter at the end of the substrings. The “N” functions limit the number of splits that can occur:</p>
+
+<p>strings.Split(&ldquo;a:b:c&rdquo;, &ldquo;:&ldquo;)       // [&ldquo;a&rdquo;, &ldquo;b&rdquo;, &ldquo;c&rdquo;]
+strings.SplitAfter(&ldquo;a:b:c&rdquo;, &ldquo;:&ldquo;)  // [&ldquo;a:&ldquo;, &ldquo;b:&ldquo;, &ldquo;c&rdquo;]
+strings.SplitN(&ldquo;a:b:c&rdquo;, &ldquo;:&ldquo;, 2)   // [&ldquo;a&rdquo;, &ldquo;b:c&rdquo;]
+Splitting data is a very common operation, however, it’s typically done in the context of a file format such as CSV or in the context of path splitting. For these operations, I use the encoding/csv or path packages instead.</p>
+
+<p>Categorical splitting</p>
+
+<p>Sometimes you want to specify delimiters as a set of runes instead of a series of runes. The best example of this is breaking apart words by variable-length whitespace. Simply calling Split() using a space delimiter will give you empty substrings if you have multiple contiguous spaces. Instead you can use the Fields() function:</p>
+
+<p>func Fields(s []byte) [][]byte
+This will consider consecutive whitespace characters a single delimiter:</p>
+
+<p>strings.Fields(&ldquo;hello   world&rdquo;)      // [&ldquo;hello&rdquo;, &ldquo;world&rdquo;]
+strings.Split(&ldquo;hello   world&rdquo;, &ldquo; &ldquo;)  // [&ldquo;hello&rdquo;, &ldquo;&rdquo;, &ldquo;&rdquo;, &ldquo;world&rdquo;]
+The Fields() function is just a simple wrapper around FieldsFunc() which lets you pass a function to evaluate each rune as a delimiter:</p>
+
+<p>func FieldsFunc(s []byte, f func(rune) bool) [][]byte
+Joining</p>
+
+<p>Instead of breaking apart delimited data, we can join it together using the Join() function:</p>
+
+<p>func Join(s [][]byte, sep []byte) []byte
+func Join(a []string, sep string) string
+One common mistake I‘ve seen is when developers try to implement join by hand. It looks something like:</p>
+
+<p>var output string
+for i, s := range a {
+        output += s
+        if i &lt; len(a) - 1 {
+                output += &ldquo;,&rdquo;
+        }
+}
+return output
+The flaw in this code is that you are creating a massive number of allocations. Because strings are immutable, each iteration is generating a new string for each append. The strings.Join() function, on the other hand, uses a byte slice buffer to build upon and converts it back to a string when it returns. This minimizes heap allocations.</p>
+
+<p>Miscellaneous functions</p>
+
+<p>There’s two functions I couldn’t find a category for so they’re lumped in here at the bottom. First, the Repeat() function allows you generate a repeated byte slice or string. Honestly, the only time I can remember using this is to make a line to separate content in the terminal:</p>
+
+<p>println(strings.Repeat(&ldquo;-&rdquo;, 80))
+The other function is Runes() which returns a slice of all runes in a UTF-8 interpreted byte slice or string. I‘ve never needed to use this since the for loop over a string does the same thing but without the allocations.</p>
+
+<p>Conclusion</p>
+
+<p>Byte slices and strings are fundamental primitives in Go. They are the in-memory representations for series of bytes and runes. The bytes and strings packages provide a ton of useful helper functions as well as adapters to the io.Reader and io.Writer interfaces.</p>
+
+<p>It’s easy to overlook many of the useful tools in these packages because of the API’s size but I hope this post has helped you to understand everything these packages have to offer.</p>
+
+<p>Love the post? Hate it? Drop me a line at @benbjohnson on Twitter.</p>
+
+<p>GolangProgramming</p>
+
+<p>88</p>
+
+<p>4</p>
+
+<p>Follow</p>
+
+<p>Ben Johnson</p>
+
+<p>Writing databases and distributed systems in Go.</p>
+
+<p>Related reads</p>
+
+<p>Don’t use Go’s default HTTP client</p>
+
+<p>Nathan Smith</p>
+
+<p>Golang context</p>
+
+<p>Tushar Singh</p>
+
+<p>Go Walkthrough: encoding package</p>
+
+<p>Ben Johnson</p>
+
+<p>Responses</p>
+
+<p>Write a response…</p>
+
+<p>Show all responses</p>
+
+<p>Next story loading&hellip;</p>
+
+      </article>
+
+      <ul class="pager blog-pager">
+        
+          <li class="previous">
+            <a href="https://sheepbao.github.io/en/go_walkthrough_io/" data-toggle="tooltip" data-placement="top" title="">&larr; Previous Post</a>
+          </li>
+        
+        
+      </ul>
+
+      
+        
+          <div class="disqus-comments">
+            <div id="disqus_thread"></div>
+<script>
+    var disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "sheepbao" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+          </div>
+        
+      
+
+    </div>
+  </div>
+</div>
+
+    <footer>
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+        <ul class="list-inline text-center footer-links">
+          
+          
+        </ul>
+        <p class="credits copyright text-muted">
+          
+          
+          &nbsp;&bull;&nbsp;
+          2017
+
+          
+            &nbsp;&bull;&nbsp;
+            <a href="https://sheepbao.github.io/">boya blog</a>
+          
+        </p>
+        
+        <p class="credits theme-by text-muted">
+          <a href="http://gohugo.io">Hugo v0.26</a> powered &nbsp;&bull;&nbsp; Theme by <a href="http://deanattali.com/beautiful-jekyll/">Beautiful Jekyll</a> adapted to <a href="https://github.com/halogenica/beautifulhugo">Beautiful Hugo</a>
+          
+        </p>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.7.1/katex.min.js" integrity="sha384-/y1Nn9+QQAipbNQWU65krzJralCnuOasHncUFXGkdwntGeSvQicrYkiUBwsgUqc1" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.7.1/contrib/auto-render.min.js" integrity="sha384-dq1/gEHSxPZQ7DdrM82ID4YVol9BYyU7GbWlIwnwyPzotpoc57wDw/guX8EaYGPx" crossorigin="anonymous"></script>
+<script src="https://code.jquery.com/jquery-1.12.4.min.js" integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ=" crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+<script src="https://sheepbao.github.io/js/main.js"></script>
+<script src="https://sheepbao.github.io/js/highlight.min.js"></script>
+<script> hljs.initHighlightingOnLoad(); </script>
+<script> renderMathInElement(document.body); </script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/photoswipe/4.1.1/photoswipe.min.js" integrity="sha256-UplRCs9v4KXVJvVY+p+RSo5Q4ilAUXh7kpjyIP5odyc=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/photoswipe/4.1.1/photoswipe-ui-default.min.js" integrity="sha256-PWHOlUzc96pMc8ThwRIXPn8yH4NOLu42RQ0b9SpnpFk=" crossorigin="anonymous"></script>
+<script src="https://sheepbao.github.io/js/load-photoswipe.js"></script>
+
+
+
+  </body>
+</html>
+

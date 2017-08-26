@@ -6,8 +6,6 @@
     <description>Recent content in Categories on boya blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <managingEditor>listomebao@gmail.com (boya)</managingEditor>
-    <webMaster>listomebao@gmail.com (boya)</webMaster>
     
 	<atom:link href="https://sheepbao.github.io/categories/index.xml" rel="self" type="application/rss+xml" />
     
@@ -16,7 +14,7 @@
       <title>Development</title>
       <link>https://sheepbao.github.io/categories/development/</link>
       <pubDate>Tue, 22 Aug 2017 19:23:15 +0800</pubDate>
-      <author>listomebao@gmail.com (boya)</author>
+      
       <guid>https://sheepbao.github.io/categories/development/</guid>
       <description></description>
     </item>
@@ -25,8 +23,17 @@
       <title>Life</title>
       <link>https://sheepbao.github.io/categories/life/</link>
       <pubDate>Sat, 31 Dec 2016 11:58:40 +0800</pubDate>
-      <author>listomebao@gmail.com (boya)</author>
+      
       <guid>https://sheepbao.github.io/categories/life/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Network</title>
+      <link>https://sheepbao.github.io/categories/network/</link>
+      <pubDate>Sat, 26 Aug 2017 15:15:40 +0800</pubDate>
+      
+      <guid>https://sheepbao.github.io/categories/network/</guid>
       <description></description>
     </item>
     
@@ -34,7 +41,7 @@
       <title>Stream</title>
       <link>https://sheepbao.github.io/categories/stream/</link>
       <pubDate>Tue, 13 Sep 2016 11:58:40 +0800</pubDate>
-      <author>listomebao@gmail.com (boya)</author>
+      
       <guid>https://sheepbao.github.io/categories/stream/</guid>
       <description></description>
     </item>

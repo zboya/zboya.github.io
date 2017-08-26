@@ -6,8 +6,6 @@
     <description>Recent content in Go on boya blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <managingEditor>listomebao@gmail.com (boya)</managingEditor>
-    <webMaster>listomebao@gmail.com (boya)</webMaster>
     <lastBuildDate>Tue, 22 Aug 2017 19:23:15 +0800</lastBuildDate>
     
 	<atom:link href="https://sheepbao.github.io/tags/go/index.xml" rel="self" type="application/rss+xml" />
@@ -17,7 +15,7 @@
       <title>平时整理的一些golang代码片段</title>
       <link>https://sheepbao.github.io/post/golang_code_slice/</link>
       <pubDate>Tue, 22 Aug 2017 19:23:15 +0800</pubDate>
-      <author>listomebao@gmail.com (boya)</author>
+      
       <guid>https://sheepbao.github.io/post/golang_code_slice/</guid>
       <description>golang 代码片段 by boya
 老司机请忽略！
@@ -28,7 +26,7 @@
       <title>Golang代码规范</title>
       <link>https://sheepbao.github.io/post/golang_code_specification/</link>
       <pubDate>Wed, 02 Aug 2017 11:58:40 +0800</pubDate>
-      <author>listomebao@gmail.com (boya)</author>
+      
       <guid>https://sheepbao.github.io/post/golang_code_specification/</guid>
       <description>Golang代码规范 参考https://golang.org/doc/effective_go.html
 项目目录结构规范 PROJECT_NAME ├── README.md 介绍软件及文档入口 ├── bin 编译好的二进制文件,执行./build.sh自动生成，该目录也用于程序打包 ├── build.sh 自动编译的脚本 ├── doc 该项目的文档 ├── pack 打包后的程序放在此处 ├── pack.sh 自动打包的脚本，生成类似xxxx.20170713_14:45:35.tar.gz的文件，放在pack文件下 └── src 该项目的源代码 ├── main 项目主函数 ├── model 项目代码 ├── research 在实现该项目中探究的一些程序 └── vendor 存放go的库 ├── github.com/xxx 第三方库 └── xxx.com/obc 公司内部的公共库  项目的目录结构尽量做到简明、层次清楚
@@ -44,7 +42,7 @@ type WriteFlusher interface { Write([]byte) (int, error) Flush() error }  三个
       <title>udp编程的那些事与golang udp的实践</title>
       <link>https://sheepbao.github.io/post/golang_udp_programing/</link>
       <pubDate>Mon, 19 Jun 2017 11:58:40 +0800</pubDate>
-      <author>listomebao@gmail.com (boya)</author>
+      
       <guid>https://sheepbao.github.io/post/golang_udp_programing/</guid>
       <description>udp编程的那些事与golang udp的实践 tcp/ip大协议中，tcp编程大家应该比较熟，应用的场景也很多，但是udp在现实中，应用也不少，而在大部分博文中，都很少对udp的编程进行研究，最近研究了一下udp编程，正好做个记录。
 sheepbao 2017.06.15
@@ -58,7 +56,7 @@ udp数据的封装 +---------+ | 应用数据 | +---------+ | | v v +---------+-
       <title>Go1.9的主要更新</title>
       <link>https://sheepbao.github.io/post/go1.9_note/</link>
       <pubDate>Sat, 17 Jun 2017 11:58:40 +0800</pubDate>
-      <author>listomebao@gmail.com (boya)</author>
+      
       <guid>https://sheepbao.github.io/post/go1.9_note/</guid>
       <description>Go1.9的主要更新 golang每半年更新一次版本，上次最新的版本是Go1.8，而Go1.9将在今年8月释出。
 Go1.9中语法的更改只有一个，那就是增加了类型别名，大部分更改是工具链，运行时，库的更改，
@@ -80,7 +78,7 @@ time包支持显示单调 Go1.9的time包支持每个Time值都是单调时间�
       <title>kcp-go源码解析</title>
       <link>https://sheepbao.github.io/post/kcp_source_analysis/</link>
       <pubDate>Mon, 12 Jun 2017 11:58:40 +0800</pubDate>
-      <author>listomebao@gmail.com (boya)</author>
+      
       <guid>https://sheepbao.github.io/post/kcp_source_analysis/</guid>
       <description>kcp-go源码解析 对kcp-go的源码解析，有错误之处，请一定告之。
 sheepbao 2017.0612
@@ -98,7 +96,7 @@ kcp和tcp一样，也分客户端和监听端。
       <title>Golang逃逸分析</title>
       <link>https://sheepbao.github.io/post/golang_escape_analysis/</link>
       <pubDate>Sun, 11 Jun 2017 11:58:40 +0800</pubDate>
-      <author>listomebao@gmail.com (boya)</author>
+      
       <guid>https://sheepbao.github.io/post/golang_escape_analysis/</guid>
       <description>Golang逃逸分析 介绍逃逸分析的概念，go怎么开启逃逸分析的log。
 以下资料来自互联网，有错误之处，请一定告之。
@@ -111,7 +109,7 @@ When a variable (or an object) is allocated in a subroutine, a pointer to the va
       <title>sms golang实现的流媒体服务器</title>
       <link>https://sheepbao.github.io/post/golang_stream_server/</link>
       <pubDate>Sun, 02 Apr 2017 11:58:40 +0800</pubDate>
-      <author>listomebao@gmail.com (boya)</author>
+      
       <guid>https://sheepbao.github.io/post/golang_stream_server/</guid>
       <description>sms 用golang实现的流媒体服务器,来自开源，现在回馈给开源社区。
 特性  模块化，易扩展 高性能，易部署，跨平台 支持rtmp推拉流 支持http-flv分发 支持hls分发 支持http接口请求来推拉流  源码编译 git clone https://github.com/sheepbao/sms.git cd sms ./build.sh  交叉编译 ./build.sh linux arm // or ./build.sh os arch  运行 ./bin/sms  项目地址 oschina: http://git.oschina.net/sheepbao/sms</description>
@@ -121,7 +119,7 @@ When a variable (or an object) is allocated in a subroutine, a pointer to the va
       <title>golang 简介</title>
       <link>https://sheepbao.github.io/post/golang_brief_introduction/</link>
       <pubDate>Sun, 22 Jan 2017 11:58:40 +0800</pubDate>
-      <author>listomebao@gmail.com (boya)</author>
+      
       <guid>https://sheepbao.github.io/post/golang_brief_introduction/</guid>
       <description>golang 简介 来历 很久以前，有一个IT公司，这公司有个传统，允许员工拥有20%自由时间来开发实验性项目。在2007的某一天，公司的几个大牛，正在用c++开发一些比较繁琐但是核心的工作，主要包括庞大的分布式集群，大牛觉得很闹心，后来c++委员会来他们公司演讲，说c++将要添加大概35种新特性。这几个大牛的其中一个人，名为：Rob Pike，听后心中一万个xxx飘过，“c++特性还不够多吗？简化c++应该更有成就感吧”。于是乎，Rob Pike和其他几个大牛讨论了一下，怎么解决这个问题，过了一会，Rob Pike说要不我们自己搞个语言吧，名字叫“go”，非常简短，容易拼写。其他几位大牛就说好啊，然后他们找了块白板，在上面写下希望能有哪些功能（详见问尾）。接下来的时间里，大牛们开心的讨论设计这门语言的特性，经过漫长的岁月，他们决定，以c语言为原型，以及借鉴其他语言的一些特性，来解放程序员，解放自己，然后在2009年，go语言诞生。
 思想 Less can be more 大道至简,小而蕴真 让事情变得复杂很容易，让事情变得简单才难 深刻的工程文化
@@ -138,7 +136,7 @@ var bird interface{ fly() }  声明一个hen对象(实现bird接口)</descriptio
       <title>Golang 字符串连接性能探究</title>
       <link>https://sheepbao.github.io/post/golang_string_connect_performance/</link>
       <pubDate>Mon, 12 Dec 2016 11:58:40 +0800</pubDate>
-      <author>listomebao@gmail.com (boya)</author>
+      
       <guid>https://sheepbao.github.io/post/golang_string_connect_performance/</guid>
       <description>Golang 字符串连接性能探究 为何探究 几乎所有的软件项目，不管是什么语言，都会用到处理字符串，而拼接字符是最基本，也最常用的。一般连接字符串都有好几种方式，不同的方式适合不同的场景，此次仅探究如果快速动态连接大量的字符串。
 相关问题  https://gocn.io/question/265&amp;amp;sort_key=agree_count&amp;amp;sort=DESC http://stackoverflow.com/questions/1760757/how-to-efficiently-concatenate-strings-in-go/23857998  探究的代码 还是代码最明了
@@ -149,7 +147,7 @@ package main import ( &amp;quot;bytes&amp;quot; &amp;quot;fmt&amp;quot; &amp;quo
       <title>golang开启GODEBUG gctrace =1 显示信息的含义</title>
       <link>https://sheepbao.github.io/post/golang_debug_gctrace/</link>
       <pubDate>Sat, 03 Dec 2016 11:58:40 +0800</pubDate>
-      <author>listomebao@gmail.com (boya)</author>
+      
       <guid>https://sheepbao.github.io/post/golang_debug_gctrace/</guid>
       <description>golang开启GODEBUG gctrace =1 显示信息的含义 如何开启打印gc信息 只要在程序执行之前加上环境变量GODEBUG gctrace =1 ，如：
 GODEBUG gctrace =1 ./xxxx.exe or GODEBUG gctrace =1 go run main.go
@@ -161,7 +159,7 @@ gc 1 @2.104s 0%: 0.018+1.3+0.076 ms clock, 0.054+0.35/1.0/3.0+0.23 ms cpu, 4-&am
       <title>golang 后端开发思维导图</title>
       <link>https://sheepbao.github.io/post/golang_backend_mind_map/</link>
       <pubDate>Sun, 17 Jul 2016 11:58:40 +0800</pubDate>
-      <author>listomebao@gmail.com (boya)</author>
+      
       <guid>https://sheepbao.github.io/post/golang_backend_mind_map/</guid>
       <description>golang 后端开发思维导图 自己画的golang后台开发思维导图，当作笔记。 转载请注明原作者。 by sheepbao.</description>
     </item>
@@ -170,7 +168,7 @@ gc 1 @2.104s 0%: 0.018+1.3+0.076 ms clock, 0.054+0.35/1.0/3.0+0.23 ms cpu, 4-&am
       <title>深入理解go的slice和到底什么时候该用slice</title>
       <link>https://sheepbao.github.io/post/understand_golang_slice/</link>
       <pubDate>Mon, 27 Jun 2016 11:58:40 +0800</pubDate>
-      <author>listomebao@gmail.com (boya)</author>
+      
       <guid>https://sheepbao.github.io/post/understand_golang_slice/</guid>
       <description>深入理解go的slice和到底什么时候该用slice 前言 用过go语言的亲们都知道，slice（中文翻译为切片）在编程中经常用到，它代表变长的序列，序列中每个元素都有相同的类型，类似一个动态数组，利用append可以实现动态增长，利用slice的特性可以很容易的切割slice，它们是怎么实现这些特性的呢？现在我们来探究一下这些特性的本质是什么。
 先了解一下slice的特性  定义一个slice
@@ -185,7 +183,7 @@ s := []int{1,2,3,4,5,6} s1 := s[0:2] fmt.Println(s1) // [1 2] s2 := s[4:] fmt.Pr
       <title>用golang写一个http代理，可以抓包和科学上网</title>
       <link>https://sheepbao.github.io/post/golang_http_proxy/</link>
       <pubDate>Wed, 15 Jun 2016 11:58:40 +0800</pubDate>
-      <author>listomebao@gmail.com (boya)</author>
+      
       <guid>https://sheepbao.github.io/post/golang_http_proxy/</guid>
       <description>用golang写一个http代理，可以抓包和科学上网 缘起 因为在工作中需要对上网进行限制，只让我们的app上网，意思就是放行app请求的所有域名或ip，而其他域名都禁止，所以我需要对app的http请求进行抓包。上网搜了一下，win下的fiddler不错，可惜我用的是Linux系统，fiddler不跨平台，找了下linux下的抓包软件，当然tcpdump和wireshare是足够强大的，完全可以实现我要的小小要求，但用起来有一定的复杂性，门槛稍高。在网上找到其他类似的软件还挺多，charles、NProxy等，最后发现mitmproxy最符合我的胃口，如图： 但是mitmproxy的安装依赖太多，python就是这样，一不小心就报错了，so，想着用golang实现类似的功能，自己也很喜欢go语言，如果有空能安静写写自己喜欢的代码，是多么的幸福。想好了就实践，Let&amp;rsquo;s do it，当然凡事都有个从简到繁的过程，下面的特性慢慢增加。
 特性 特性，也可以说功能，以下是实现或者将要实现的特性

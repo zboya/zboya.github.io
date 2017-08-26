@@ -26,7 +26,7 @@ type Reader interface { Read(p []byte) (n int, err error) }  两个函数的接�
 type WriteFlusher interface { Write([]byte) (int, error) Flush() error }  三个以上函数的接口名，类似于结构体名">
   <meta name="twitter:description" content="Golang代码规范 参考https://golang.org/doc/effective_go.html
 项目目录结构规范 PROJECT_NAME ├── README.md 介绍软件及文档入口 ├── bin 编译好的二进制文件,执行./build.sh自动生成，该目录也用于程序打包 ├── build.sh 自动编译的脚本 ├── doc 该项目的文档 ├── pack 打包后的程序放在此 …">
-  <meta name="author" content="boya"/>
+  <meta name="author" content=""/>
   <link href='https://sheepbao.github.io/img/favicon.ico' rel='icon' type='image/x-icon'/>
   <meta property="og:image" content="https://sheepbao.github.io/img/favicon.ico" />
   <meta name="twitter:image" content="https://sheepbao.github.io/img/favicon.ico" />
@@ -117,7 +117,7 @@ type WriteFlusher interface { Write([]byte) (int, error) Flush() error }  三个
         
           
             <li>
-              <a title="aboutme" href="/about/">aboutme</a>
+              <a title="posts" href="/post/">posts</a>
             </li>
           
         
@@ -129,13 +129,13 @@ type WriteFlusher interface { Write([]byte) (int, error) Flush() error }  三个
         
           
             <li>
-              <a title="posts" href="/post/">posts</a>
+              <a title="tags" href="/tags/">tags</a>
             </li>
           
         
           
             <li>
-              <a title="tags" href="/tags/">tags</a>
+              <a title="aboutme" href="/about/">aboutme</a>
             </li>
           
         
@@ -639,29 +639,9 @@ func main() {
       <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
         <ul class="list-inline text-center footer-links">
           
-              <li>
-                <a href="mailto:listomebao@gmail.com" title="Email me">
-                  <span class="fa-stack fa-lg">
-                    <i class="fa fa-circle fa-stack-2x"></i>
-                    <i class="fa fa-envelope fa-stack-1x fa-inverse"></i>
-                  </span>
-                </a>
-              </li>
-              <li>
-                <a href="https://github.com/sheepbao" title="GitHub">
-                  <span class="fa-stack fa-lg">
-                    <i class="fa fa-circle fa-stack-2x"></i>
-                    <i class="fa fa-github fa-stack-1x fa-inverse"></i>
-                  </span>
-                </a>
-              </li>
           
         </ul>
         <p class="credits copyright text-muted">
-          
-            
-              <a href="sheepbao.github.io">boya</a>
-                      
           
           
           &nbsp;&bull;&nbsp;

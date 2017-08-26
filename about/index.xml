@@ -6,8 +6,6 @@
     <description>Recent content in Abouts on boya blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <managingEditor>listomebao@gmail.com (boya)</managingEditor>
-    <webMaster>listomebao@gmail.com (boya)</webMaster>
     <lastBuildDate>Thu, 12 May 2016 21:08:59 +0000</lastBuildDate>
     
 	<atom:link href="https://sheepbao.github.io/about/index.xml" rel="self" type="application/rss+xml" />
@@ -17,7 +15,7 @@
       <title>About Me</title>
       <link>https://sheepbao.github.io/about/aboutme/</link>
       <pubDate>Thu, 12 May 2016 21:08:59 +0000</pubDate>
-      <author>listomebao@gmail.com (boya)</author>
+      
       <guid>https://sheepbao.github.io/about/aboutme/</guid>
       <description>About Me I am boya who like coding and programming. Welcome to contact me.
 My Belief Keep it Simple and Stupid.

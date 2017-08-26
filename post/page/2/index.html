@@ -8,7 +8,7 @@
   <title>Posts</title>
   <meta property="og:title" content="Posts" />
   <meta name="twitter:title" content="Posts" />
-  <meta name="author" content="boya"/>
+  <meta name="author" content=""/>
   <link href='https://sheepbao.github.io/img/favicon.ico' rel='icon' type='image/x-icon'/>
   <meta property="og:image" content="https://sheepbao.github.io/img/favicon.ico" />
   <meta name="twitter:image" content="https://sheepbao.github.io/img/favicon.ico" />
@@ -99,7 +99,7 @@
         
           
             <li>
-              <a title="aboutme" href="/about/">aboutme</a>
+              <a title="posts" href="/post/">posts</a>
             </li>
           
         
@@ -111,13 +111,13 @@
         
           
             <li>
-              <a title="posts" href="/post/">posts</a>
+              <a title="tags" href="/tags/">tags</a>
             </li>
           
         
           
             <li>
-              <a title="tags" href="/tags/">tags</a>
+              <a title="aboutme" href="/about/">aboutme</a>
             </li>
           
         
@@ -166,6 +166,35 @@
       <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
         
         <div class="posts-list">
+          
+            <article class="post-preview">
+              <a href="https://sheepbao.github.io/post/golang_string_connect_performance/">
+                <h2 class="post-title">Golang 字符串连接性能探究</h2>
+
+                
+              </a>
+
+              <p class="post-meta">
+                Posted on December 12, 2016
+              </p>
+              <div class="post-entry">
+                
+                  Golang 字符串连接性能探究 为何探究 几乎所有的软件项目，不管是什么语言，都会用到处理字符串，而拼接字符是最基本，也最常用的。一般连接字符串都有好几种方式，不同的方式适合不同的场景，此次仅探究如果快速动态连接大量的字符串。
+相关问题  https://gocn.io/question/265&amp;sort_key=agree_count&amp;sort=DESC http://stackoverflow.com/questions/1760757/how-to-efficiently-concatenate-strings-in-go/23857998  探究的代码 还是代码最明了
+package main import ( &quot;bytes&quot; &quot;fmt&quot; &quot;strings&quot; &quot;time&quot; ) var way map[int]string func benchmarkStringFunction(n int, index int) (d time.Duration) { v := &quot;ni shuo wo shi bu shi tai wu liao le a?&quot; var s string var buf bytes.Buffer t0 := time.Now() for i := 0; i &lt; n; i++ { switch index { case 0: // fmt.Sprintf s = fmt.
+                  <a href="https://sheepbao.github.io/post/golang_string_connect_performance/" class="post-read-more">[Read More]</a>
+                
+              </div>
+
+              
+                <span class="post-meta">
+                  
+                    #<a href="https://sheepbao.github.io/tags/go/">Go</a>&nbsp;
+                  
+                </span>
+              
+
+            </article>
           
             <article class="post-preview">
               <a href="https://sheepbao.github.io/post/golang_debug_gctrace/">
@@ -349,29 +378,9 @@ http代理 http请求响应的抓取 修改http请求 重复请求 同时监听�
       <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
         <ul class="list-inline text-center footer-links">
           
-              <li>
-                <a href="mailto:listomebao@gmail.com" title="Email me">
-                  <span class="fa-stack fa-lg">
-                    <i class="fa fa-circle fa-stack-2x"></i>
-                    <i class="fa fa-envelope fa-stack-1x fa-inverse"></i>
-                  </span>
-                </a>
-              </li>
-              <li>
-                <a href="https://github.com/sheepbao" title="GitHub">
-                  <span class="fa-stack fa-lg">
-                    <i class="fa fa-circle fa-stack-2x"></i>
-                    <i class="fa fa-github fa-stack-1x fa-inverse"></i>
-                  </span>
-                </a>
-              </li>
           
         </ul>
         <p class="credits copyright text-muted">
-          
-            
-              <a href="sheepbao.github.io">boya</a>
-                      
           
           
           &nbsp;&bull;&nbsp;

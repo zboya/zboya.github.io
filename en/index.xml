@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Ens on boya blog</title>
+    <link>https://sheepbao.github.io/en/</link>
+    <description>Recent content in Ens on boya blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    
+	<atom:link href="https://sheepbao.github.io/en/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title></title>
+      <link>https://sheepbao.github.io/en/go_walkthrough_bytes_strings/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://sheepbao.github.io/en/go_walkthrough_bytes_strings/</guid>
+      <description>Writing databases and distributed systems in Go.
+Aug 912 min read
+Go Walkthrough: bytes + strings packages
+In the previous post we covered byte streams but sometimes we need to work with bounded, in-memory byte slices instead. While working with a list of bytes seems simple enough, there are a lot of edge cases and common operations that make using the bytes package worthwhile. We’re also going to lump in the strings package in this post since its API is nearly identical although for use with strings.</description>
+    </item>
+    
+    <item>
+      <title></title>
+      <link>https://sheepbao.github.io/en/go_walkthrough_io/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://sheepbao.github.io/en/go_walkthrough_io/</guid>
+      <description></description>
+    </item>
+    
+  </channel>
+</rss>

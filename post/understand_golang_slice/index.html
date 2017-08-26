@@ -24,7 +24,7 @@ s := []int{1,2,3,4,5} s = append(s, 6) fmt.Println(s) // [1 2 3 4 5 6]  内置ap
 s := []int{1,2,3,4,5,6} s1 := s[0:2] fmt.Println(s1) // [1 2] s2 := s[4:] fmt.Println(s2) // [5 6] s3 := s[:4] fmt.Println(s3) // [1 2 3 4]  slice作为函数参数">
   <meta name="twitter:description" content="深入理解go的slice和到底什么时候该用slice 前言 用过go语言的亲们都知道，slice（中文翻译为切片）在编程中经常用到，它代表变长的序列，序列中每个元素都有相同的类型，类似一个动态数组，利用append可以实现动态增长，利用slice的特性可以很容易的切割slice，它们是怎么实现这些特性的呢？现在我们来探究一下这些特性的本质是什么。
 先了解一下slice的特性  定义一个slice …">
-  <meta name="author" content="boya"/>
+  <meta name="author" content=""/>
   <link href='https://sheepbao.github.io/img/favicon.ico' rel='icon' type='image/x-icon'/>
   <meta property="og:image" content="https://sheepbao.github.io/img/favicon.ico" />
   <meta name="twitter:image" content="https://sheepbao.github.io/img/favicon.ico" />
@@ -115,7 +115,7 @@ s := []int{1,2,3,4,5,6} s1 := s[0:2] fmt.Println(s1) // [1 2] s2 := s[4:] fmt.Pr
         
           
             <li>
-              <a title="aboutme" href="/about/">aboutme</a>
+              <a title="posts" href="/post/">posts</a>
             </li>
           
         
@@ -127,13 +127,13 @@ s := []int{1,2,3,4,5,6} s1 := s[0:2] fmt.Println(s1) // [1 2] s2 := s[4:] fmt.Pr
         
           
             <li>
-              <a title="posts" href="/post/">posts</a>
+              <a title="tags" href="/tags/">tags</a>
             </li>
           
         
           
             <li>
-              <a title="tags" href="/tags/">tags</a>
+              <a title="aboutme" href="/about/">aboutme</a>
             </li>
           
         
@@ -397,29 +397,9 @@ main--&gt;data:    []int{1, 6666, 3, 4, 5, 6666}
       <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
         <ul class="list-inline text-center footer-links">
           
-              <li>
-                <a href="mailto:listomebao@gmail.com" title="Email me">
-                  <span class="fa-stack fa-lg">
-                    <i class="fa fa-circle fa-stack-2x"></i>
-                    <i class="fa fa-envelope fa-stack-1x fa-inverse"></i>
-                  </span>
-                </a>
-              </li>
-              <li>
-                <a href="https://github.com/sheepbao" title="GitHub">
-                  <span class="fa-stack fa-lg">
-                    <i class="fa fa-circle fa-stack-2x"></i>
-                    <i class="fa fa-github fa-stack-1x fa-inverse"></i>
-                  </span>
-                </a>
-              </li>
           
         </ul>
         <p class="credits copyright text-muted">
-          
-            
-              <a href="sheepbao.github.io">boya</a>
-                      
           
           
           &nbsp;&bull;&nbsp;
