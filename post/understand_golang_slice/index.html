@@ -25,6 +25,9 @@ s := []int{1,2,3,4,5,6} s1 := s[0:2] fmt.Println(s1) // [1 2] s2 := s[4:] fmt.Pr
   <meta name="twitter:description" content="深入理解go的slice和到底什么时候该用slice 前言 用过go语言的亲们都知道，slice（中文翻译为切片）在编程中经常用到，它代表变长的序列，序列中每个元素都有相同的类型，类似一个动态数组，利用append可以实现动态增长，利用slice的特性可以很容易的切割slice，它们是怎么实现这些特性的呢？现在我们来探究一下这些特性的本质是什么。
 先了解一下slice的特性  定义一个slice …">
   <meta name="author" content="boya"/>
+  <link href='https://sheepbao.github.io/img/favicon.ico' rel='icon' type='image/x-icon'/>
+  <meta property="og:image" content="https://sheepbao.github.io/img/favicon.ico" />
+  <meta name="twitter:image" content="https://sheepbao.github.io/img/favicon.ico" />
   <meta name="twitter:card" content="summary" />
   <meta property="og:url" content="https://sheepbao.github.io/post/understand_golang_slice/" />
   <meta property="og:type" content="website" />
@@ -143,6 +146,10 @@ s := []int{1,2,3,4,5,6} s1 := s[0:2] fmt.Println(s1) // [1 2] s2 := s[4:] fmt.Pr
 
     <div class="avatar-container">
       <div class="avatar-img-border">
+        
+          <a title="boya blog" href="https://sheepbao.github.io/">
+            <img class="avatar-img" src="https://sheepbao.github.io/img/favicon.ico" alt="boya blog" />
+          </a>
         
       </div>
     </div>

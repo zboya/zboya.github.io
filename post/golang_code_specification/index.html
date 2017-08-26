@@ -27,6 +27,9 @@ type WriteFlusher interface { Write([]byte) (int, error) Flush() error }  三个
   <meta name="twitter:description" content="Golang代码规范 参考https://golang.org/doc/effective_go.html
 项目目录结构规范 PROJECT_NAME ├── README.md 介绍软件及文档入口 ├── bin 编译好的二进制文件,执行./build.sh自动生成，该目录也用于程序打包 ├── build.sh 自动编译的脚本 ├── doc 该项目的文档 ├── pack 打包后的程序放在此 …">
   <meta name="author" content="boya"/>
+  <link href='https://sheepbao.github.io/img/favicon.ico' rel='icon' type='image/x-icon'/>
+  <meta property="og:image" content="https://sheepbao.github.io/img/favicon.ico" />
+  <meta name="twitter:image" content="https://sheepbao.github.io/img/favicon.ico" />
   <meta name="twitter:card" content="summary" />
   <meta property="og:url" content="https://sheepbao.github.io/post/golang_code_specification/" />
   <meta property="og:type" content="website" />
@@ -145,6 +148,10 @@ type WriteFlusher interface { Write([]byte) (int, error) Flush() error }  三个
 
     <div class="avatar-container">
       <div class="avatar-img-border">
+        
+          <a title="boya blog" href="https://sheepbao.github.io/">
+            <img class="avatar-img" src="https://sheepbao.github.io/img/favicon.ico" alt="boya blog" />
+          </a>
         
       </div>
     </div>
