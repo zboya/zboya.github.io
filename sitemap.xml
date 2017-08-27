@@ -3,6 +3,11 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
+    <loc>https://sheepbao.github.io/post/golang_walkthrough_io/</loc>
+    <lastmod>2017-08-28T18:10:14+08:00</lastmod>
+  </url>
+  
+  <url>
     <loc>https://sheepbao.github.io/post/virtual_network_in_linux/</loc>
     <lastmod>2017-08-26T15:15:40+08:00</lastmod>
   </url>
@@ -108,7 +113,7 @@
   
   <url>
     <loc>https://sheepbao.github.io/categories/development/</loc>
-    <lastmod>2017-08-22T19:23:15+08:00</lastmod>
+    <lastmod>2017-08-28T18:10:14+08:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -119,7 +124,7 @@
   
   <url>
     <loc>https://sheepbao.github.io/tags/go/</loc>
-    <lastmod>2017-08-22T19:23:15+08:00</lastmod>
+    <lastmod>2017-08-28T18:10:14+08:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -149,7 +154,7 @@
   
   <url>
     <loc>https://sheepbao.github.io/post/</loc>
-    <lastmod>2017-08-26T15:15:40+08:00</lastmod>
+    <lastmod>2017-08-28T18:10:14+08:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -167,13 +172,13 @@
   
   <url>
     <loc>https://sheepbao.github.io/tags/</loc>
-    <lastmod>2017-08-22T19:23:15+08:00</lastmod>
+    <lastmod>2017-08-28T18:10:14+08:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
     <loc>https://sheepbao.github.io/</loc>
-    <lastmod>2017-08-26T15:15:40+08:00</lastmod>
+    <lastmod>2017-08-28T18:10:14+08:00</lastmod>
     <priority>0</priority>
   </url>
   
