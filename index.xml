@@ -6,10 +6,25 @@
     <description>Recent content on boya blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Mon, 28 Aug 2017 18:10:14 +0800</lastBuildDate>
+    <lastBuildDate>Mon, 04 Sep 2017 14:59:59 +0800</lastBuildDate>
     
 	<atom:link href="https://sheepbao.github.io/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>TCP RTO计算方法以及go实现验证</title>
+      <link>https://sheepbao.github.io/post/tcp_rto_research_and_golang_implement/</link>
+      <pubDate>Mon, 04 Sep 2017 14:59:59 +0800</pubDate>
+      
+      <guid>https://sheepbao.github.io/post/tcp_rto_research_and_golang_implement/</guid>
+      <description>TCP RTO计算方法和思考以及go实现验证 概述 最近在研究tcp的重传机制，tcp的重传大概有三种，超时重传(rto)、快速重传(fack)、早期重传(er)。今天讲讲rto，并用go实现其算法，探究一下。主要参考tcp/ip-guid
+基本概念 RTO即超时重传时间
+RTT数据包往返时间
+平均偏差是指单项测定值与平均值的偏差（取绝对值）之和，除以测定次数。
+RTO计算算法 RTO的计算依赖于RTT值，或者说一系列RTT值。rto=f(rtt)
+在Linux中，最开始实现的是一个比较简单的经典算法RFC793，后来1988年提出了新的算法计算rto值，文档为RFC6298. 下面对比一下两种算法。
+经典算法 rfc原文  An Example Retransmission Timeout Procedure Measure the elapsed time between sending a data octet with a particular sequence number and receiving an acknowledgment that covers that sequence number (segments sent do not have to match segments received). This measured elapsed time is the Round Trip Time (RTT). Next compute a Smoothed Round Trip Time (SRTT) as: SRTT = ( ALPHA * SRTT ) + ((1-ALPHA) * RTT) and based on this, compute the retransmission timeout (RTO) as: RTO = min[UBOUND,max[LBOUND,(BETA*SRTT)]] where UBOUND is an upper bound on the timeout (e.</description>
+    </item>
     
     <item>
       <title>Golang walkthrough: io package</title>
