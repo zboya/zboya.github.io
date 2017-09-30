@@ -6,10 +6,28 @@
     <description>Recent content in Go on boya blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Mon, 28 Aug 2017 18:10:14 +0800</lastBuildDate>
+    <lastBuildDate>Mon, 30 Oct 2017 16:42:40 +0800</lastBuildDate>
     
 	<atom:link href="https://sheepbao.github.io/tags/go/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>golang string和[]byte的对比</title>
+      <link>https://sheepbao.github.io/post/golang_byte_slice_and_string/</link>
+      <pubDate>Mon, 30 Oct 2017 16:42:40 +0800</pubDate>
+      
+      <guid>https://sheepbao.github.io/post/golang_byte_slice_and_string/</guid>
+      <description>golang string和[]byte的对比 为啥string和[]byte类型转换需要一定的代价？
+为啥内置函数copy会有一种特殊情况copy(dst []byte, src string) int?
+string和[]byte，底层都是数组，但为什么[]byte比string灵活，拼接性能也更高（动态字符串拼接性能对比）?
+今天看了源码探究了一下。
+以下所有观点都是个人愚见，有不同建议或补充的的欢迎emial我aboutme
+何为string？ 什么是字符串？标准库builtin的解释：
+type string string is the set of all strings of 8-bit bytes, conventionally but not necessarily representing UTF-8-encoded text. A string may be empty, but not nil. Values of string type are immutable.  简单的来说字符串是一系列8位字节的集合，通常但不一定代表UTF-8编码的文本。字符串可以为空，但不能为nil。而且字符串的值是不能改变的。
+不同的语言字符串有不同的实现，在go的源码中src/runtime/string.go，string的定义如下：
+type stringStruct struct { str unsafe.Pointer len int }  可以看到str其实是个指针，指向某个数组的首地址，另一个字段是len长度。那到这个数组是什么呢？ 在实例化这个stringStruct的时候：
+func gostringnocopy(str *byte) string { ss := stringStruct{str: unsafe.</description>
+    </item>
     
     <item>
       <title>Golang walkthrough: io package</title>

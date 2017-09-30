@@ -168,6 +168,35 @@
         <div class="posts-list">
           
             <article class="post-preview">
+              <a href="https://sheepbao.github.io/post/golang_string_connect_performance/">
+                <h2 class="post-title">Golang 字符串连接性能探究</h2>
+
+                
+              </a>
+
+              <p class="post-meta">
+                Posted on December 12, 2016
+              </p>
+              <div class="post-entry">
+                
+                  Golang 字符串连接性能探究 为何探究 几乎所有的软件项目，不管是什么语言，都会用到处理字符串，而拼接字符是最基本，也最常用的。一般连接字符串都有好几种方式，不同的方式适合不同的场景，此次仅探究如果快速动态连接大量的字符串。
+相关问题  https://gocn.io/question/265&amp;sort_key=agree_count&amp;sort=DESC http://stackoverflow.com/questions/1760757/how-to-efficiently-concatenate-strings-in-go/23857998  探究的代码 还是代码最明了
+package main import ( &quot;bytes&quot; &quot;fmt&quot; &quot;strings&quot; &quot;time&quot; ) var way map[int]string func benchmarkStringFunction(n int, index int) (d time.Duration) { v := &quot;ni shuo wo shi bu shi tai wu liao le a?&quot; var s string var buf bytes.Buffer t0 := time.Now() for i := 0; i &lt; n; i++ { switch index { case 0: // fmt.Sprintf s = fmt.
+                  <a href="https://sheepbao.github.io/post/golang_string_connect_performance/" class="post-read-more">[Read More]</a>
+                
+              </div>
+
+              
+                <span class="post-meta">
+                  
+                    #<a href="https://sheepbao.github.io/tags/go/">Go</a>&nbsp;
+                  
+                </span>
+              
+
+            </article>
+          
+            <article class="post-preview">
               <a href="https://sheepbao.github.io/post/golang_debug_gctrace/">
                 <h2 class="post-title">golang开启GODEBUG gctrace =1 显示信息的含义</h2>
 

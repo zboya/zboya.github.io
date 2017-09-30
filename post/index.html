@@ -168,6 +168,42 @@
         <div class="posts-list">
           
             <article class="post-preview">
+              <a href="https://sheepbao.github.io/post/golang_byte_slice_and_string/">
+                <h2 class="post-title">golang string和[]byte的对比</h2>
+
+                
+              </a>
+
+              <p class="post-meta">
+                Posted on October 30, 2017
+              </p>
+              <div class="post-entry">
+                
+                  golang string和[]byte的对比 为啥string和[]byte类型转换需要一定的代价？
+为啥内置函数copy会有一种特殊情况copy(dst []byte, src string) int?
+string和[]byte，底层都是数组，但为什么[]byte比string灵活，拼接性能也更高（动态字符串拼接性能对比）?
+今天看了源码探究了一下。
+以下所有观点都是个人愚见，有不同建议或补充的的欢迎emial我aboutme
+何为string？ 什么是字符串？标准库builtin的解释：
+type string string is the set of all strings of 8-bit bytes, conventionally but not necessarily representing UTF-8-encoded text. A string may be empty, but not nil. Values of string type are immutable.  简单的来说字符串是一系列8位字节的集合，通常但不一定代表UTF-8编码的文本。字符串可以为空，但不能为nil。而且字符串的值是不能改变的。
+不同的语言字符串有不同的实现，在go的源码中src/runtime/string.go，string的定义如下：
+type stringStruct struct { str unsafe.Pointer len int }  可以看到str其实是个指针，指向某个数组的首地址，另一个字段是len长度。那到这个数组是什么呢？ 在实例化这个stringStruct的时候：
+func gostringnocopy(str *byte) string { ss := stringStruct{str: unsafe.
+                  <a href="https://sheepbao.github.io/post/golang_byte_slice_and_string/" class="post-read-more">[Read More]</a>
+                
+              </div>
+
+              
+                <span class="post-meta">
+                  
+                    #<a href="https://sheepbao.github.io/tags/go/">Go</a>&nbsp;
+                  
+                </span>
+              
+
+            </article>
+          
+            <article class="post-preview">
               <a href="https://sheepbao.github.io/post/tcp_rto_research_and_golang_implement/">
                 <h2 class="post-title">TCP RTO计算方法以及go实现验证</h2>
 
@@ -491,69 +527,6 @@ sheepbao 2017.06.10
 什么是逃逸分析 wiki上的定义 In compiler optimization, escape analysis is a method for determining the dynamic scope of pointers - where in the program a pointer can be accessed. It is related to pointer analysis and shape analysis.
 When a variable (or an object) is allocated in a subroutine, a pointer to the variable can escape to other threads of execution, or to calling subroutines. If an implementation uses tail call optimization (usually required for functional languages), objects may also be seen as escaping to called subroutines.
                   <a href="https://sheepbao.github.io/post/golang_escape_analysis/" class="post-read-more">[Read More]</a>
-                
-              </div>
-
-              
-                <span class="post-meta">
-                  
-                    #<a href="https://sheepbao.github.io/tags/go/">Go</a>&nbsp;
-                  
-                </span>
-              
-
-            </article>
-          
-            <article class="post-preview">
-              <a href="https://sheepbao.github.io/post/golang_stream_server/">
-                <h2 class="post-title">sms golang实现的流媒体服务器</h2>
-
-                
-              </a>
-
-              <p class="post-meta">
-                Posted on April 2, 2017
-              </p>
-              <div class="post-entry">
-                
-                  
-
-<h1 id="sms">sms</h1>
-
-<p>用golang实现的流媒体服务器,来自开源，现在回馈给开源社区。</p>
-
-<h2 id="特性">特性</h2>
-
-<ul>
-<li>模块化，易扩展</li>
-<li>高性能，易部署，跨平台</li>
-<li>支持rtmp推拉流</li>
-<li>支持http-flv分发</li>
-<li>支持hls分发</li>
-<li>支持http接口请求来推拉流</li>
-</ul>
-
-<h2 id="源码编译">源码编译</h2>
-
-<pre><code>git clone https://github.com/sheepbao/sms.git  
-cd sms  
-./build.sh  
-</code></pre>
-
-<h2 id="交叉编译">交叉编译</h2>
-
-<pre><code>./build.sh linux arm // or ./build.sh os arch
-</code></pre>
-
-<h2 id="运行">运行</h2>
-
-<pre><code>./bin/sms
-</code></pre>
-
-<h2 id="项目地址">项目地址</h2>
-
-<p>oschina: <a href="http://git.oschina.net/sheepbao/sms">http://git.oschina.net/sheepbao/sms</a></p>
-
                 
               </div>
 
