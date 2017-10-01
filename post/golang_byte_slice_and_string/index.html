@@ -277,8 +277,8 @@ s = &quot;A2&quot;  // 重新给&quot;A2&quot;的分配内存空间，s结构体
 
 <p>其实[]byte和string的差别是更改变量的时候array的内容可以被更改。</p>
 
-<pre><code class="language-go">s := []int{1} // 分配存储1数组的内存空间，s结构体的array指针指向这个数组。
-s = []int{2}  // 将array的内容改为2
+<pre><code class="language-go">s := []byte{1} // 分配存储1数组的内存空间，s结构体的array指针指向这个数组。
+s = []byte{2}  // 将array的内容改为2
 </code></pre>
 
 <p>因为string的指针指向的内容是不可以更改的，所以每更改一次字符串，就得重新分配一次内存，之前分配空间的还得由gc回收，这是导致string操作低效的根本原因。</p>
