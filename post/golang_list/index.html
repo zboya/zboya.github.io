@@ -430,7 +430,6 @@ func (l *List) Remove(e Intrusive) {
 <pre><code class="language-go">package list
 
 import (
-	&quot;container/list&quot;
 	&quot;fmt&quot;
 	&quot;testing&quot;
 )
@@ -450,10 +449,22 @@ func TestIntrusiveList(t *testing.T) {
 	l.InsertAfter(&amp;E{data: 2}, e1)
 
 	for e := l.Front(); e != nil; e = e.Next() {
-		fmt.Printf(&quot;e: %#v\n&quot;, e)
-		fmt.Printf(&quot;data: %#v\n&quot;, e.(*E).data)
+		fmt.Printf(&quot;e: %+v\n&quot;, e)
+		fmt.Printf(&quot;data: %d\n&quot;, e.(*E).data)
 	}
 }
+
+
+// output
+// e: &amp;{List:{prev:&lt;nil&gt; next:0xc4200789c0} data:1}
+// data: 1
+// e: &amp;{List:{prev:0xc420078960 next:0xc420078990} data:2}
+// data: 2
+// e: &amp;{List:{prev:0xc4200789c0 next:0xc420078930} data:3}
+// data: 3
+// e: &amp;{List:{prev:0xc420078990 next:&lt;nil&gt;} data:4}
+// data: 4
+
 </code></pre>
 
 <p>在<code>E</code>里嵌入<code>List</code>即可作为链表的节点，是不是很方便，其实当我写完介入式链表的栗子后，发现其实标准库的链表更方便，哈哈。。因为golang有<code>interface{}</code>。</p>
