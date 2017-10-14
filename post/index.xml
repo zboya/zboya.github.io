@@ -6,15 +6,32 @@
     <description>Recent content in Posts on boya blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Mon, 30 Oct 2017 16:42:40 +0800</lastBuildDate>
+    <lastBuildDate>Sat, 14 Oct 2017 18:58:40 +0800</lastBuildDate>
     
 	<atom:link href="https://sheepbao.github.io/post/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
+      <title>链表以及golang介入式链表的实现</title>
+      <link>https://sheepbao.github.io/post/golang_list/</link>
+      <pubDate>Sat, 14 Oct 2017 18:58:40 +0800</pubDate>
+      
+      <guid>https://sheepbao.github.io/post/golang_list/</guid>
+      <description>链表以及golang介入式链表的实现 今天看tcp/ip协议栈的代码时看到一个双向链表，链表吗？听过它的顶顶大名，知道它是由节点构成的，每个节点还有个指针指向下一个节点，但是从来没自己实现过一个，没有实践就不能深刻理解，遂有此文。
+以下所有观点都是个人愚见，有不同建议或补充的的欢迎emial我aboutme
+何为链表？ 链表（Linked list）是一种常见的基础数据结构，是一种线性表，但是并不会按线性的顺序存储数据，而是在每一个节点里存到下一个节点的指针(Pointer)。由于不必须按顺序存储，链表在插入的时候可以达到O(1)的复杂度，比另一种线性表顺序表快得多，但是查找一个节点或者访问特定编号的节点则需要O(n)的时间，而顺序表相应的时间复杂度分别是O(logn)和O(1)。
+简单的说链表是一个具有逻辑顺序的线性表，每一个节点里存到下一个节点的指针。
+图示 单链表 双向链表 链表有啥用？ 因为链表插入很快，而且具有动态性，想添加几个元素就添加几个（内存空间足够），不像数组一样那么死板，正因为链表的灵活性，所有链表的用处是大大的有啊。
+链表最适合用于频繁更新变化的数据，比如一个需要异步执行并且不可丢失的命令序列、一个需要进行实时加载与卸载的驱动，无序且数量未知，这个时候就需要链表结构来协助完成数据的管理。如果不需要过度关注数据的顺序，还可以用链表方便快捷地在任意一个地方插入或删除一个元素，并且不会影响到其它的元素。
+又或者我在今天看tcp/ip源码中，链表用来构造队列，作为数据段的队列。我想链表用于队列应该是最多的。如果你看过linux内核源码，应该会发现linux内核中多处使用链表这种结构。
+go标准库的双向链表 golang的标准库中实现了一个双向链表，该链表可以存储任何数据，先看看使用标准库链表的例子：
+package list_test import ( &amp;quot;container/list&amp;quot; &amp;quot;fmt&amp;quot; &amp;quot;testing&amp;quot; ) func TestList(t *testing.T) { // Create a new list and put some numbers in it. l := list.New() e4 := l.PushBack(4) e1 := l.PushFront(1) l.InsertBefore(3, e4) l.InsertAfter(2, e1) // Iterate through list and print its contents. for e := l.Front(); e != nil; e = e.</description>
+    </item>
+    
+    <item>
       <title>golang string和[]byte的对比</title>
       <link>https://sheepbao.github.io/post/golang_byte_slice_and_string/</link>
-      <pubDate>Mon, 30 Oct 2017 16:42:40 +0800</pubDate>
+      <pubDate>Sat, 30 Sep 2017 16:42:40 +0800</pubDate>
       
       <guid>https://sheepbao.github.io/post/golang_byte_slice_and_string/</guid>
       <description>golang string和[]byte的对比 为啥string和[]byte类型转换需要一定的代价？

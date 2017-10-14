@@ -168,6 +168,41 @@
         <div class="posts-list">
           
             <article class="post-preview">
+              <a href="https://sheepbao.github.io/post/golang_list/">
+                <h2 class="post-title">链表以及golang介入式链表的实现</h2>
+
+                
+              </a>
+
+              <p class="post-meta">
+                Posted on October 14, 2017
+              </p>
+              <div class="post-entry">
+                
+                  链表以及golang介入式链表的实现 今天看tcp/ip协议栈的代码时看到一个双向链表，链表吗？听过它的顶顶大名，知道它是由节点构成的，每个节点还有个指针指向下一个节点，但是从来没自己实现过一个，没有实践就不能深刻理解，遂有此文。
+以下所有观点都是个人愚见，有不同建议或补充的的欢迎emial我aboutme
+何为链表？ 链表（Linked list）是一种常见的基础数据结构，是一种线性表，但是并不会按线性的顺序存储数据，而是在每一个节点里存到下一个节点的指针(Pointer)。由于不必须按顺序存储，链表在插入的时候可以达到O(1)的复杂度，比另一种线性表顺序表快得多，但是查找一个节点或者访问特定编号的节点则需要O(n)的时间，而顺序表相应的时间复杂度分别是O(logn)和O(1)。
+简单的说链表是一个具有逻辑顺序的线性表，每一个节点里存到下一个节点的指针。
+图示 单链表 双向链表 链表有啥用？ 因为链表插入很快，而且具有动态性，想添加几个元素就添加几个（内存空间足够），不像数组一样那么死板，正因为链表的灵活性，所有链表的用处是大大的有啊。
+链表最适合用于频繁更新变化的数据，比如一个需要异步执行并且不可丢失的命令序列、一个需要进行实时加载与卸载的驱动，无序且数量未知，这个时候就需要链表结构来协助完成数据的管理。如果不需要过度关注数据的顺序，还可以用链表方便快捷地在任意一个地方插入或删除一个元素，并且不会影响到其它的元素。
+又或者我在今天看tcp/ip源码中，链表用来构造队列，作为数据段的队列。我想链表用于队列应该是最多的。如果你看过linux内核源码，应该会发现linux内核中多处使用链表这种结构。
+go标准库的双向链表 golang的标准库中实现了一个双向链表，该链表可以存储任何数据，先看看使用标准库链表的例子：
+package list_test import ( &quot;container/list&quot; &quot;fmt&quot; &quot;testing&quot; ) func TestList(t *testing.T) { // Create a new list and put some numbers in it. l := list.New() e4 := l.PushBack(4) e1 := l.PushFront(1) l.InsertBefore(3, e4) l.InsertAfter(2, e1) // Iterate through list and print its contents. for e := l.Front(); e != nil; e = e.
+                  <a href="https://sheepbao.github.io/post/golang_list/" class="post-read-more">[Read More]</a>
+                
+              </div>
+
+              
+                <span class="post-meta">
+                  
+                    #<a href="https://sheepbao.github.io/tags/go/">Go</a>&nbsp;
+                  
+                </span>
+              
+
+            </article>
+          
+            <article class="post-preview">
               <a href="https://sheepbao.github.io/post/golang_byte_slice_and_string/">
                 <h2 class="post-title">golang string和[]byte的对比</h2>
 
@@ -175,7 +210,7 @@
               </a>
 
               <p class="post-meta">
-                Posted on October 30, 2017
+                Posted on September 30, 2017
               </p>
               <div class="post-entry">
                 
@@ -496,37 +531,6 @@ kcp和tcp一样，也分客户端和监听端。
  +-+-+-+-+-+ +-+-+-+-+-+ | Client | | Server | +-+-+-+-+-+ +-+-+-+-+-+ |------ kcp data ------&gt;| |&lt;----- kcp data -------|  kcp协议 layer model +----------------------+ | Session | +----------------------+ | KCP(ARQ) | +----------------------+ | FEC(OPTIONAL) | +----------------------+ | CRYPTO(OPTIONAL)| +----------------------+ | UDP(Packet) | +----------------------+  KCP header KCP Header Format
  4 1 1 2 (Byte) +---+---+---+---+---+---+---+---+ | conv |cmd|frg| wnd | +---+---+---+---+---+---+---+---+ | ts | sn | +---+---+---+---+---+---+---+---+ | una | len | +---+---+---+---+---+---+---+---+ | | + DATA + | | +---+---+---+---+---+---+---+---+  代码结构 src/vendor/github.
                   <a href="https://sheepbao.github.io/post/kcp_source_analysis/" class="post-read-more">[Read More]</a>
-                
-              </div>
-
-              
-                <span class="post-meta">
-                  
-                    #<a href="https://sheepbao.github.io/tags/go/">Go</a>&nbsp;
-                  
-                </span>
-              
-
-            </article>
-          
-            <article class="post-preview">
-              <a href="https://sheepbao.github.io/post/golang_escape_analysis/">
-                <h2 class="post-title">Golang逃逸分析</h2>
-
-                
-              </a>
-
-              <p class="post-meta">
-                Posted on June 11, 2017
-              </p>
-              <div class="post-entry">
-                
-                  Golang逃逸分析 介绍逃逸分析的概念，go怎么开启逃逸分析的log。
-以下资料来自互联网，有错误之处，请一定告之。
-sheepbao 2017.06.10
-什么是逃逸分析 wiki上的定义 In compiler optimization, escape analysis is a method for determining the dynamic scope of pointers - where in the program a pointer can be accessed. It is related to pointer analysis and shape analysis.
-When a variable (or an object) is allocated in a subroutine, a pointer to the variable can escape to other threads of execution, or to calling subroutines. If an implementation uses tail call optimization (usually required for functional languages), objects may also be seen as escaping to called subroutines.
-                  <a href="https://sheepbao.github.io/post/golang_escape_analysis/" class="post-read-more">[Read More]</a>
                 
               </div>
 
