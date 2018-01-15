@@ -188,6 +188,43 @@
           
           
             <article class="post-preview">
+              <a href="https://sheepbao.github.io/post/kcp_source_analysis/">
+                <h2 class="post-title">kcp-go源码解析</h2>
+                
+              </a>
+
+              <span class="post-meta">
+  Posted on June 12, 2017
+  
+</span>
+
+
+              <div class="post-entry">
+                
+                  kcp-go源码解析 对kcp-go的源码解析，有错误之处，请一定告之。
+sheepbao 2017.0612
+概念 ARQ:自动重传请求(Automatic Repeat-reQuest,ARQ)是OSI模型中数据链路层的错误纠正协议之一.
+RTO:Retransmission TimeOut
+FEC:Forward Error Correction
+kcp简介 kcp是一个基于udp实现快速、可靠、向前纠错的的协议，能以比TCP浪费10%-20%的带宽的代价，换取平均延迟降低30%-40%，且最大延迟降低三倍的传输效果。纯算法实现，并不负责底层协议（如UDP）的收发。查看官方文档kcp
+kcp-go是用go实现了kcp协议的一个库，其实kcp类似tcp，协议的实现也很多参考tcp协议的实现，滑动窗口，快速重传，选择性重传，慢启动等。
+kcp和tcp一样，也分客户端和监听端。
+ +-+-+-+-+-+ +-+-+-+-+-+ | Client | | Server | +-+-+-+-+-+ +-+-+-+-+-+ |------ kcp data ------&gt;| |&lt;----- kcp data -------|  kcp协议 layer model +----------------------+ | Session | +----------------------+ | KCP(ARQ) | +----------------------+ | FEC(OPTIONAL) | +----------------------+ | CRYPTO(OPTIONAL)| +----------------------+ | UDP(Packet) | +----------------------+  KCP header KCP Header Format
+ 4 1 1 2 (Byte) +---+---+---+---+---+---+---+---+ | conv |cmd|frg| wnd | +---+---+---+---+---+---+---+---+ | ts | sn | +---+---+---+---+---+---+---+---+ | una | len | +---+---+---+---+---+---+---+---+ | | + DATA + | | +---+---+---+---+---+---+---+---+  代码结构 src/vendor/github.
+                  <a href="https://sheepbao.github.io/post/kcp_source_analysis/" class="post-read-more">[Read More]</a>
+                
+              </div>
+
+              
+                <span class="post-meta">
+                
+                  #<a href="https://sheepbao.github.io/tags/go/">Go</a>&nbsp;
+                
+                </span>
+              
+            </article>
+          
+            <article class="post-preview">
               <a href="https://sheepbao.github.io/post/golang_escape_analysis/">
                 <h2 class="post-title">Golang逃逸分析</h2>
                 
@@ -515,40 +552,6 @@ s := []int{1,2,3,4,5,6} s1 := s[0:2] fmt.Println(s1) // [1 2] s2 := s[4:] fmt.Pr
               
             </article>
           
-            <article class="post-preview">
-              <a href="https://sheepbao.github.io/post/golang_http_proxy/">
-                <h2 class="post-title">用golang写一个http代理，可以抓包和科学上网</h2>
-                
-              </a>
-
-              <span class="post-meta">
-  Posted on June 15, 2016
-  
-</span>
-
-
-              <div class="post-entry">
-                
-                  用golang写一个http代理，可以抓包和科学上网 缘起 因为在工作中需要对上网进行限制，只让我们的app上网，意思就是放行app请求的所有域名或ip，而其他域名都禁止，所以我需要对app的http请求进行抓包。上网搜了一下，win下的fiddler不错，可惜我用的是Linux系统，fiddler不跨平台，找了下linux下的抓包软件，当然tcpdump和wireshare是足够强大的，完全可以实现我要的小小要求，但用起来有一定的复杂性，门槛稍高。在网上找到其他类似的软件还挺多，charles、NProxy等，最后发现mitmproxy最符合我的胃口，如图： 但是mitmproxy的安装依赖太多，python就是这样，一不小心就报错了，so，想着用golang实现类似的功能，自己也很喜欢go语言，如果有空能安静写写自己喜欢的代码，是多么的幸福。想好了就实践，Let&rsquo;s do it，当然凡事都有个从简到繁的过程，下面的特性慢慢增加。
-特性 特性，也可以说功能，以下是实现或者将要实现的特性
-http代理 http请求响应的抓取 修改http请求 重复请求 同时监听多端口 支持socks5、websocket、https协议 界面支持终端和网页两种形式  安装 git clone https://github.com/sheepbao/gomitmproxy.git cd gomitmproxy go build  使用  http代理  gomimtproxy  不带任何参数，表示http代理，默认端口8080,更改端口用 -port
- http抓包  gomimtproxy -m  加 -m 参数，表示抓取http请求和响应  http代理科学上网
-首先你得有个墙外的服务器，如阿里香港的服务器，为图中的Server，假设其ip地址为：22.222.222.222
-  在Server执行: gomitmproxy -port 8888  在你自己电脑执行: gomitmproxy -port 8080 -raddr 22.222.222.222:8888  然后浏览器设置代理，ip为localhost，端口为8080,即可实现科学上网
-源码简析 对于网络编程，Anything is a socket! 实现http代理并不难，简单地说就是用代理服务器代替客户端去请求web服务，然后在把请求的结果返回给客户端。 先来个示意图：  1. 客户端发起一个到gomitmproxy的连接，并且提交了HTTP CONNECT请求。 2.
-                  <a href="https://sheepbao.github.io/post/golang_http_proxy/" class="post-read-more">[Read More]</a>
-                
-              </div>
-
-              
-                <span class="post-meta">
-                
-                  #<a href="https://sheepbao.github.io/tags/go/">Go</a>&nbsp;
-                
-                </span>
-              
-            </article>
-          
         </div>
 
         
@@ -558,6 +561,10 @@ http代理 http请求响应的抓取 修改http请求 重复请求 同时监听�
                 <a href="/page/1">&larr; Newer Posts</a>
               </li>
             
+            
+              <li class="next">
+                <a href="/page/3">Older Posts &rarr;</a>
+              </li>
             
           </ul>
         
@@ -577,7 +584,7 @@ http代理 http请求响应的抓取 修改http请求 重复请求 同时监听�
           
           
           &nbsp;&bull;&nbsp;
-          2017
+          2018
 
           
             &nbsp;&bull;&nbsp;

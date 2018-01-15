@@ -168,6 +168,45 @@
         <div class="posts-list">
           
             <article class="post-preview">
+              <a href="https://sheepbao.github.io/post/golang_for_range_complete_guide/">
+                <h2 class="post-title">golang for语句完全指南</h2>
+
+                
+              </a>
+
+              <p class="post-meta">
+                Posted on January 13, 2018
+              </p>
+              <div class="post-entry">
+                
+                  以下所有观点都是个人愚见，有不同建议或补充的的欢迎emialaboutme
+原文章地址
+关于for语句的疑问
+for语句的规范
+for语句的内部实现-array 问题解答
+关于for语句的疑问 我们都知道在golang中，循环语句只有for这一个，在代码中写一个循环都一般都需要用到for(当然你用goto也是可以的)， 虽然golang的for语句很方便，但不少初学者一样对for语句持有不少疑问，如：
+ for语句一共有多少种表达式格式？ for语句中临时变量是怎么回事？（为什么有时遍历赋值后，所有的值都等于最后一个元素） range后面支持的数据类型有哪些？ range string类型为何得到的是rune类型？ 遍历slice的时候增加或删除数据会怎么样？ 遍历map的时候增加或删除数据会怎么样？  其实这里的很多疑问都可以看golang编程语言规范, 有兴趣的同学完全可以自己看，然后根据自己的理解来解答这些问题。
+for语句的规范 for语句的功能用来指定重复执行的语句块，for语句中的表达式有三种：
+官方的规范： ForStmt = &quot;for&quot; [ Condition | ForClause | RangeClause ] Block .
+ Condition = Expression .
+ ForClause = [ InitStmt ] &ldquo;;&rdquo; [ Condition ] &ldquo;;&rdquo; [ PostStmt ] .
+ RangeClause = [ ExpressionList &ldquo;=&rdquo; | IdentifierList &ldquo;:=&rdquo; ] &ldquo;range&rdquo; Expression .
+  单个条件判断 形式：
+                  <a href="https://sheepbao.github.io/post/golang_for_range_complete_guide/" class="post-read-more">[Read More]</a>
+                
+              </div>
+
+              
+                <span class="post-meta">
+                  
+                    #<a href="https://sheepbao.github.io/tags/go/">Go</a>&nbsp;
+                  
+                </span>
+              
+
+            </article>
+          
+            <article class="post-preview">
               <a href="https://sheepbao.github.io/post/golang_list/">
                 <h2 class="post-title">链表以及golang介入式链表的实现</h2>
 
@@ -517,69 +556,6 @@ When a variable (or an object) is allocated in a subroutine, a pointer to the va
 
             </article>
           
-            <article class="post-preview">
-              <a href="https://sheepbao.github.io/post/golang_stream_server/">
-                <h2 class="post-title">sms golang实现的流媒体服务器</h2>
-
-                
-              </a>
-
-              <p class="post-meta">
-                Posted on April 2, 2017
-              </p>
-              <div class="post-entry">
-                
-                  
-
-<h1 id="sms">sms</h1>
-
-<p>用golang实现的流媒体服务器,来自开源，现在回馈给开源社区。</p>
-
-<h2 id="特性">特性</h2>
-
-<ul>
-<li>模块化，易扩展</li>
-<li>高性能，易部署，跨平台</li>
-<li>支持rtmp推拉流</li>
-<li>支持http-flv分发</li>
-<li>支持hls分发</li>
-<li>支持http接口请求来推拉流</li>
-</ul>
-
-<h2 id="源码编译">源码编译</h2>
-
-<pre><code>git clone https://github.com/sheepbao/sms.git  
-cd sms  
-./build.sh  
-</code></pre>
-
-<h2 id="交叉编译">交叉编译</h2>
-
-<pre><code>./build.sh linux arm // or ./build.sh os arch
-</code></pre>
-
-<h2 id="运行">运行</h2>
-
-<pre><code>./bin/sms
-</code></pre>
-
-<h2 id="项目地址">项目地址</h2>
-
-<p>oschina: <a href="http://git.oschina.net/sheepbao/sms">http://git.oschina.net/sheepbao/sms</a></p>
-
-                
-              </div>
-
-              
-                <span class="post-meta">
-                  
-                    #<a href="https://sheepbao.github.io/tags/go/">Go</a>&nbsp;
-                  
-                </span>
-              
-
-            </article>
-          
         </div>
         
           <ul class="pager main-pager">
@@ -607,7 +583,7 @@ cd sms
           
           
           &nbsp;&bull;&nbsp;
-          2017
+          2018
 
           
             &nbsp;&bull;&nbsp;

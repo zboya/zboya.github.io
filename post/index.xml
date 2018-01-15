@@ -6,10 +6,31 @@
     <description>Recent content in Posts on boya blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Sat, 14 Oct 2017 18:58:40 +0800</lastBuildDate>
+    <lastBuildDate>Sat, 13 Jan 2018 19:35:15 +0800</lastBuildDate>
     
 	<atom:link href="https://sheepbao.github.io/post/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>golang for语句完全指南</title>
+      <link>https://sheepbao.github.io/post/golang_for_range_complete_guide/</link>
+      <pubDate>Sat, 13 Jan 2018 19:35:15 +0800</pubDate>
+      
+      <guid>https://sheepbao.github.io/post/golang_for_range_complete_guide/</guid>
+      <description>以下所有观点都是个人愚见，有不同建议或补充的的欢迎emialaboutme
+原文章地址
+关于for语句的疑问
+for语句的规范
+for语句的内部实现-array 问题解答
+关于for语句的疑问 我们都知道在golang中，循环语句只有for这一个，在代码中写一个循环都一般都需要用到for(当然你用goto也是可以的)， 虽然golang的for语句很方便，但不少初学者一样对for语句持有不少疑问，如：
+ for语句一共有多少种表达式格式？ for语句中临时变量是怎么回事？（为什么有时遍历赋值后，所有的值都等于最后一个元素） range后面支持的数据类型有哪些？ range string类型为何得到的是rune类型？ 遍历slice的时候增加或删除数据会怎么样？ 遍历map的时候增加或删除数据会怎么样？  其实这里的很多疑问都可以看golang编程语言规范, 有兴趣的同学完全可以自己看，然后根据自己的理解来解答这些问题。
+for语句的规范 for语句的功能用来指定重复执行的语句块，for语句中的表达式有三种：
+官方的规范： ForStmt = &amp;quot;for&amp;quot; [ Condition | ForClause | RangeClause ] Block .
+ Condition = Expression .
+ ForClause = [ InitStmt ] &amp;ldquo;;&amp;rdquo; [ Condition ] &amp;ldquo;;&amp;rdquo; [ PostStmt ] .
+ RangeClause = [ ExpressionList &amp;ldquo;=&amp;rdquo; | IdentifierList &amp;ldquo;:=&amp;rdquo; ] &amp;ldquo;range&amp;rdquo; Expression .
+  单个条件判断 形式：</description>
+    </item>
     
     <item>
       <title>链表以及golang介入式链表的实现</title>
@@ -301,6 +322,16 @@ http代理 http请求响应的抓取 修改http请求 重复请求 同时监听�
 首先你得有个墙外的服务器，如阿里香港的服务器，为图中的Server，假设其ip地址为：22.222.222.222
   在Server执行: gomitmproxy -port 8888  在你自己电脑执行: gomitmproxy -port 8080 -raddr 22.222.222.222:8888  然后浏览器设置代理，ip为localhost，端口为8080,即可实现科学上网
 源码简析 对于网络编程，Anything is a socket! 实现http代理并不难，简单地说就是用代理服务器代替客户端去请求web服务，然后在把请求的结果返回给客户端。 先来个示意图：  1. 客户端发起一个到gomitmproxy的连接，并且提交了HTTP CONNECT请求。 2.</description>
+    </item>
+    
+    <item>
+      <title></title>
+      <link>https://sheepbao.github.io/post/sctp/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://sheepbao.github.io/post/sctp/</guid>
+      <description> 一个优于TCP的协议-SCTP协议 SCTP(Stream Control Transmission Protocol)串流控制协议，是IETF在2000年定义的一个传输层（Transport Layer）协议，是提供基于不可靠传输业务的协议之上的可靠的数据报传输协议。它同时具有tcp和udp的优点，虽然这个协议很先进，但却没有得到广泛的应用，我想主要是tcp和udp已经优化的足够好，而且在tcp上构建的软件量实在太多，sctp要替换估计要花很久的时间。
+与TCP、UDP的区别 SCTP Common Header Format 0 1 2 3 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+ | Source Port Number | Destination Port Number | +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+ | Verification Tag | +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+ | Checksum | +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+  </description>
     </item>
     
   </channel>

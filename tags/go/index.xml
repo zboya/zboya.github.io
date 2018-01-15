@@ -6,10 +6,31 @@
     <description>Recent content in Go on boya blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Sat, 14 Oct 2017 18:58:40 +0800</lastBuildDate>
+    <lastBuildDate>Sat, 13 Jan 2018 19:35:15 +0800</lastBuildDate>
     
 	<atom:link href="https://sheepbao.github.io/tags/go/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>golang for语句完全指南</title>
+      <link>https://sheepbao.github.io/post/golang_for_range_complete_guide/</link>
+      <pubDate>Sat, 13 Jan 2018 19:35:15 +0800</pubDate>
+      
+      <guid>https://sheepbao.github.io/post/golang_for_range_complete_guide/</guid>
+      <description>以下所有观点都是个人愚见，有不同建议或补充的的欢迎emialaboutme
+原文章地址
+关于for语句的疑问
+for语句的规范
+for语句的内部实现-array 问题解答
+关于for语句的疑问 我们都知道在golang中，循环语句只有for这一个，在代码中写一个循环都一般都需要用到for(当然你用goto也是可以的)， 虽然golang的for语句很方便，但不少初学者一样对for语句持有不少疑问，如：
+ for语句一共有多少种表达式格式？ for语句中临时变量是怎么回事？（为什么有时遍历赋值后，所有的值都等于最后一个元素） range后面支持的数据类型有哪些？ range string类型为何得到的是rune类型？ 遍历slice的时候增加或删除数据会怎么样？ 遍历map的时候增加或删除数据会怎么样？  其实这里的很多疑问都可以看golang编程语言规范, 有兴趣的同学完全可以自己看，然后根据自己的理解来解答这些问题。
+for语句的规范 for语句的功能用来指定重复执行的语句块，for语句中的表达式有三种：
+官方的规范： ForStmt = &amp;quot;for&amp;quot; [ Condition | ForClause | RangeClause ] Block .
+ Condition = Expression .
+ ForClause = [ InitStmt ] &amp;ldquo;;&amp;rdquo; [ Condition ] &amp;ldquo;;&amp;rdquo; [ PostStmt ] .
+ RangeClause = [ ExpressionList &amp;ldquo;=&amp;rdquo; | IdentifierList &amp;ldquo;:=&amp;rdquo; ] &amp;ldquo;range&amp;rdquo; Expression .
+  单个条件判断 形式：</description>
+    </item>
     
     <item>
       <title>链表以及golang介入式链表的实现</title>

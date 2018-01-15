@@ -870,6 +870,29 @@ func redirect_err() {
 }
 </code></pre>
 
+<ul>
+<li>快速遍历当前文件夹和文件</li>
+</ul>
+
+<pre><code class="language-go">package main
+
+import (
+	&quot;fmt&quot;
+	&quot;path/filepath&quot;
+)
+
+func main() {
+	upperDirPattern := &quot;./*&quot;
+	matches, err := filepath.Glob(upperDirPattern)
+	if err != nil {
+		panic(err)
+	}
+	for _, file := range matches {
+		fmt.Println(file)
+	}
+}
+</code></pre>
+
       </article>
 
       <ul class="pager blog-pager">
@@ -928,7 +951,7 @@ func redirect_err() {
           
           
           &nbsp;&bull;&nbsp;
-          2017
+          2018
 
           
             &nbsp;&bull;&nbsp;
