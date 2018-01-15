@@ -1,0 +1,682 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+
+  <title>golang for语句完全指南</title>
+  <meta property="og:title" content="golang for语句完全指南" />
+  <meta name="twitter:title" content="golang for语句完全指南" />
+  <meta name="description" content="以下所有观点都是个人愚见，有不同建议或补充的的欢迎emialaboutme
+原文章地址
+关于for语句的疑问
+for语句的规范
+for语句的内部实现-array 问题解答
+关于for语句的疑问 我们都知道在golang中，循环语句只有for这一个，在代码中写一个循环都一般都需要用到for(当然你用goto也是可以的)， 虽然golang的for语句很方便，但不少初学者一样对for语句持有不少疑问，如：
+ for语句一共有多少种表达式格式？ for语句中临时变量是怎么回事？（为什么有时遍历赋值后，所有的值都等于最后一个元素） range后面支持的数据类型有哪些？ range string类型为何得到的是rune类型？ 遍历slice的时候增加或删除数据会怎么样？ 遍历map的时候增加或删除数据会怎么样？  其实这里的很多疑问都可以看golang编程语言规范, 有兴趣的同学完全可以自己看，然后根据自己的理解来解答这些问题。
+for语句的规范 for语句的功能用来指定重复执行的语句块，for语句中的表达式有三种：
+官方的规范： ForStmt = &quot;for&quot; [ Condition | ForClause | RangeClause ] Block .
+ Condition = Expression .
+ ForClause = [ InitStmt ] &ldquo;;&rdquo; [ Condition ] &ldquo;;&rdquo; [ PostStmt ] .
+ RangeClause = [ ExpressionList &ldquo;=&rdquo; | IdentifierList &ldquo;:=&rdquo; ] &ldquo;range&rdquo; Expression .
+  单个条件判断 形式：">
+  <meta property="og:description" content="以下所有观点都是个人愚见，有不同建议或补充的的欢迎emialaboutme
+原文章地址
+关于for语句的疑问
+for语句的规范
+for语句的内部实现-array 问题解答
+关于for语句的疑问 我们都知道在golang中，循环语句只有for这一个，在代码中写一个循环都一般都需要用到for(当然你用goto也是可以的)， 虽然golang的for语句很方便，但不少初学者一样对for语句持有不少疑问，如：
+ for语句一共有多少种表达式格式？ for语句中临时变量是怎么回事？（为什么有时遍历赋值后，所有的值都等于最后一个元素） range后面支持的数据类型有哪些？ range string类型为何得到的是rune类型？ 遍历slice的时候增加或删除数据会怎么样？ 遍历map的时候增加或删除数据会怎么样？  其实这里的很多疑问都可以看golang编程语言规范, 有兴趣的同学完全可以自己看，然后根据自己的理解来解答这些问题。
+for语句的规范 for语句的功能用来指定重复执行的语句块，for语句中的表达式有三种：
+官方的规范： ForStmt = &quot;for&quot; [ Condition | ForClause | RangeClause ] Block .
+ Condition = Expression .
+ ForClause = [ InitStmt ] &ldquo;;&rdquo; [ Condition ] &ldquo;;&rdquo; [ PostStmt ] .
+ RangeClause = [ ExpressionList &ldquo;=&rdquo; | IdentifierList &ldquo;:=&rdquo; ] &ldquo;range&rdquo; Expression .
+  单个条件判断 形式：">
+  <meta name="twitter:description" content="以下所有观点都是个人愚见，有不同建议或补充的的欢迎emialaboutme
+原文章地址
+关于for语句的疑问
+for语句的规范
+for语句的内部实现-array 问题解答
+关于for语句的疑问 我们都知道在golang中，循环语句只有for这一个，在代码中写一个循环都一般都需要用到for(当然你用goto也是可以的)， 虽然golang的for语句很方便，但不少初学者一样对for语句持有不少疑 …">
+  <meta name="author" content=""/>
+  <link href='https://sheepbao.github.io/img/favicon.ico' rel='icon' type='image/x-icon'/>
+  <meta property="og:image" content="https://sheepbao.github.io/img/favicon.ico" />
+  <meta name="twitter:image" content="https://sheepbao.github.io/img/favicon.ico" />
+  <meta name="twitter:card" content="summary" />
+  <meta property="og:url" content="https://sheepbao.github.io/post/golang_for_range_complete_guide/" />
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="boya blog" />
+
+  <meta name="generator" content="Hugo 0.26" />
+  <link rel="canonical" href="https://sheepbao.github.io/post/golang_for_range_complete_guide/" />
+  <link rel="alternate" href="https://sheepbao.github.io/index.xml" type="application/rss+xml" title="boya blog">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.7.1/katex.min.css" integrity="sha384-wITovz90syo1dJWVh32uuETPVEtGigN07tkttEqPv+uR2SE/mbQcG7ATL28aI9H0" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" />
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://sheepbao.github.io/css/main.css" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" />
+  <link rel="stylesheet" href="https://sheepbao.github.io/css/pygment_highlights.css" />
+  <link rel="stylesheet" href="https://sheepbao.github.io/css/highlight.min.css" />
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/photoswipe/4.1.1/photoswipe.min.css" integrity="sha256-sCl5PUOGMLfFYctzDW3MtRib0ctyUvI9Qsmq2wXOeBY=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/photoswipe/4.1.1/default-skin/default-skin.min.css" integrity="sha256-BFeI1V+Vh1Rk37wswuOYn5lsTcaU96hGaI7OUVCLjPc=" crossorigin="anonymous" />
+
+
+
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+<div class="pswp__bg"></div>
+
+<div class="pswp__scroll-wrap">
+    
+    <div class="pswp__container">
+      <div class="pswp__item"></div>
+      <div class="pswp__item"></div>
+      <div class="pswp__item"></div>
+    </div>
+    
+    <div class="pswp__ui pswp__ui--hidden">
+    <div class="pswp__top-bar">
+      
+      <div class="pswp__counter"></div>
+      <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+      <button class="pswp__button pswp__button--share" title="Share"></button>
+      <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+      <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+      
+      
+      <div class="pswp__preloader">
+        <div class="pswp__preloader__icn">
+          <div class="pswp__preloader__cut">
+            <div class="pswp__preloader__donut"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+      <div class="pswp__share-tooltip"></div>
+    </div>
+    <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+    </button>
+    <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+    </button>
+    <div class="pswp__caption">
+      <div class="pswp__caption__center"></div>
+    </div>
+    </div>
+    </div>
+</div>
+
+</head>
+
+  <body>
+    <nav class="navbar navbar-default navbar-fixed-top navbar-custom">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#main-navbar">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="https://sheepbao.github.io/">boya blog</a>
+    </div>
+
+    <div class="collapse navbar-collapse" id="main-navbar">
+      <ul class="nav navbar-nav navbar-right">
+        
+          
+            <li>
+              <a title="posts" href="/post/">posts</a>
+            </li>
+          
+        
+          
+            <li>
+              <a title="categories" href="/categories/">categories</a>
+            </li>
+          
+        
+          
+            <li>
+              <a title="tags" href="/tags/">tags</a>
+            </li>
+          
+        
+          
+            <li>
+              <a title="aboutme" href="/about/">aboutme</a>
+            </li>
+          
+        
+
+        
+
+        
+      </ul>
+    </div>
+
+    <div class="avatar-container">
+      <div class="avatar-img-border">
+        
+          <a title="boya blog" href="https://sheepbao.github.io/">
+            <img class="avatar-img" src="https://sheepbao.github.io/img/favicon.ico" alt="boya blog" />
+          </a>
+        
+      </div>
+    </div>
+
+  </div>
+</nav>
+
+
+
+
+    
+  
+  
+  
+
+
+
+
+  
+
+  <header class="header-section ">
+    
+    <div class="intro-header no-img">
+      
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+            <div class="post-heading">
+              <h1>golang for语句完全指南</h1>
+                
+                
+                  <span class="post-meta">
+  Posted on January 13, 2018
+  
+</span>
+
+
+                
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+
+    
+<div class="container" role="main">
+  <div class="row">
+    <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+      <article role="main" class="blog-post">
+        
+
+<p>以下所有观点都是个人愚见，有不同建议或补充的的欢迎emial<a href="https://sheepbao.github.io/about/">aboutme</a><br />
+<a href="https://sheepbao.github.io/post/golang_for_range_complete_guide/">原文章地址</a></p>
+
+<p><a href="#关于for语句的疑问">关于for语句的疑问</a><br />
+<a href="#for语句的规范">for语句的规范</a><br />
+<a href="#for语句的内部实现-array">for语句的内部实现-array</a>
+<a href="#问题解答">问题解答</a></p>
+
+<h2 id="关于for语句的疑问">关于for语句的疑问</h2>
+
+<p>我们都知道在golang中，循环语句只有for这一个，在代码中写一个循环都一般都需要用到for(当然你用goto也是可以的)，
+虽然golang的for语句很方便，但不少初学者一样对for语句持有不少疑问，如：</p>
+
+<ol>
+<li>for语句一共有多少种表达式格式？</li>
+<li>for语句中临时变量是怎么回事？（为什么有时遍历赋值后，所有的值都等于最后一个元素）</li>
+<li>range后面支持的数据类型有哪些？</li>
+<li>range string类型为何得到的是rune类型？</li>
+<li>遍历slice的时候增加或删除数据会怎么样？</li>
+<li>遍历map的时候增加或删除数据会怎么样？</li>
+</ol>
+
+<p>其实这里的很多疑问都可以看<a href="https://golang.org/ref/spec#For_statements">golang编程语言规范</a>,
+有兴趣的同学完全可以自己看，然后根据自己的理解来解答这些问题。</p>
+
+<h2 id="for语句的规范">for语句的规范</h2>
+
+<p>for语句的功能用来指定重复执行的语句块，for语句中的表达式有三种：<br />
+官方的规范： <code>ForStmt = &quot;for&quot; [ Condition | ForClause | RangeClause ] Block .</code></p>
+
+<ul>
+<li>Condition = Expression .<br /></li>
+<li>ForClause = [ InitStmt ] &ldquo;;&rdquo; [ Condition ] &ldquo;;&rdquo; [ PostStmt ] .<br /></li>
+<li>RangeClause = [ ExpressionList &ldquo;=&rdquo; | IdentifierList &ldquo;:=&rdquo; ] &ldquo;range&rdquo; Expression .<br /></li>
+</ul>
+
+<h3 id="单个条件判断">单个条件判断</h3>
+
+<p>形式：</p>
+
+<pre><code class="language-go">for a &lt; b {
+    f(doThing)
+}
+// or 省略表达式，等价于true
+for {   // for true {
+        f(doThing)
+}
+</code></pre>
+
+<p>这种格式，只有单个逻辑表达式,  逻辑表达式的值为true，则继续执行，否则停止循环。</p>
+
+<h3 id="for语句中两个分号">for语句中两个分号</h3>
+
+<p>形式：</p>
+
+<pre><code class="language-go">for i:=0; i &lt; 10; i++ {
+        f(doThing)
+}
+// or
+for i:=0; i &lt; 10; {
+        i++
+        f(doThing)
+}
+// or 
+var i int
+for ; i &lt; 10; {
+        i++
+        f(doThing)
+}
+</code></pre>
+
+<p>这种格式，语气被两个分号分割为3个表达式，第一个表示为初始化（<code>只会在第一次条件表达式之计算一次</code>），第二个表达式为条件判断表达式，
+第三个表达式一般为自增或自减，但这个表达式可以任何符合语法的表达式。而且这三个表达式，
+只有第二个表达式是必须有的，其他表达式可以为空。</p>
+
+<h3 id="for和range结合的语句">for和range结合的语句</h3>
+
+<p>形式：</p>
+
+<pre><code class="language-go">for k,v := range []int{1,2,3} {
+    f(doThing)
+}
+// or 
+for k := range []int{1,2,3} {
+    f(doThing)
+}
+// or
+for range []int{1,2,3} {
+    f(doThing)
+}
+</code></pre>
+
+<p>用range来迭代数据是最常用的一种for语句，range右边的表达式叫<code>范围表达式</code>,
+范围表达式可以是数组，数组指针，slice，字符串，map和channel。因为要赋值，
+所以左侧的操作数（也就是迭代变量）必须要可寻址的，或者是map下标的表达式。
+如果迭代变量是一个channel，那么只允许一个迭代变量，除此之外迭代变量可以有一个或者两个。</p>
+
+<p>范围表达式在开始循环之前只进行一次求值，只有一个例外：如果范围表达式是数组或指向数组的指针，
+至多有一个迭代变量存在，只对范围表达式的长度进行求值；如果长度为常数，范围表达式本身将不被求值。</p>
+
+<p>每迭代一次,左边的函数调用求值。对于每个迭代，如果相应的迭代变量存在，则迭代值如下所示生成:</p>
+
+<pre><code class="language-go">Range expression                          1st value          2nd value
+
+array or slice  a  [n]E, *[n]E, or []E    index    i  int    a[i]       E
+string          s  string type            index    i  int    see below  rune
+map             m  map[K]V                key      k  K      m[k]       V
+channel         c  chan E, &lt;-chan E       element  e  E
+</code></pre>
+
+<ol>
+<li>对于数组、数组指针或是分片值a来说，下标迭代值升序生成，从0开始。有一种特殊场景，只有一个迭代参数存在的情况下，
+range循环生成0到len(a)的迭代值，而不是索引到数组或是分片。对于一个nil分片，迭代的数量为0。</li>
+<li>对于字符串类型，range子句迭代字符串中每一个Unicode代码点，从下标0开始。在连续迭代中，下标值会是下一个utf-8代码点的
+第一个字节的下标，而第二个值类型是rune，会是对应的代码点。如果迭代遇到了一个非法的Unicode序列，那么第二个值是0xFFFD，
+也就是Unicode的替换字符，然后下一次迭代只会前进一个字节。</li>
+<li>map中的迭代顺序是没有指定的，也不保证两次迭代是一样的。如果map元素在迭代过程中被删掉了，那么对应的迭代值不会再产生。
+如果map元素在迭代中插入了,则该元素可能在迭代过程中产生，也可能被跳过,但是每个元素的迭代值顶多出现一次。如果map是nil，那么迭代次数为0。</li>
+<li>对于管道，迭代值就是下一个send到管道中的值，除非管道被关闭了。如果管道是nil，范围表达式永远阻塞。</li>
+</ol>
+
+<p>迭代值会赋值给相应的迭代变量，就像是赋值语句。<br />
+迭代变量可以使用短变量声明(:=)。这种情况，它们的类型设置为相应迭代值的类型，它们的域是到for语句的结尾，它们在每一次迭代中复用。
+如果迭代变量是在for语句外声明的，那么执行之后它们的值是最后一次迭代的值。</p>
+
+<pre><code class="language-go">var testdata *struct {
+	a *[7]int
+}
+for i, _ := range testdata.a {
+	// testdata.a is never evaluated; len(testdata.a) is constant
+	// i ranges from 0 to 6
+	f(i)
+}
+
+var a [10]string
+for i, s := range a {
+	// type of i is int
+	// type of s is string
+	// s == a[i]
+	g(i, s)
+}
+
+var key string
+var val interface {}  // value type of m is assignable to val
+m := map[string]int{&quot;mon&quot;:0, &quot;tue&quot;:1, &quot;wed&quot;:2, &quot;thu&quot;:3, &quot;fri&quot;:4, &quot;sat&quot;:5, &quot;sun&quot;:6}
+for key, val = range m {
+	h(key, val)
+}
+// key == last map key encountered in iteration
+// val == map[key]
+
+var ch chan Work = producer()
+for w := range ch {
+	doWork(w)
+}
+
+// empty a channel
+for range ch {}
+</code></pre>
+
+<h2 id="for语句的内部实现-array">for语句的内部实现-array</h2>
+
+<p>golang的for语句，对于不同的格式会被编译器编译成不同的形式，如果要弄明白需要看
+<a href="https://github.com/golang/gofrontend">golang的编译器</a>和相关数据结构的源码，
+数据结构源码还好，但是编译器是用C++写的，本人C++是个弱鸡，这里只讲<a href="https://github.com/golang/gofrontend/blob/e387439bfd24d5e142874b8e68e7039f74c744d7/go/statements.cc#L5501">array内部实现</a>。</p>
+
+<pre><code class="language-go">// The loop we generate:
+//   len_temp := len(range)
+//   range_temp := range
+//   for index_temp = 0; index_temp &lt; len_temp; index_temp++ {
+//           value_temp = range_temp[index_temp]
+//           index = index_temp
+//           value = value_temp
+//           original body
+//   }
+
+// 例如代码：  
+array := [2]int{1,2}
+for k,v := range array {
+    f(k,v)
+}
+
+// 会被编译成：  
+len_temp := len(array)
+range_temp := array
+for index_temp = 0; index_temp &lt; len_temp; index_temp++ {
+    value_temp = range_temp[index_temp]
+    k = index_temp
+    v = value_temp
+    f(k,v)
+}
+</code></pre>
+
+<p>所以像遍历一个数组，最后生成的代码很像C语言中的遍历，而且有两个临时变量<code>index_temp</code>,<code>value_temp</code>,
+在整个遍历中一直复用这两个变量。所以会导致开头问题2的问题（详细解答会在后边）。</p>
+
+<h2 id="问题解答">问题解答</h2>
+
+<ol>
+<li><p>for语句一共有多少种表达式格式？<br />
+这个问题应该很简单了，上面的规范中就有答案了，一共有3种：</p>
+
+<pre><code>Condition = Expression .
+ForClause = [ InitStmt ] &quot;;&quot; [ Condition ] &quot;;&quot; [ PostStmt ] .
+RangeClause = [ ExpressionList &quot;=&quot; | IdentifierList &quot;:=&quot; ] &quot;range&quot; Expression .
+</code></pre></li>
+
+<li><p>for语句中临时变量是怎么回事？（为什么有时遍历赋值后，所有的值都等于最后一个元素）<br />
+先看这个例子：</p>
+
+<pre><code class="language-go">var a = make([]*int, 3)
+for k, v := range []int{1, 2, 3} {
+    a[k] = &amp;v
+}
+for i := range a {
+    fmt.Println(*a[i])
+}
+// result:  
+// 3  
+// 3  
+// 3  
+</code></pre>
+
+<p>由<a href="#for语句的内部实现-array">for语句的内部实现-array</a>可以知道，即使是短声明的变量，在for循环中也是复用的，这里的<code>v</code>一直
+都是同一个零时变量，所以<code>&amp;v</code>得到的地址一直都是相同的，如果不信，你可以打印该地址，且该地址最后存的变量等于最后一次循环得到的变量，
+所以结果都是3。</p></li>
+
+<li><p>range后面支持的数据类型有哪些？<br />
+共5个，分别是数组，数组指针，slice，字符串，map和channel</p></li>
+
+<li><p>range string类型为何得到的是rune类型？<br />
+这个问题在for规范中也有解答，对于字符串类型，在连续迭代中，下标值会是下一个utf-8代码点的第一个字节的下标，而第二个值类型是rune。
+如果迭代遇到了一个非法的Unicode序列，那么第二个值是0xFFFD，也就是Unicode的替换字符，然后下一次迭代只会前进一个字节。</p>
+
+<p>其实看完这句话，我没理解，当然这句话告诉我们了遍历string得到的第二个值类型是rune，但是为什么是rune类型，而不是string或者其他类型？
+后来在看了Rob Pike写的blog<a href="https://blog.golang.org/strings">Strings, bytes, runes and characters in Go</a>
+才明白点，首先需要知道<code>rune</code>是<code>int32</code>的别名，且go语言中的字符串字面量始终保存有效的UTF-8序列。而UTF-8就是用4字节来表示Unicode字符集。
+所以go的设计者用rune表示单个字符的编码，则可以完成容纳所表示Unicode字符。举个例子：</p>
+
+<pre><code class="language-go">s := `汉语ab`
+fmt.Println(&quot;len of s:&quot;, len(s))
+for index, runeValue := range s {
+    fmt.Printf(&quot;%#U starts at byte position %d\n&quot;, runeValue, index)
+}
+// result
+// len of s: 8
+// U+6C49 '汉' starts at byte position 0
+// U+8BED '语' starts at byte position 3
+// U+0061 'a' starts at byte position 6
+// U+0062 'b' starts at byte position 7
+</code></pre>
+
+<p>根据结果得知，s的长度是为8字节，一个汉子占用了3个字节，一个英文字母占用一个字节，而程序go程序是怎么知道汉子占3个字节，而
+英文字母占用一个字节，就需要知道utf-8代码点的概念，这里就不深究了，知道go是根据utf-8代码点来知道该字符占了多少字节就ok了。</p></li>
+
+<li><p>遍历slice的时候增加或删除数据会怎么样？<br />
+由<a href="#for语句的内部实现-array">for语句的内部实现-array</a>可以知道，获取slice的长度只在循环外执行了一次，
+该长度决定了遍历的次数，不管在循环里你怎么改。但是对索引求值是在每次的迭代中求值的，如果更改了某个元素且
+该元素还未遍历到，那么最终遍历得到的值是更改后的。删除元素也是属于更改元素的一种情况。</p>
+
+<p>在slice中增加元素，会更改slice含有的元素，但不会更改遍历次数。</p>
+
+<pre><code class="language-go">a2 := []int{0, 1, 2, 3, 4}
+for i, v := range a2 {
+    fmt.Println(i, v)
+    if i == 0 {
+        a2 = append(a2, 6)
+    }
+}
+// result
+// 0 0
+// 1 1
+// 2 2
+// 3 3
+// 4 4
+</code></pre>
+
+<p>在slice中删除元素，能删除该元素，但不会更改遍历次数。</p>
+
+<pre><code class="language-go">// 只删除该元素1，不更改slice长度
+a2 := []int{0, 1, 2, 3, 4}
+for i, v := range a2 {
+    fmt.Println(i, v)
+    if i == 0 {
+        copy(a2[1:], a2[2:])
+    }
+}
+// result
+// 0 0
+// 1 2
+// 2 3
+// 3 4
+// 4 4
+
+// 删除该元素1，并更改slice长度
+a2 := []int{0, 1, 2, 3, 4}
+for i, v := range a2 {
+    fmt.Println(i, v)
+    if i == 0 {
+        copy(a2[1:], a2[2:])
+        a2 = a2[:len(a2)-2] //将a2的len设置为3，但并不会影响临时slice-range_temp
+    }
+}
+// result
+// 0 0
+// 1 2
+// 2 3
+// 3 4
+// 4 4
+</code></pre></li>
+
+<li><p>遍历map的时候增加或删除数据会怎么样？<br />
+规范中也有答案，map元素在迭代过程中被删掉了，那么对应的迭代值不会再产生。
+如果map元素在迭代中插入了,则该元素可能在迭代过程中产生，也可能被跳过。</p>
+
+<p>在遍历中删除元素</p>
+
+<pre><code class="language-go">m := map[int]int{1: 1, 2: 2, 3: 3, 4: 4, 5: 5}
+del := false
+for k, v := range m {
+    fmt.Println(k, v)
+    if !del {
+        delete(m, 2)
+        del = true
+    }
+}
+// result
+// 4 4
+// 5 5
+// 1 1
+// 3 3
+</code></pre>
+
+<p>在遍历中增加元素，多执行几次看结果</p>
+
+<pre><code class="language-go">m := map[int]int{1: 1, 2: 2, 3: 3, 4: 4, 5: 5}
+add := false
+for k, v := range m {
+    fmt.Println(k, v)
+    if !add {
+        m[6] = 6
+        m[7] = 7
+        add = true
+    }
+}
+// result1
+// 1 1
+// 2 2
+// 3 3
+// 4 4
+// 5 5
+// 6 6
+
+// result2
+// 1 1
+// 2 2
+// 3 3
+// 4 4
+// 5 5
+// 6 6
+// 7 7
+</code></pre>
+
+<p>在map遍历中删除元素，将会删除该元素，且影响遍历次数，在遍历中增加元素则会有不可控的现象出现，有时能遍历到新增的元素，
+有时不能。具体原因下次分析。</p></li>
+</ol>
+
+<h2 id="参考">参考</h2>
+
+<p><a href="https://golang.org/ref/spec#For_statements">https://golang.org/ref/spec#For_statements</a><br />
+<a href="https://github.com/golang/go/wiki/Range">https://github.com/golang/go/wiki/Range</a><br />
+<a href="https://blog.golang.org/strings">https://blog.golang.org/strings</a></p>
+
+      </article>
+
+      <ul class="pager blog-pager">
+        
+          <li class="previous">
+            <a href="https://sheepbao.github.io/post/golang_list/" data-toggle="tooltip" data-placement="top" title="链表以及golang介入式链表的实现">&larr; Previous Post</a>
+          </li>
+        
+        
+      </ul>
+
+      
+        
+          <div class="disqus-comments">
+            <div id="disqus_thread"></div>
+<script>
+    var disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "sheepbao" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+          </div>
+        
+      
+
+    </div>
+  </div>
+</div>
+
+    <footer>
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+        <ul class="list-inline text-center footer-links">
+          
+          
+        </ul>
+        <p class="credits copyright text-muted">
+          
+          
+          &nbsp;&bull;&nbsp;
+          2018
+
+          
+            &nbsp;&bull;&nbsp;
+            <a href="https://sheepbao.github.io/">boya blog</a>
+          
+        </p>
+        
+        <p class="credits theme-by text-muted">
+          <a href="http://gohugo.io">Hugo v0.26</a> powered &nbsp;&bull;&nbsp; Theme by <a href="http://deanattali.com/beautiful-jekyll/">Beautiful Jekyll</a> adapted to <a href="https://github.com/halogenica/beautifulhugo">Beautiful Hugo</a>
+          
+        </p>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.7.1/katex.min.js" integrity="sha384-/y1Nn9+QQAipbNQWU65krzJralCnuOasHncUFXGkdwntGeSvQicrYkiUBwsgUqc1" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.7.1/contrib/auto-render.min.js" integrity="sha384-dq1/gEHSxPZQ7DdrM82ID4YVol9BYyU7GbWlIwnwyPzotpoc57wDw/guX8EaYGPx" crossorigin="anonymous"></script>
+<script src="https://code.jquery.com/jquery-1.12.4.min.js" integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ=" crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+<script src="https://sheepbao.github.io/js/main.js"></script>
+<script src="https://sheepbao.github.io/js/highlight.min.js"></script>
+<script> hljs.initHighlightingOnLoad(); </script>
+<script> renderMathInElement(document.body); </script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/photoswipe/4.1.1/photoswipe.min.js" integrity="sha256-UplRCs9v4KXVJvVY+p+RSo5Q4ilAUXh7kpjyIP5odyc=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/photoswipe/4.1.1/photoswipe-ui-default.min.js" integrity="sha256-PWHOlUzc96pMc8ThwRIXPn8yH4NOLu42RQ0b9SpnpFk=" crossorigin="anonymous"></script>
+<script src="https://sheepbao.github.io/js/load-photoswipe.js"></script>
+
+
+
+  </body>
+</html>
+
