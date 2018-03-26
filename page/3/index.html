@@ -188,6 +188,40 @@
           
           
             <article class="post-preview">
+              <a href="https://sheepbao.github.io/post/understand_golang_slice/">
+                <h2 class="post-title">深入理解go的slice和到底什么时候该用slice</h2>
+                
+              </a>
+
+              <span class="post-meta">
+  Posted on June 27, 2016
+  
+</span>
+
+
+              <div class="post-entry">
+                
+                  深入理解go的slice和到底什么时候该用slice 前言 用过go语言的亲们都知道，slice（中文翻译为切片）在编程中经常用到，它代表变长的序列，序列中每个元素都有相同的类型，类似一个动态数组，利用append可以实现动态增长，利用slice的特性可以很容易的切割slice，它们是怎么实现这些特性的呢？现在我们来探究一下这些特性的本质是什么。
+先了解一下slice的特性  定义一个slice
+s := []int{1,2,3,4,5} fmt.Println(s) // [1 2 3 4 5]  一个slice类型一般写作[]T，其中T代表slice中元素的类型；slice的语法和数组很像，只是没有固定长度而已。
+ slice的扩容
+s := []int{1,2,3,4,5} s = append(s, 6) fmt.Println(s) // [1 2 3 4 5 6]  内置append函数在现有数组的长度 &lt; 1024 时 cap 增长是翻倍的，再往上的增长率则是 1.25，至于为何后面会说。
+ slice的切割
+s := []int{1,2,3,4,5,6} s1 := s[0:2] fmt.Println(s1) // [1 2] s2 := s[4:] fmt.Println(s2) // [5 6] s3 := s[:4] fmt.Println(s3) // [1 2 3 4]  slice作为函数参数
+                  <a href="https://sheepbao.github.io/post/understand_golang_slice/" class="post-read-more">[Read More]</a>
+                
+              </div>
+
+              
+                <span class="post-meta">
+                
+                  #<a href="https://sheepbao.github.io/tags/go/">Go</a>&nbsp;
+                
+                </span>
+              
+            </article>
+          
+            <article class="post-preview">
               <a href="https://sheepbao.github.io/post/golang_http_proxy/">
                 <h2 class="post-title">用golang写一个http代理，可以抓包和科学上网</h2>
                 

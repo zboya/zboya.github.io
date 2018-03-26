@@ -5,20 +5,20 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
 
-  <title>Categories</title>
-  <meta property="og:title" content="Categories" />
-  <meta name="twitter:title" content="Categories" />
+  <title>Idea</title>
+  <meta property="og:title" content="Idea" />
+  <meta name="twitter:title" content="Idea" />
   <meta name="author" content=""/>
   <link href='https://sheepbao.github.io/img/favicon.ico' rel='icon' type='image/x-icon'/>
   <meta property="og:image" content="https://sheepbao.github.io/img/favicon.ico" />
   <meta name="twitter:image" content="https://sheepbao.github.io/img/favicon.ico" />
   <meta name="twitter:card" content="summary" />
-  <meta property="og:url" content="https://sheepbao.github.io/categories/" />
+  <meta property="og:url" content="https://sheepbao.github.io/tags/idea/" />
   <meta property="og:type" content="website" />
   <meta property="og:site_name" content="boya blog" />
 
   <meta name="generator" content="Hugo 0.26" />
-  <link rel="canonical" href="https://sheepbao.github.io/categories/" />
+  <link rel="canonical" href="https://sheepbao.github.io/tags/idea/" />
   <link rel="alternate" href="https://sheepbao.github.io/index.xml" type="application/rss+xml" title="boya blog">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.7.1/katex.min.css" integrity="sha384-wITovz90syo1dJWVh32uuETPVEtGigN07tkttEqPv+uR2SE/mbQcG7ATL28aI9H0" crossorigin="anonymous">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" />
@@ -145,26 +145,14 @@
 
 
     
-  
-  
-  
-
-
-
-
-  
-
   <header class="header-section ">
-    
     <div class="intro-header no-img">
-      
       <div class="container">
         <div class="row">
           <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
             <div class="page-heading">
-              <h1>Categories</h1>
-                
-                
+              <h1>#Idea</h1>
+              <hr class="small">
             </div>
           </div>
         </div>
@@ -172,27 +160,87 @@
     </div>
   </header>
 
-
     
-  
   <div class="container" role="main">
-    <article class="post-preview">
-      <div class="list-group col-lg-4 col-lg-offset-4 col-md-6 col-md-offset-3">
-      
-      <a href="https://sheepbao.github.io/categories/development/" class="list-group-item">
-          development<span class="badge">18</span></a>
-      
-      <a href="https://sheepbao.github.io/categories/life/" class="list-group-item">
-          life<span class="badge">1</span></a>
-      
-      <a href="https://sheepbao.github.io/categories/network/" class="list-group-item">
-          network<span class="badge">1</span></a>
-      
-      <a href="https://sheepbao.github.io/categories/stream/" class="list-group-item">
-          stream<span class="badge">1</span></a>
-      
+    <div class="row">
+      <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+        
+        <div class="posts-list">
+          
+            <article class="post-preview">
+              <a href="https://sheepbao.github.io/post/p2p_by_non_servers/">
+                <h2 class="post-title">利用DDoS模型来通信</h2>
+
+                
+              </a>
+
+              <p class="post-meta">
+                Posted on March 9, 2018
+              </p>
+              <div class="post-entry">
+                
+                  
+
+<h1 id="利用ddos来通信">利用DDoS来通信</h1>
+
+<p>前两天看到一个新闻，世界上最大的同性交友网站github遭受了DDoS攻击了，最高的流量达到1.35Tbps（心疼github 10秒钟）。有别于普通的DDoS，该DDoS称为反射型DDoS攻击，也称放大型攻击，我个人认为放大型攻击毕竟形象。</p>
+
+<p>以下想法纯属个人意见。有不同建议或补充的的欢迎emial我<a href="https://sheepbao.github.io/about/">aboutme</a></p>
+
+<h2 id="放大型ddos攻击的原理简单解释">放大型DDoS攻击的原理简单解释</h2>
+
+<p>一句话解释就是攻击者伪装源目标服务器IP，发送给中间人，中间人放大后发送给目标服务器。
+稍微详细的讲：假设有三台服务器A、B、C，A的IP为ip1，B的IP为ip2, C的IP为ip3，A要攻击C。</p>
+
+<pre><code>  +------+            +------+              +------+   
+  |      |            |      |   ----&gt;      |      |
+  |   A  |   ---&gt;     |   B  |   ----&gt;      |   C  |
+  |      |            |      |   ----&gt;      |      |
+  +------+            +------+              +------+
+    ip1                  ip2                   ip3
+</code></pre>
+
+<p>放大型攻击的前提条件是，有个服务器会放大你的报文，并返回给你，比如这的B服务器，假设它监听UDP端口6677，且你给这个UDP端口发送消息（或者特定的消息）后会返回更多的数据给你。那么攻击者A只需要做以下事情。<br />
+A发送数据给B，并更改自己的源IP为ip3，B接收到A的数据后根据源IP返回给原来的IP地址，也就是C，此时C就收到了来自A的成吨伤害，因为B将数据包放大了，原来A可能只发送了“hello”给B，而B却发送了“hello，hello，hello”给C。</p>
+
+<h2 id="放大型ddos攻击也是一种通信模型">放大型DDoS攻击也是一种通信模型</h2>
+
+<p>其实仔细想想，放大型DDoS攻击也是一种通信模型，这种模型将A的数据发送给了C，这模型很有意思是，我发送的源IP变成了我真正的目的IP，我在想，那么在公网上我更改ICMP报文的源IP，然后利用ICMP的payload来实现自己的协议，从而完成A到C的通信。不过这种模型有个很致命的特点，就是不能实现两个都在内网的机器通信，假设A、C都在内网，B在公网，A发送到B的数据包经过snat后，源IP都被更改为了A出口路由器的IP了。A、C一个在公网一个在内网也可以通信，不过需要知道C的mac地址，和公网IP。</p>
+
+<h2 id="利用这种模型来选路">利用这种模型来选路？</h2>
+
+<p>如果在有些条件下，A可以访问B，但A不能直接访问C，而B可以访问C，我又不想申请任何服务器，那么理论上可以利用这个模型来通信。
+假设A在内网内，B是公网中的一些服务器。</p>
+
+<ol>
+<li>找到B服务器，B服务器的条件是，只要没有禁止ping包（当然有其他反射型的端口报文也可以）。<br /></li>
+<li>需要有自己的C服务器，来接收B发送的报文并处理。</li>
+<li>更改A的源IP为C的IP，发送报文即可。</li>
+</ol>
+
+<p>其实如果能找到有那么一种B服务器，能发射TCP数据包，理论上没有C也可以访问在C区域的一些公开服务。</p>
+
+<h2 id="结论">结论</h2>
+
+<p>以上纯属个人瞎想。</p>
+
+                
+              </div>
+
+              
+                <span class="post-meta">
+                  
+                    #<a href="https://sheepbao.github.io/tags/idea/">Idea</a>&nbsp;
+                  
+                </span>
+              
+
+            </article>
+          
+        </div>
+        
       </div>
-    </article>
+    </div>
   </div>
 
     <footer>

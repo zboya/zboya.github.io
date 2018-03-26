@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Idea on boya blog</title>
+    <link>https://sheepbao.github.io/tags/idea/</link>
+    <description>Recent content in Idea on boya blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Fri, 09 Mar 2018 11:58:40 +0800</lastBuildDate>
+    
+	<atom:link href="https://sheepbao.github.io/tags/idea/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>利用DDoS模型来通信</title>
+      <link>https://sheepbao.github.io/post/p2p_by_non_servers/</link>
+      <pubDate>Fri, 09 Mar 2018 11:58:40 +0800</pubDate>
+      
+      <guid>https://sheepbao.github.io/post/p2p_by_non_servers/</guid>
+      <description>利用DDoS来通信 前两天看到一个新闻，世界上最大的同性交友网站github遭受了DDoS攻击了，最高的流量达到1.35Tbps（心疼github 10秒钟）。有别于普通的DDoS，该DDoS称为反射型DDoS攻击，也称放大型攻击，我个人认为放大型攻击毕竟形象。
+以下想法纯属个人意见。有不同建议或补充的的欢迎emial我aboutme
+放大型DDoS攻击的原理简单解释 一句话解释就是攻击者伪装源目标服务器IP，发送给中间人，中间人放大后发送给目标服务器。 稍微详细的讲：假设有三台服务器A、B、C，A的IP为ip1，B的IP为ip2, C的IP为ip3，A要攻击C。
+ +------+ +------+ +------+ | | | | ----&amp;gt; | | | A | ---&amp;gt; | B | ----&amp;gt; | C | | | | | ----&amp;gt; | | +------+ +------+ +------+ ip1 ip2 ip3  放大型攻击的前提条件是，有个服务器会放大你的报文，并返回给你，比如这的B服务器，假设它监听UDP端口6677，且你给这个UDP端口发送消息（或者特定的消息）后会返回更多的数据给你。那么攻击者A只需要做以下事情。
+A发送数据给B，并更改自己的源IP为ip3，B接收到A的数据后根据源IP返回给原来的IP地址，也就是C，此时C就收到了来自A的成吨伤害，因为B将数据包放大了，原来A可能只发送了“hello”给B，而B却发送了“hello，hello，hello”给C。
+放大型DDoS攻击也是一种通信模型 其实仔细想想，放大型DDoS攻击也是一种通信模型，这种模型将A的数据发送给了C，这模型很有意思是，我发送的源IP变成了我真正的目的IP，我在想，那么在公网上我更改ICMP报文的源IP，然后利用ICMP的payload来实现自己的协议，从而完成A到C的通信。不过这种模型有个很致命的特点，就是不能实现两个都在内网的机器通信，假设A、C都在内网，B在公网，A发送到B的数据包经过snat后，源IP都被更改为了A出口路由器的IP了。A、C一个在公网一个在内网也可以通信，不过需要知道C的mac地址，和公网IP。
+利用这种模型来选路？ 如果在有些条件下，A可以访问B，但A不能直接访问C，而B可以访问C，我又不想申请任何服务器，那么理论上可以利用这个模型来通信。 假设A在内网内，B是公网中的一些服务器。
+ 找到B服务器，B服务器的条件是，只要没有禁止ping包（当然有其他反射型的端口报文也可以）。
+ 需要有自己的C服务器，来接收B发送的报文并处理。 更改A的源IP为C的IP，发送报文即可。  其实如果能找到有那么一种B服务器，能发射TCP数据包，理论上没有C也可以访问在C区域的一些公开服务。
+结论 以上纯属个人瞎想。</description>
+    </item>
+    
+  </channel>
+</rss>

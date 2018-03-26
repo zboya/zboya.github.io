@@ -168,6 +168,76 @@
         <div class="posts-list">
           
             <article class="post-preview">
+              <a href="https://sheepbao.github.io/post/p2p_by_non_servers/">
+                <h2 class="post-title">利用DDoS模型来通信</h2>
+
+                
+              </a>
+
+              <p class="post-meta">
+                Posted on March 9, 2018
+              </p>
+              <div class="post-entry">
+                
+                  
+
+<h1 id="利用ddos来通信">利用DDoS来通信</h1>
+
+<p>前两天看到一个新闻，世界上最大的同性交友网站github遭受了DDoS攻击了，最高的流量达到1.35Tbps（心疼github 10秒钟）。有别于普通的DDoS，该DDoS称为反射型DDoS攻击，也称放大型攻击，我个人认为放大型攻击毕竟形象。</p>
+
+<p>以下想法纯属个人意见。有不同建议或补充的的欢迎emial我<a href="https://sheepbao.github.io/about/">aboutme</a></p>
+
+<h2 id="放大型ddos攻击的原理简单解释">放大型DDoS攻击的原理简单解释</h2>
+
+<p>一句话解释就是攻击者伪装源目标服务器IP，发送给中间人，中间人放大后发送给目标服务器。
+稍微详细的讲：假设有三台服务器A、B、C，A的IP为ip1，B的IP为ip2, C的IP为ip3，A要攻击C。</p>
+
+<pre><code>  +------+            +------+              +------+   
+  |      |            |      |   ----&gt;      |      |
+  |   A  |   ---&gt;     |   B  |   ----&gt;      |   C  |
+  |      |            |      |   ----&gt;      |      |
+  +------+            +------+              +------+
+    ip1                  ip2                   ip3
+</code></pre>
+
+<p>放大型攻击的前提条件是，有个服务器会放大你的报文，并返回给你，比如这的B服务器，假设它监听UDP端口6677，且你给这个UDP端口发送消息（或者特定的消息）后会返回更多的数据给你。那么攻击者A只需要做以下事情。<br />
+A发送数据给B，并更改自己的源IP为ip3，B接收到A的数据后根据源IP返回给原来的IP地址，也就是C，此时C就收到了来自A的成吨伤害，因为B将数据包放大了，原来A可能只发送了“hello”给B，而B却发送了“hello，hello，hello”给C。</p>
+
+<h2 id="放大型ddos攻击也是一种通信模型">放大型DDoS攻击也是一种通信模型</h2>
+
+<p>其实仔细想想，放大型DDoS攻击也是一种通信模型，这种模型将A的数据发送给了C，这模型很有意思是，我发送的源IP变成了我真正的目的IP，我在想，那么在公网上我更改ICMP报文的源IP，然后利用ICMP的payload来实现自己的协议，从而完成A到C的通信。不过这种模型有个很致命的特点，就是不能实现两个都在内网的机器通信，假设A、C都在内网，B在公网，A发送到B的数据包经过snat后，源IP都被更改为了A出口路由器的IP了。A、C一个在公网一个在内网也可以通信，不过需要知道C的mac地址，和公网IP。</p>
+
+<h2 id="利用这种模型来选路">利用这种模型来选路？</h2>
+
+<p>如果在有些条件下，A可以访问B，但A不能直接访问C，而B可以访问C，我又不想申请任何服务器，那么理论上可以利用这个模型来通信。
+假设A在内网内，B是公网中的一些服务器。</p>
+
+<ol>
+<li>找到B服务器，B服务器的条件是，只要没有禁止ping包（当然有其他反射型的端口报文也可以）。<br /></li>
+<li>需要有自己的C服务器，来接收B发送的报文并处理。</li>
+<li>更改A的源IP为C的IP，发送报文即可。</li>
+</ol>
+
+<p>其实如果能找到有那么一种B服务器，能发射TCP数据包，理论上没有C也可以访问在C区域的一些公开服务。</p>
+
+<h2 id="结论">结论</h2>
+
+<p>以上纯属个人瞎想。</p>
+
+                
+              </div>
+
+              
+                <span class="post-meta">
+                  
+                    #<a href="https://sheepbao.github.io/tags/idea/">Idea</a>&nbsp;
+                  
+                </span>
+              
+
+            </article>
+          
+            <article class="post-preview">
               <a href="https://sheepbao.github.io/post/golang_for_range_complete_guide/">
                 <h2 class="post-title">golang for语句完全指南</h2>
 
@@ -513,37 +583,6 @@ kcp和tcp一样，也分客户端和监听端。
  +-+-+-+-+-+ +-+-+-+-+-+ | Client | | Server | +-+-+-+-+-+ +-+-+-+-+-+ |------ kcp data ------&gt;| |&lt;----- kcp data -------|  kcp协议 layer model +----------------------+ | Session | +----------------------+ | KCP(ARQ) | +----------------------+ | FEC(OPTIONAL) | +----------------------+ | CRYPTO(OPTIONAL)| +----------------------+ | UDP(Packet) | +----------------------+  KCP header KCP Header Format
  4 1 1 2 (Byte) +---+---+---+---+---+---+---+---+ | conv |cmd|frg| wnd | +---+---+---+---+---+---+---+---+ | ts | sn | +---+---+---+---+---+---+---+---+ | una | len | +---+---+---+---+---+---+---+---+ | | + DATA + | | +---+---+---+---+---+---+---+---+  代码结构 src/vendor/github.
                   <a href="https://sheepbao.github.io/post/kcp_source_analysis/" class="post-read-more">[Read More]</a>
-                
-              </div>
-
-              
-                <span class="post-meta">
-                  
-                    #<a href="https://sheepbao.github.io/tags/go/">Go</a>&nbsp;
-                  
-                </span>
-              
-
-            </article>
-          
-            <article class="post-preview">
-              <a href="https://sheepbao.github.io/post/golang_escape_analysis/">
-                <h2 class="post-title">Golang逃逸分析</h2>
-
-                
-              </a>
-
-              <p class="post-meta">
-                Posted on June 11, 2017
-              </p>
-              <div class="post-entry">
-                
-                  Golang逃逸分析 介绍逃逸分析的概念，go怎么开启逃逸分析的log。
-以下资料来自互联网，有错误之处，请一定告之。
-sheepbao 2017.06.10
-什么是逃逸分析 wiki上的定义 In compiler optimization, escape analysis is a method for determining the dynamic scope of pointers - where in the program a pointer can be accessed. It is related to pointer analysis and shape analysis.
-When a variable (or an object) is allocated in a subroutine, a pointer to the variable can escape to other threads of execution, or to calling subroutines. If an implementation uses tail call optimization (usually required for functional languages), objects may also be seen as escaping to called subroutines.
-                  <a href="https://sheepbao.github.io/post/golang_escape_analysis/" class="post-read-more">[Read More]</a>
                 
               </div>
 
