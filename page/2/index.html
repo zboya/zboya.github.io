@@ -188,6 +188,39 @@
           
           
             <article class="post-preview">
+              <a href="https://sheepbao.github.io/post/golang_udp_programing/">
+                <h2 class="post-title">udp编程的那些事与golang udp的实践</h2>
+                
+              </a>
+
+              <span class="post-meta">
+  Posted on June 19, 2017
+  
+</span>
+
+
+              <div class="post-entry">
+                
+                  udp编程的那些事与golang udp的实践 tcp/ip大协议中，tcp编程大家应该比较熟，应用的场景也很多，但是udp在现实中，应用也不少，而在大部分博文中，都很少对udp的编程进行研究，最近研究了一下udp编程，正好做个记录。
+sheepbao 2017.06.15
+tcp Vs udp tcp和udp都是著名的传输协议，他们都是基于ip协议，都在OSI模型中传输层。tcp我们都很清楚，它提供了可靠的数据传输，而udp我们也知道，它不提供数据传输的可靠性，只是尽力传输。 他们的特性决定了它们很大的不同，tcp提供可靠性传输，有三次握手，4次分手，相当于具有逻辑上的连接，可以知道这个tcp连接的状态，所以我们都说tcp是面向连接的socket，而udp没有握手，没有分手，也不存在逻辑上的连接，所以我们也都说udp是非面向连接的socket。
+我们都畏惧不知道状态的东西，所以即使tcp的协议比udp复杂很多，但对于系统应用层的编程来说，tcp编程其实比udp编程容易。而udp相对比较灵活，所以对于udp编程反而没那么容易，但其实掌握后udp编程也并不难。
+udp协议 udp的首部 2 2 (byte) +---+---+---+---+---+---+---+---+ - | src port | dst port | | +---+---+---+---+---+---+---+---+ 8（bytes） | length | check sum | | +---+---+---+---+---+---+---+---+ - | | + data + | | +---+---+---+---+---+---+---+---+  udp的首部真的很简单，头2个字节表示的是原端口，后2个字节表示的是目的端口，端口是系统层区分进程的标识。接着是udp长度，最后就是校验和，这个其实很重要，现在的系统都是默认开启udp校验和的，所以我们才能确保udp消息传输的完整性。如果这个校验和关闭了，那会让我们绝对会很忧伤，因为udp不仅不能保证数据一定到达，还不能保证即使数据到了，这个数据是否是正确的。比如：我在发送端发送了“hello”，而接收端却接收到了“hell”。如果真的是这样，我们就必须自己去校验数据的正确性。还好udp默认开发了校验，我们可以保证udp的数据完整性。
+udp数据的封装 +---------+ | 应用数据 | +---------+ | | v v +---------+---------+ | udp首部 | 应用数据 | +---------+---------+ | | v UDP数据报 v +---------+---------+---------+ | ip首部 | udp首部 | 应用数据 | +---------+---------+---------+ | | v IP数据报 v +---------+---------+---------+---------+---------+ |以太网首部 | ip首部 | udp首部 | 应用数据 |以太网尾部 | +---------+---------+---------+---------+---------+ | 14 20 8 4 | | -&gt; 以太网帧 &lt;- |  数据的封装和tcp是一样，应用层的数据加上udp首部，构成udp数据报，再加上ip首部构成ip数据报，最后加上以太网首部和尾部构成以太网帧，经过网卡发送出去。
+                  <a href="https://sheepbao.github.io/post/golang_udp_programing/" class="post-read-more">[Read More]</a>
+                
+              </div>
+
+              
+                <span class="post-meta">
+                
+                  #<a href="https://sheepbao.github.io/tags/go/">Go</a>&nbsp;
+                
+                </span>
+              
+            </article>
+          
+            <article class="post-preview">
               <a href="https://sheepbao.github.io/post/go1.9_note/">
                 <h2 class="post-title">Go1.9的主要更新</h2>
                 
@@ -560,41 +593,6 @@ RTMP协议概览 握手、消息块概念 握手的目的是为了确认对端RT
                 <span class="post-meta">
                 
                   #<a href="https://sheepbao.github.io/tags/rtmp/">RTMP</a>&nbsp;
-                
-                </span>
-              
-            </article>
-          
-            <article class="post-preview">
-              <a href="https://sheepbao.github.io/post/golang_backend_mind_map/">
-                <h2 class="post-title">golang 后端开发思维导图</h2>
-                
-              </a>
-
-              <span class="post-meta">
-  Posted on July 17, 2016
-  
-</span>
-
-
-              <div class="post-entry">
-                
-                  
-
-<h2 id="golang-后端开发思维导图">golang 后端开发思维导图</h2>
-
-<p>自己画的golang后台开发思维导图，当作笔记。
-转载请注明原作者。
-<img src="https://static.oschina.net/uploads/img/201607/17234123_9b2N.png" alt="输入图片说明" title="go后端思维导图" /><br />
-by sheepbao.</p>
-
-                
-              </div>
-
-              
-                <span class="post-meta">
-                
-                  #<a href="https://sheepbao.github.io/tags/go/">Go</a>&nbsp;
                 
                 </span>
               
