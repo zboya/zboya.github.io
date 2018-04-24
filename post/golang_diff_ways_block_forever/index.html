@@ -302,7 +302,7 @@ func main() {
 
 <h2 id="总结">总结</h2>
 
-<p>注意上买的代码大部分不能直接运行，都会panic，提示“all goroutines are asleep - deadlock!”，因为go的runtime会检查你所有的goroutine都卡住了，
+<p>注意上面写的的代码大部分不能直接运行，都会panic，提示“all goroutines are asleep - deadlock!”，因为go的runtime会检查你所有的goroutine都卡住了，
 没有一个要执行。你可以在阻塞代码前面加上一个或多个你自己业务逻辑的goroutine，这样就不会deadlock了。</p>
 
 <h2 id="参考">参考</h2>
