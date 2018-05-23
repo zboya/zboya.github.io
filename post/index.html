@@ -168,6 +168,41 @@
         <div class="posts-list">
           
             <article class="post-preview">
+              <a href="https://sheepbao.github.io/post/golang_pprof_over_https/">
+                <h2 class="post-title">golang在自定义的https服务器中启用pprof接口</h2>
+
+                
+              </a>
+
+              <p class="post-meta">
+                Posted on May 20, 2018
+              </p>
+              <div class="post-entry">
+                
+                  以下所有观点都是个人愚见，有不同建议或补充的的欢迎emial, aboutme
+原文章地址
+pprof的简介 pprof是golang标准库里面的其中一个库，它通过其HTTP服务器得到运行时的分析数据，从而给pprof可视化工具提供数据分析来源。它可以用来分析性能消耗，分析内存泄漏，死锁等。
+具体使用可以了解官方包pprof，那我如何在http中使用pprof？如何在已有http或者https服务上使用pprof呢？ 这些答案在标准库找不到，随在此记录一下。
+如何启动pprof 在官方包中已经给出了例子:
+package main import &quot;net/http&quot; import _ &quot;net/http/pprof&quot; // 初始化pprof func main() { // do something ... go func() { log.Println(http.ListenAndServe(&quot;localhost:6060&quot;, nil)) //启动http服务器 }() }  启动完后，就可以使用go自动的工具go tool pprof
+如：
+go tool pprof http://localhost:6060/debug/pprof/heap // 获取堆的相关数据 go tool pprof http://localhost:6060/debug/pprof/profile // 获取30s内cpu的相关数据 go tool pprof http://localhost:6060/debug/pprof/block // 在你程序调用 runtime.SetBlockProfileRate ，查看goroutine阻塞的相关数据 go tool pprof http://localhost:6060/debug/pprof/mutex // 在你程序调用 runtime.SetMutexProfileFraction，查看谁占用mutex  为什么我自定义mux的http服务不能用？ 启动自定义mux的http服务器
+package main import ( &quot;net/http&quot; _ &quot;net/http/pprof&quot; ) func main() { // 启动一个自定义mux的http服务器 mux := http.
+                  <a href="https://sheepbao.github.io/post/golang_pprof_over_https/" class="post-read-more">[Read More]</a>
+                
+              </div>
+
+              
+                <span class="post-meta">
+                  
+                    #<a href="https://sheepbao.github.io/tags/go/">Go</a>&nbsp;
+                  
+                </span>
+              
+
+            </article>
+          
+            <article class="post-preview">
               <a href="https://sheepbao.github.io/post/golang_diff_ways_block_forever/">
                 <h2 class="post-title">在Golang中各种永远阻塞的姿势</h2>
 
@@ -491,40 +526,6 @@ Linux中的真实网络设备 Linux的网络设备像一个双向的管道，数
 老司机请忽略！
  用chan实现斐波那契数列  import &quot;fmt&quot; func fibonacci(c, quit chan int) { x, y := 0, 1 for { select { case c &lt;- x: x, y = y, x+y case &lt;-quit: fmt.Println(&quot;quit&quot;) return } } } func main() { c := make(chan int) quit := make(chan int) go func() { for i := 0; i &lt; 10; i++ { fmt.Println(&lt;-c) } quit &lt;- 0 }() fibonacci(c, quit) }   字符串的简单映射  func main() { rot13 := func(r rune) rune { switch { case r &gt;= 'A' &amp;&amp; r &lt;= 'Z': return 'A' + (r-'A'+13)%26 case r &gt;= 'a' &amp;&amp; r &lt;= 'z': return 'a' + (r-'a'+13)%26 } return r } fmt.
                   <a href="https://sheepbao.github.io/post/golang_code_slice/" class="post-read-more">[Read More]</a>
-                
-              </div>
-
-              
-                <span class="post-meta">
-                  
-                    #<a href="https://sheepbao.github.io/tags/go/">Go</a>&nbsp;
-                  
-                </span>
-              
-
-            </article>
-          
-            <article class="post-preview">
-              <a href="https://sheepbao.github.io/post/golang_code_specification/">
-                <h2 class="post-title">Golang代码规范</h2>
-
-                
-              </a>
-
-              <p class="post-meta">
-                Posted on August 2, 2017
-              </p>
-              <div class="post-entry">
-                
-                  Golang代码规范 参考https://golang.org/doc/effective_go.html
-项目目录结构规范 PROJECT_NAME ├── README.md 介绍软件及文档入口 ├── bin 编译好的二进制文件,执行./build.sh自动生成，该目录也用于程序打包 ├── build.sh 自动编译的脚本 ├── doc 该项目的文档 ├── pack 打包后的程序放在此处 ├── pack.sh 自动打包的脚本，生成类似xxxx.20170713_14:45:35.tar.gz的文件，放在pack文件下 └── src 该项目的源代码 ├── main 项目主函数 ├── model 项目代码 ├── research 在实现该项目中探究的一些程序 └── vendor 存放go的库 ├── github.com/xxx 第三方库 └── xxx.com/obc 公司内部的公共库  项目的目录结构尽量做到简明、层次清楚
-文件名命名规范 用小写，尽量见名思义，看见文件名就可以知道这个文件下的大概内容，对于源代码里的文件，文件名要很好的代表了一个模块实现的功能。
-命名规范 包名 包名用小写,使用短命名,尽量和标准库不要冲突
-接口名 单个函数的接口名以&rdquo;er&rdquo;作为后缀，如Reader,Writer
-接口的实现则去掉“er”
-type Reader interface { Read(p []byte) (n int, err error) }  两个函数的接口名综合两个函数名
-type WriteFlusher interface { Write([]byte) (int, error) Flush() error }  三个以上函数的接口名，类似于结构体名
-                  <a href="https://sheepbao.github.io/post/golang_code_specification/" class="post-read-more">[Read More]</a>
                 
               </div>
 

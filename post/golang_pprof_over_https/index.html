@@ -5,37 +5,42 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
 
-  <title>在Golang中各种永远阻塞的姿势</title>
-  <meta property="og:title" content="在Golang中各种永远阻塞的姿势" />
-  <meta name="twitter:title" content="在Golang中各种永远阻塞的姿势" />
-  <meta name="description" content="在Golang中各种永远阻塞的姿势 Go的运行时的当前设计，假定程序员自己负责检测何时终止一个goroutine以及何时终止该程序。 可以通过调用os.Exit或从main()函数的返回来以正常方式终止程序。而有时候我们需要的是使程序阻塞在这一行。
-使用sync.WaitGroup 一直等待直到WaitGroup等于0
-package main import &quot;sync&quot; func main() { var wg sync.WaitGroup wg.Add(1) wg.Wait() }  空select select{}是一个没有任何case的select，它会一直阻塞
-package main func main() { select{} }  死循环 虽然能阻塞，但会100%占用一个cpu。不建议使用
-package main func main() { for {} }  用sync.Mutex 一个已经锁了的锁，再锁一次会一直阻塞，这个不建议使用
-package main import &quot;sync&quot; func main() { var m sync.Mutex m.Lock() m.Lock() }  os.Signal 系统信号量，在go里面也是个channel，在收到特定的消息之前一直阻塞
-package main import ( &quot;os&quot; &quot;syscall&quot; &quot;os/signal&quot; ) func main() { sig := make(chan os.">
-  <meta property="og:description" content="在Golang中各种永远阻塞的姿势 Go的运行时的当前设计，假定程序员自己负责检测何时终止一个goroutine以及何时终止该程序。 可以通过调用os.Exit或从main()函数的返回来以正常方式终止程序。而有时候我们需要的是使程序阻塞在这一行。
-使用sync.WaitGroup 一直等待直到WaitGroup等于0
-package main import &quot;sync&quot; func main() { var wg sync.WaitGroup wg.Add(1) wg.Wait() }  空select select{}是一个没有任何case的select，它会一直阻塞
-package main func main() { select{} }  死循环 虽然能阻塞，但会100%占用一个cpu。不建议使用
-package main func main() { for {} }  用sync.Mutex 一个已经锁了的锁，再锁一次会一直阻塞，这个不建议使用
-package main import &quot;sync&quot; func main() { var m sync.Mutex m.Lock() m.Lock() }  os.Signal 系统信号量，在go里面也是个channel，在收到特定的消息之前一直阻塞
-package main import ( &quot;os&quot; &quot;syscall&quot; &quot;os/signal&quot; ) func main() { sig := make(chan os.">
-  <meta name="twitter:description" content="在Golang中各种永远阻塞的姿势 Go的运行时的当前设计，假定程序员自己负责检测何时终止一个goroutine以及何时终止该程序。 可以通过调用os.Exit或从main()函数的返回来以正常方式终止程序。而有时候我们需要的是使程序阻塞在这一行。
-使用sync.WaitGroup 一直等待直到WaitGroup等于0
-package main import &quot;sync&quot; …">
+  <title>golang在自定义的https服务器中启用pprof接口</title>
+  <meta property="og:title" content="golang在自定义的https服务器中启用pprof接口" />
+  <meta name="twitter:title" content="golang在自定义的https服务器中启用pprof接口" />
+  <meta name="description" content="以下所有观点都是个人愚见，有不同建议或补充的的欢迎emial, aboutme
+原文章地址
+pprof的简介 pprof是golang标准库里面的其中一个库，它通过其HTTP服务器得到运行时的分析数据，从而给pprof可视化工具提供数据分析来源。它可以用来分析性能消耗，分析内存泄漏，死锁等。
+具体使用可以了解官方包pprof，那我如何在http中使用pprof？如何在已有http或者https服务上使用pprof呢？ 这些答案在标准库找不到，随在此记录一下。
+如何启动pprof 在官方包中已经给出了例子:
+package main import &quot;net/http&quot; import _ &quot;net/http/pprof&quot; // 初始化pprof func main() { // do something ... go func() { log.Println(http.ListenAndServe(&quot;localhost:6060&quot;, nil)) //启动http服务器 }() }  启动完后，就可以使用go自动的工具go tool pprof
+如：
+go tool pprof http://localhost:6060/debug/pprof/heap // 获取堆的相关数据 go tool pprof http://localhost:6060/debug/pprof/profile // 获取30s内cpu的相关数据 go tool pprof http://localhost:6060/debug/pprof/block // 在你程序调用 runtime.SetBlockProfileRate ，查看goroutine阻塞的相关数据 go tool pprof http://localhost:6060/debug/pprof/mutex // 在你程序调用 runtime.SetMutexProfileFraction，查看谁占用mutex  为什么我自定义mux的http服务不能用？ 启动自定义mux的http服务器
+package main import ( &quot;net/http&quot; _ &quot;net/http/pprof&quot; ) func main() { // 启动一个自定义mux的http服务器 mux := http.">
+  <meta property="og:description" content="以下所有观点都是个人愚见，有不同建议或补充的的欢迎emial, aboutme
+原文章地址
+pprof的简介 pprof是golang标准库里面的其中一个库，它通过其HTTP服务器得到运行时的分析数据，从而给pprof可视化工具提供数据分析来源。它可以用来分析性能消耗，分析内存泄漏，死锁等。
+具体使用可以了解官方包pprof，那我如何在http中使用pprof？如何在已有http或者https服务上使用pprof呢？ 这些答案在标准库找不到，随在此记录一下。
+如何启动pprof 在官方包中已经给出了例子:
+package main import &quot;net/http&quot; import _ &quot;net/http/pprof&quot; // 初始化pprof func main() { // do something ... go func() { log.Println(http.ListenAndServe(&quot;localhost:6060&quot;, nil)) //启动http服务器 }() }  启动完后，就可以使用go自动的工具go tool pprof
+如：
+go tool pprof http://localhost:6060/debug/pprof/heap // 获取堆的相关数据 go tool pprof http://localhost:6060/debug/pprof/profile // 获取30s内cpu的相关数据 go tool pprof http://localhost:6060/debug/pprof/block // 在你程序调用 runtime.SetBlockProfileRate ，查看goroutine阻塞的相关数据 go tool pprof http://localhost:6060/debug/pprof/mutex // 在你程序调用 runtime.SetMutexProfileFraction，查看谁占用mutex  为什么我自定义mux的http服务不能用？ 启动自定义mux的http服务器
+package main import ( &quot;net/http&quot; _ &quot;net/http/pprof&quot; ) func main() { // 启动一个自定义mux的http服务器 mux := http.">
+  <meta name="twitter:description" content="以下所有观点都是个人愚见，有不同建议或补充的的欢迎emial, aboutme
+原文章地址
+pprof的简介 pprof是golang标准库里面的其中一个库，它通过其HTTP服务器得到运行时的分析数据，从而给pprof可视化工具提供数据分析来源。它可以用来分析性能消耗，分析内存泄漏，死锁等。
+具体使用可以了解官方包pprof，那我如何在http中使用pprof？如何在已有http或者https服务 …">
   <meta name="author" content=""/>
   <link href='https://sheepbao.github.io/img/favicon.ico' rel='icon' type='image/x-icon'/>
   <meta property="og:image" content="https://sheepbao.github.io/img/favicon.ico" />
   <meta name="twitter:image" content="https://sheepbao.github.io/img/favicon.ico" />
   <meta name="twitter:card" content="summary" />
-  <meta property="og:url" content="https://sheepbao.github.io/post/golang_diff_ways_block_forever/" />
+  <meta property="og:url" content="https://sheepbao.github.io/post/golang_pprof_over_https/" />
   <meta property="og:type" content="website" />
   <meta property="og:site_name" content="boya blog" />
 
   <meta name="generator" content="Hugo 0.26" />
-  <link rel="canonical" href="https://sheepbao.github.io/post/golang_diff_ways_block_forever/" />
+  <link rel="canonical" href="https://sheepbao.github.io/post/golang_pprof_over_https/" />
   <link rel="alternate" href="https://sheepbao.github.io/index.xml" type="application/rss+xml" title="boya blog">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.7.1/katex.min.css" integrity="sha384-wITovz90syo1dJWVh32uuETPVEtGigN07tkttEqPv+uR2SE/mbQcG7ATL28aI9H0" crossorigin="anonymous">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" />
@@ -179,11 +184,11 @@ package main import &quot;sync&quot; …">
         <div class="row">
           <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
             <div class="post-heading">
-              <h1>在Golang中各种永远阻塞的姿势</h1>
+              <h1>golang在自定义的https服务器中启用pprof接口</h1>
                 
                 
                   <span class="post-meta">
-  Posted on April 24, 2018
+  Posted on May 20, 2018
   
 </span>
 
@@ -204,123 +209,117 @@ package main import &quot;sync&quot; …">
       <article role="main" class="blog-post">
         
 
-<h1 id="在golang中各种永远阻塞的姿势">在Golang中各种永远阻塞的姿势</h1>
+<p>以下所有观点都是个人愚见，有不同建议或补充的的欢迎emial, <a href="https://sheepbao.github.io/about/">aboutme</a><br />
+<a href="https://sheepbao.github.io/post/golang_pprof_over_https/">原文章地址</a></p>
 
-<p>Go的运行时的当前设计，假定程序员自己负责检测何时终止一个goroutine以及何时终止该程序。
-可以通过调用os.Exit或从main()函数的返回来以正常方式终止程序。而有时候我们需要的是使程序阻塞在这一行。</p>
+<h2 id="pprof的简介">pprof的简介</h2>
 
-<h2 id="使用sync-waitgroup">使用sync.WaitGroup</h2>
+<p>pprof是golang标准库里面的其中一个库，它通过其HTTP服务器得到运行时的分析数据，从而给pprof可视化工具提供数据分析来源。它可以用来分析性能消耗，分析内存泄漏，死锁等。<br />
+具体使用可以了解官方包<a href="https://golang.google.cn/pkg/net/http/pprof/">pprof</a>，那我如何在http中使用pprof？如何在已有http或者https服务上使用pprof呢？
+这些答案在标准库找不到，随在此记录一下。</p>
 
-<p>一直等待直到WaitGroup等于0</p>
+<h2 id="如何启动pprof">如何启动pprof</h2>
 
-<pre><code class="language-go">package main
-
-import &quot;sync&quot;
-
-func main() {
-    var wg sync.WaitGroup
-    wg.Add(1)
-    wg.Wait()
-}
-</code></pre>
-
-<h2 id="空select">空select</h2>
-
-<p>select{}是一个没有任何case的select，它会一直阻塞</p>
+<p>在官方包中已经给出了例子:</p>
 
 <pre><code class="language-go">package main
 
+import  &quot;net/http&quot;
+import _ &quot;net/http/pprof&quot;  //  初始化pprof
+
 func main() {
-    select{}
+    // do something
+    ...
+
+    go func() {
+	    log.Println(http.ListenAndServe(&quot;localhost:6060&quot;, nil)) //启动http服务器
+    }()
 }
 </code></pre>
 
-<h2 id="死循环">死循环</h2>
+<p>启动完后，就可以使用go自动的工具<code>go tool pprof</code><br />
+如：</p>
 
-<p>虽然能阻塞，但会100%占用一个cpu。不建议使用</p>
-
-<pre><code class="language-go">package main
-
-func main() {
-    for {}
-}
+<pre><code>go tool pprof http://localhost:6060/debug/pprof/heap    // 获取堆的相关数据
+go tool pprof http://localhost:6060/debug/pprof/profile // 获取30s内cpu的相关数据
+go tool pprof http://localhost:6060/debug/pprof/block   // 在你程序调用 runtime.SetBlockProfileRate ，查看goroutine阻塞的相关数据
+go tool pprof http://localhost:6060/debug/pprof/mutex   // 在你程序调用 runtime.SetMutexProfileFraction，查看谁占用mutex
 </code></pre>
 
-<h2 id="用sync-mutex">用sync.Mutex</h2>
+<h2 id="为什么我自定义mux的http服务不能用">为什么我自定义mux的http服务不能用？</h2>
 
-<p>一个已经锁了的锁，再锁一次会一直阻塞，这个不建议使用</p>
-
-<pre><code class="language-go">package main
-
-import &quot;sync&quot;
-
-func main() {
-    var m sync.Mutex
-    m.Lock()
-    m.Lock()
-}
-</code></pre>
-
-<h2 id="os-signal">os.Signal</h2>
-
-<p>系统信号量，在go里面也是个channel，在收到特定的消息之前一直阻塞</p>
+<p>启动自定义mux的http服务器</p>
 
 <pre><code class="language-go">package main
 
 import (
-    &quot;os&quot;
-    &quot;syscall&quot;
-    &quot;os/signal&quot;
+	&quot;net/http&quot;
+	_ &quot;net/http/pprof&quot;
 )
 
 func main() {
-    sig := make(chan os.Signal, 2)
-    signal.Notify(sig, syscall.SIGTERM, syscall.SIGINT)
-    &lt;-sig
+	// 启动一个自定义mux的http服务器
+
+	mux := http.NewServeMux()
+	mux.HandleFunc(&quot;/hello&quot;, func(w http.ResponseWriter, r *http.Request) {
+		w.Write([]byte(&quot;hello&quot;))
+	})
+
+	http.ListenAndServe(&quot;:6060&quot;, mux)
 }
 </code></pre>
 
-<h2 id="空channel或者nil-channel">空channel或者nil channel</h2>
+<p>得到结果：  <code>404 Not Found</code></p>
 
-<p>channel会一直阻塞直到收到消息，nil channel永远阻塞。</p>
+<pre><code>go tool pprof http://localhost:6060/debug/pprof/heap
+Fetching profile over HTTP from http://localhost:6060/debug/pprof/heap
+http://localhost:6060/debug/pprof/heap: server response: 404 Not Found
+failed to fetch any source profiles
+</code></pre>
+
+<p>为什么程序导入了<code>_ &quot;net/http/pprof&quot;</code>还是会404呢？因为导入pprof的时侯只是调用了pprof包的<code>init</code>函数，看看init里面的内容,<a href="https://github.com/golang/go/blob/release-branch.go1.9/src/net/http/pprof/pprof.go#L72-L76">pprof.init()</a>，可以得知，这里注册的所有路由都是在<code>DefaultServeMux</code>下的，
+所以当然我们自定义的mux是没有用的，要使它有用也很简单，我们自己手动注册路由与相应的处理函数。</p>
 
 <pre><code class="language-go">package main
 
+import (
+	&quot;net/http&quot;
+	&quot;net/http/pprof&quot;
+)
+
 func main() {
-    c := make(chan struct{})
-    &lt;-c
+	// 启动一个自定义mux的http服务器
+	mux := http.NewServeMux()
+	mux.HandleFunc(&quot;/debug/pprof/&quot;, pprof.Index)
+	mux.HandleFunc(&quot;/debug/pprof/cmdline&quot;, pprof.Cmdline)
+	mux.HandleFunc(&quot;/debug/pprof/profile&quot;, pprof.Profile)
+	mux.HandleFunc(&quot;/debug/pprof/symbol&quot;, pprof.Symbol)
+	mux.HandleFunc(&quot;/debug/pprof/trace&quot;, pprof.Trace)
+
+	mux.HandleFunc(&quot;/hello&quot;, func(w http.ResponseWriter, r *http.Request) {
+		w.Write([]byte(&quot;hello&quot;))
+	})
+
+	http.ListenAndServe(&quot;:6066&quot;, mux)
 }
 </code></pre>
 
-<pre><code class="language-go">package main
+<p>这样，线上的服务出现问题时，就可以用pprof工具看看，是否有异常。</p>
 
-func main() {
-    var c chan struct{} //nil channel
-    &lt;-c
-}
-</code></pre>
+<h2 id="pprof如何在https中使用">pprof如何在https中使用？</h2>
 
-<h2 id="总结">总结</h2>
+<p><code>go tool pprof https+insecure://localhost:8001/debug/pprof/heap</code>将原来的<code>http</code>替换成<code>https+insecure</code>即可。</p>
 
-<p>注意上面写的的代码大部分不能直接运行，都会panic，提示“all goroutines are asleep - deadlock!”，因为go的runtime会检查你所有的goroutine都卡住了，
-没有一个要执行。你可以在阻塞代码前面加上一个或多个你自己业务逻辑的goroutine，这样就不会deadlock了。</p>
-
-<h2 id="参考">参考</h2>
-
-<p><a href="http://pliutau.com/different-ways-to-block-go-runtime-forever/">http://pliutau.com/different-ways-to-block-go-runtime-forever/</a></p>
+<p>注意：go的版本要&gt;=go1.8,具体查看go1.8的release信息<a href="https://tip.golang.org/doc/go1.8#tool_pprof">https://tip.golang.org/doc/go1.8#tool_pprof</a></p>
 
       </article>
 
       <ul class="pager blog-pager">
         
           <li class="previous">
-            <a href="https://sheepbao.github.io/post/p2p_by_non_servers/" data-toggle="tooltip" data-placement="top" title="利用DDoS模型来通信">&larr; Previous Post</a>
+            <a href="https://sheepbao.github.io/post/golang_diff_ways_block_forever/" data-toggle="tooltip" data-placement="top" title="在Golang中各种永远阻塞的姿势">&larr; Previous Post</a>
           </li>
         
-        
-          <li class="next">
-            <a href="https://sheepbao.github.io/post/golang_pprof_over_https/" data-toggle="tooltip" data-placement="top" title="golang在自定义的https服务器中启用pprof接口">Next Post &rarr;</a>
-          </li>
         
       </ul>
 

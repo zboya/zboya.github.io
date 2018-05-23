@@ -188,6 +188,41 @@
           
           
             <article class="post-preview">
+              <a href="https://sheepbao.github.io/post/golang_code_specification/">
+                <h2 class="post-title">Golang代码规范</h2>
+                
+              </a>
+
+              <span class="post-meta">
+  Posted on August 2, 2017
+  
+</span>
+
+
+              <div class="post-entry">
+                
+                  Golang代码规范 参考https://golang.org/doc/effective_go.html
+项目目录结构规范 PROJECT_NAME ├── README.md 介绍软件及文档入口 ├── bin 编译好的二进制文件,执行./build.sh自动生成，该目录也用于程序打包 ├── build.sh 自动编译的脚本 ├── doc 该项目的文档 ├── pack 打包后的程序放在此处 ├── pack.sh 自动打包的脚本，生成类似xxxx.20170713_14:45:35.tar.gz的文件，放在pack文件下 └── src 该项目的源代码 ├── main 项目主函数 ├── model 项目代码 ├── research 在实现该项目中探究的一些程序 └── vendor 存放go的库 ├── github.com/xxx 第三方库 └── xxx.com/obc 公司内部的公共库  项目的目录结构尽量做到简明、层次清楚
+文件名命名规范 用小写，尽量见名思义，看见文件名就可以知道这个文件下的大概内容，对于源代码里的文件，文件名要很好的代表了一个模块实现的功能。
+命名规范 包名 包名用小写,使用短命名,尽量和标准库不要冲突
+接口名 单个函数的接口名以&rdquo;er&rdquo;作为后缀，如Reader,Writer
+接口的实现则去掉“er”
+type Reader interface { Read(p []byte) (n int, err error) }  两个函数的接口名综合两个函数名
+type WriteFlusher interface { Write([]byte) (int, error) Flush() error }  三个以上函数的接口名，类似于结构体名
+                  <a href="https://sheepbao.github.io/post/golang_code_specification/" class="post-read-more">[Read More]</a>
+                
+              </div>
+
+              
+                <span class="post-meta">
+                
+                  #<a href="https://sheepbao.github.io/tags/go/">Go</a>&nbsp;
+                
+                </span>
+              
+            </article>
+          
+            <article class="post-preview">
               <a href="https://sheepbao.github.io/post/golang_udp_programing/">
                 <h2 class="post-title">udp编程的那些事与golang udp的实践</h2>
                 
@@ -561,38 +596,6 @@ gc 1 @2.104s 0%: 0.018+1.3+0.076 ms clock, 0.054+0.35/1.0/3.0+0.23 ms cpu, 4-&gt
                 <span class="post-meta">
                 
                   #<a href="https://sheepbao.github.io/tags/go/">Go</a>&nbsp;
-                
-                </span>
-              
-            </article>
-          
-            <article class="post-preview">
-              <a href="https://sheepbao.github.io/post/rtmp_note/">
-                <h2 class="post-title">RTMP协议学习笔记</h2>
-                
-              </a>
-
-              <span class="post-meta">
-  Posted on September 13, 2016
-  
-</span>
-
-
-              <div class="post-entry">
-                
-                  RTMP协议笔记 请用电脑或者手机横屏查看，不然会格式乱。
-RTMP的背景和应用 每项技术都有起来源，RTMP也不例外，RTMP是Adobe公司公布的一项协议,Adobe是一家世界领先数字媒体和在线营销方案的供应商。在H5崛起之前，几乎所有的浏览器都用Flash player播放多媒体资源，而服务端和浏览器之间就是用RTMP协议或者在RTMP协议变种后的协议进行通信的。
-RTMP协议概览 握手、消息块概念 握手的目的是为了确认对端RTMP的Version和确认对端能互相通信。 消息块就是消息的载体，是RTMP协议最重要的载体，这个载体是有一定格式的，如果把Client和Server端当作铁路的两个站点，那这个消息块就是火车，它负责运输货物。正如火车有火车头、车厢一样，消息块也有基本头，消息头和消息负载。RTMP协议当中，除了握手协议，其他的数据都是以消息块的方式发送的，发送一个消息时，当块大小比需要发送的消息的字节数更大时，一个消息块就相当于一个消息，否则消息需要分成多个消息块。  握手 +-+-+-+-+-+-+ +-+-+-+-+-+-+ | Client | | Server | +-+-+-+-+-+-+ +-+-+-+-+-+-+ |-------- C0C1 --------&gt;| |&lt;------ S0S1S2 --------| |--------- C2 ---------&gt;|   C0和S0的格式（1 byte）
-+-+-+-+-+-+-+-+-+ | version | +-+-+-+-+-+-+-+-+  C1和S1的格式
-+-+-+-+-+-+-+-+-+-+-+ | time (4 bytes) | +-+-+-+-+-+-+-+-+-+-+ | zero (4 bytes) | +-+-+-+-+-+-+-+-+-+-+ | random bytes | +-+-+-+-+-+-+-+-+-+-+ |random bytes(cont) | | .... | +-+-+-+-+-+-+-+-+-+-+  time: 4 字节 本字段包含时间戳。该时间戳应该是发送这个数据块的端点的后续块的时间起始点。可以是 0 ,或其他的任何值。为了同步多个流,端点可能发送其块流的当前值。 zero: 4 字节 本字段必须是全零。 random bytes: 1528 字节。 本字段可以包含任何值。因为每个端点必须用自己初始化的握手和对端初始化的
-                  <a href="https://sheepbao.github.io/post/rtmp_note/" class="post-read-more">[Read More]</a>
-                
-              </div>
-
-              
-                <span class="post-meta">
-                
-                  #<a href="https://sheepbao.github.io/tags/rtmp/">RTMP</a>&nbsp;
                 
                 </span>
               

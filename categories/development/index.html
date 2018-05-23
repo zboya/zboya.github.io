@@ -168,6 +168,41 @@
         <div class="posts-list">
           
             <article class="post-preview">
+              <a href="https://sheepbao.github.io/post/golang_pprof_over_https/">
+                <h2 class="post-title">golang在自定义的https服务器中启用pprof接口</h2>
+
+                
+              </a>
+
+              <p class="post-meta">
+                Posted on May 20, 2018
+              </p>
+              <div class="post-entry">
+                
+                  以下所有观点都是个人愚见，有不同建议或补充的的欢迎emial, aboutme
+原文章地址
+pprof的简介 pprof是golang标准库里面的其中一个库，它通过其HTTP服务器得到运行时的分析数据，从而给pprof可视化工具提供数据分析来源。它可以用来分析性能消耗，分析内存泄漏，死锁等。
+具体使用可以了解官方包pprof，那我如何在http中使用pprof？如何在已有http或者https服务上使用pprof呢？ 这些答案在标准库找不到，随在此记录一下。
+如何启动pprof 在官方包中已经给出了例子:
+package main import &quot;net/http&quot; import _ &quot;net/http/pprof&quot; // 初始化pprof func main() { // do something ... go func() { log.Println(http.ListenAndServe(&quot;localhost:6060&quot;, nil)) //启动http服务器 }() }  启动完后，就可以使用go自动的工具go tool pprof
+如：
+go tool pprof http://localhost:6060/debug/pprof/heap // 获取堆的相关数据 go tool pprof http://localhost:6060/debug/pprof/profile // 获取30s内cpu的相关数据 go tool pprof http://localhost:6060/debug/pprof/block // 在你程序调用 runtime.SetBlockProfileRate ，查看goroutine阻塞的相关数据 go tool pprof http://localhost:6060/debug/pprof/mutex // 在你程序调用 runtime.SetMutexProfileFraction，查看谁占用mutex  为什么我自定义mux的http服务不能用？ 启动自定义mux的http服务器
+package main import ( &quot;net/http&quot; _ &quot;net/http/pprof&quot; ) func main() { // 启动一个自定义mux的http服务器 mux := http.
+                  <a href="https://sheepbao.github.io/post/golang_pprof_over_https/" class="post-read-more">[Read More]</a>
+                
+              </div>
+
+              
+                <span class="post-meta">
+                  
+                    #<a href="https://sheepbao.github.io/tags/go/">Go</a>&nbsp;
+                  
+                </span>
+              
+
+            </article>
+          
+            <article class="post-preview">
               <a href="https://sheepbao.github.io/post/golang_diff_ways_block_forever/">
                 <h2 class="post-title">在Golang中各种永远阻塞的姿势</h2>
 
@@ -499,87 +534,6 @@ tcp Vs udp tcp和udp都是著名的传输协议，他们都是基于ip协议，�
 udp协议 udp的首部 2 2 (byte) +---+---+---+---+---+---+---+---+ - | src port | dst port | | +---+---+---+---+---+---+---+---+ 8（bytes） | length | check sum | | +---+---+---+---+---+---+---+---+ - | | + data + | | +---+---+---+---+---+---+---+---+  udp的首部真的很简单，头2个字节表示的是原端口，后2个字节表示的是目的端口，端口是系统层区分进程的标识。接着是udp长度，最后就是校验和，这个其实很重要，现在的系统都是默认开启udp校验和的，所以我们才能确保udp消息传输的完整性。如果这个校验和关闭了，那会让我们绝对会很忧伤，因为udp不仅不能保证数据一定到达，还不能保证即使数据到了，这个数据是否是正确的。比如：我在发送端发送了“hello”，而接收端却接收到了“hell”。如果真的是这样，我们就必须自己去校验数据的正确性。还好udp默认开发了校验，我们可以保证udp的数据完整性。
 udp数据的封装 +---------+ | 应用数据 | +---------+ | | v v +---------+---------+ | udp首部 | 应用数据 | +---------+---------+ | | v UDP数据报 v +---------+---------+---------+ | ip首部 | udp首部 | 应用数据 | +---------+---------+---------+ | | v IP数据报 v +---------+---------+---------+---------+---------+ |以太网首部 | ip首部 | udp首部 | 应用数据 |以太网尾部 | +---------+---------+---------+---------+---------+ | 14 20 8 4 | | -&gt; 以太网帧 &lt;- |  数据的封装和tcp是一样，应用层的数据加上udp首部，构成udp数据报，再加上ip首部构成ip数据报，最后加上以太网首部和尾部构成以太网帧，经过网卡发送出去。
                   <a href="https://sheepbao.github.io/post/golang_udp_programing/" class="post-read-more">[Read More]</a>
-                
-              </div>
-
-              
-                <span class="post-meta">
-                  
-                    #<a href="https://sheepbao.github.io/tags/go/">Go</a>&nbsp;
-                  
-                </span>
-              
-
-            </article>
-          
-            <article class="post-preview">
-              <a href="https://sheepbao.github.io/post/go1.9_note/">
-                <h2 class="post-title">Go1.9的主要更新</h2>
-
-                
-              </a>
-
-              <p class="post-meta">
-                Posted on June 17, 2017
-              </p>
-              <div class="post-entry">
-                
-                  
-
-<h1 id="go1-9的主要更新">Go1.9的主要更新</h1>
-
-<p>golang每半年更新一次版本，上次最新的版本是Go1.8，而Go1.9将在今年8月释出。<br />
-Go1.9中语法的更改只有一个，那就是增加了<code>类型别名</code>，大部分更改是工具链，运行时，库的更改，</p>
-
-<h2 id="语法的更改">语法的更改</h2>
-
-<p>Go1.9中增加了类型别名这个语法，类型别名可以更优雅的实现当两个包之间struct的移动。类型别名的语法如下：</p>
-
-<pre><code>type T1 = T2
-</code></pre>
-
-<p>意思是声明一个T2类型的别名T1.</p>
-
-<h2 id="工具">工具</h2>
-
-<h3 id="并行编译">并行编译</h3>
-
-<p>在Go1.9中并行编译啊包是默认的设置，如果需要关闭并行编译，需要设置环境变量<code>GO19CONCURRENTCOMPILATION=0</code>。</p>
-
-<h3 id="可以匹配vendor了">./&hellip;可以匹配vendor了</h3>
-
-<p>应各位亲们的要求，之前<code>./...</code>不支持匹配<code>vendor</code>目录下的文件，现在Go1.9支持了。</p>
-
-<h2 id="性能">性能</h2>
-
-<p>通常来说，很难去描述这些更改对各种场景的性能影响。大部分程序都应该运行的更快了，因为gc的提升，代码生成的更好和核心库的优化。</p>
-
-<h3 id="垃圾回收">垃圾回收</h3>
-
-<p>在Go1.9之前，很多库函数都是会触发stop-the-world的，而现在只会触发并发的垃圾回收。比如：<code>runtime.GC</code>,<code>debug.SetGCPerent</code> and <code>debug.FreeOSMemory</code>,现在只会触发并发的垃圾回收，只会阻塞当前正在调用的goroutine，直到gc完成。<br />
-<code>debug.SetGCPrercent</code>函数。。。
-大对象的分配性能显著的提高，当应用程序使用超大的堆(&gt;50G)，里面包含许多大对象。</p>
-
-<p><code>runtime.ReadMemStats</code>函数现在读取大堆的时间少于100us。</p>
-
-<h2 id="核心库">核心库</h2>
-
-<h3 id="并发的map">并发的map</h3>
-
-<p>好吧，终于官方支持了，在<a href="https://tip.golang.org/pkg/sync/">sync</a>包中新增了<code>Map</code>类型，这个Map是线程安全的map。</p>
-
-<h3 id="time包支持显示单调">time包支持显示单调</h3>
-
-<p>Go1.9的time包支持每个Time值都是单调时间，这样能使当系统时间改变的时候，计算两个时间差也是安全的。具体看<a href="https://tip.golang.org/pkg/time/#hdr-Monotonic_Clocks">package docs</a>和<a href="https://golang.org/design/12914-monotonic">design doc</a></p>
-
-<h3 id="新的位操作包">新的位操作包</h3>
-
-<p>Go1.9新增了一个包，叫<a href="https://tip.golang.org/pkg/math/bits/">math/bits</a>,提供一些位操作的优化。</p>
-
-<h2 id="参考">参考</h2>
-
-<p><a href="https://tip.golang.org/doc/go1.9">go1.9 release notes</a></p>
-
                 
               </div>
 

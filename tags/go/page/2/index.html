@@ -168,6 +168,42 @@
         <div class="posts-list">
           
             <article class="post-preview">
+              <a href="https://sheepbao.github.io/post/kcp_source_analysis/">
+                <h2 class="post-title">kcp-go源码解析</h2>
+
+                
+              </a>
+
+              <p class="post-meta">
+                Posted on June 12, 2017
+              </p>
+              <div class="post-entry">
+                
+                  kcp-go源码解析 对kcp-go的源码解析，有错误之处，请一定告之。
+sheepbao 2017.0612
+概念 ARQ:自动重传请求(Automatic Repeat-reQuest,ARQ)是OSI模型中数据链路层的错误纠正协议之一.
+RTO:Retransmission TimeOut
+FEC:Forward Error Correction
+kcp简介 kcp是一个基于udp实现快速、可靠、向前纠错的的协议，能以比TCP浪费10%-20%的带宽的代价，换取平均延迟降低30%-40%，且最大延迟降低三倍的传输效果。纯算法实现，并不负责底层协议（如UDP）的收发。查看官方文档kcp
+kcp-go是用go实现了kcp协议的一个库，其实kcp类似tcp，协议的实现也很多参考tcp协议的实现，滑动窗口，快速重传，选择性重传，慢启动等。
+kcp和tcp一样，也分客户端和监听端。
+ +-+-+-+-+-+ +-+-+-+-+-+ | Client | | Server | +-+-+-+-+-+ +-+-+-+-+-+ |------ kcp data ------&gt;| |&lt;----- kcp data -------|  kcp协议 layer model +----------------------+ | Session | +----------------------+ | KCP(ARQ) | +----------------------+ | FEC(OPTIONAL) | +----------------------+ | CRYPTO(OPTIONAL)| +----------------------+ | UDP(Packet) | +----------------------+  KCP header KCP Header Format
+ 4 1 1 2 (Byte) +---+---+---+---+---+---+---+---+ | conv |cmd|frg| wnd | +---+---+---+---+---+---+---+---+ | ts | sn | +---+---+---+---+---+---+---+---+ | una | len | +---+---+---+---+---+---+---+---+ | | + DATA + | | +---+---+---+---+---+---+---+---+  代码结构 src/vendor/github.
+                  <a href="https://sheepbao.github.io/post/kcp_source_analysis/" class="post-read-more">[Read More]</a>
+                
+              </div>
+
+              
+                <span class="post-meta">
+                  
+                    #<a href="https://sheepbao.github.io/tags/go/">Go</a>&nbsp;
+                  
+                </span>
+              
+
+            </article>
+          
+            <article class="post-preview">
               <a href="https://sheepbao.github.io/post/golang_escape_analysis/">
                 <h2 class="post-title">Golang逃逸分析</h2>
 

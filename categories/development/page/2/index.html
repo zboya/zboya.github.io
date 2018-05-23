@@ -168,6 +168,87 @@
         <div class="posts-list">
           
             <article class="post-preview">
+              <a href="https://sheepbao.github.io/post/go1.9_note/">
+                <h2 class="post-title">Go1.9的主要更新</h2>
+
+                
+              </a>
+
+              <p class="post-meta">
+                Posted on June 17, 2017
+              </p>
+              <div class="post-entry">
+                
+                  
+
+<h1 id="go1-9的主要更新">Go1.9的主要更新</h1>
+
+<p>golang每半年更新一次版本，上次最新的版本是Go1.8，而Go1.9将在今年8月释出。<br />
+Go1.9中语法的更改只有一个，那就是增加了<code>类型别名</code>，大部分更改是工具链，运行时，库的更改，</p>
+
+<h2 id="语法的更改">语法的更改</h2>
+
+<p>Go1.9中增加了类型别名这个语法，类型别名可以更优雅的实现当两个包之间struct的移动。类型别名的语法如下：</p>
+
+<pre><code>type T1 = T2
+</code></pre>
+
+<p>意思是声明一个T2类型的别名T1.</p>
+
+<h2 id="工具">工具</h2>
+
+<h3 id="并行编译">并行编译</h3>
+
+<p>在Go1.9中并行编译啊包是默认的设置，如果需要关闭并行编译，需要设置环境变量<code>GO19CONCURRENTCOMPILATION=0</code>。</p>
+
+<h3 id="可以匹配vendor了">./&hellip;可以匹配vendor了</h3>
+
+<p>应各位亲们的要求，之前<code>./...</code>不支持匹配<code>vendor</code>目录下的文件，现在Go1.9支持了。</p>
+
+<h2 id="性能">性能</h2>
+
+<p>通常来说，很难去描述这些更改对各种场景的性能影响。大部分程序都应该运行的更快了，因为gc的提升，代码生成的更好和核心库的优化。</p>
+
+<h3 id="垃圾回收">垃圾回收</h3>
+
+<p>在Go1.9之前，很多库函数都是会触发stop-the-world的，而现在只会触发并发的垃圾回收。比如：<code>runtime.GC</code>,<code>debug.SetGCPerent</code> and <code>debug.FreeOSMemory</code>,现在只会触发并发的垃圾回收，只会阻塞当前正在调用的goroutine，直到gc完成。<br />
+<code>debug.SetGCPrercent</code>函数。。。
+大对象的分配性能显著的提高，当应用程序使用超大的堆(&gt;50G)，里面包含许多大对象。</p>
+
+<p><code>runtime.ReadMemStats</code>函数现在读取大堆的时间少于100us。</p>
+
+<h2 id="核心库">核心库</h2>
+
+<h3 id="并发的map">并发的map</h3>
+
+<p>好吧，终于官方支持了，在<a href="https://tip.golang.org/pkg/sync/">sync</a>包中新增了<code>Map</code>类型，这个Map是线程安全的map。</p>
+
+<h3 id="time包支持显示单调">time包支持显示单调</h3>
+
+<p>Go1.9的time包支持每个Time值都是单调时间，这样能使当系统时间改变的时候，计算两个时间差也是安全的。具体看<a href="https://tip.golang.org/pkg/time/#hdr-Monotonic_Clocks">package docs</a>和<a href="https://golang.org/design/12914-monotonic">design doc</a></p>
+
+<h3 id="新的位操作包">新的位操作包</h3>
+
+<p>Go1.9新增了一个包，叫<a href="https://tip.golang.org/pkg/math/bits/">math/bits</a>,提供一些位操作的优化。</p>
+
+<h2 id="参考">参考</h2>
+
+<p><a href="https://tip.golang.org/doc/go1.9">go1.9 release notes</a></p>
+
+                
+              </div>
+
+              
+                <span class="post-meta">
+                  
+                    #<a href="https://sheepbao.github.io/tags/go/">Go</a>&nbsp;
+                  
+                </span>
+              
+
+            </article>
+          
+            <article class="post-preview">
               <a href="https://sheepbao.github.io/post/kcp_source_analysis/">
                 <h2 class="post-title">kcp-go源码解析</h2>
 

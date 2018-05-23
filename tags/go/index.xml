@@ -6,10 +6,27 @@
     <description>Recent content in Go on boya blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Tue, 24 Apr 2018 11:58:40 +0800</lastBuildDate>
+    <lastBuildDate>Sun, 20 May 2018 11:58:40 +0800</lastBuildDate>
     
 	<atom:link href="https://sheepbao.github.io/tags/go/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>golang在自定义的https服务器中启用pprof接口</title>
+      <link>https://sheepbao.github.io/post/golang_pprof_over_https/</link>
+      <pubDate>Sun, 20 May 2018 11:58:40 +0800</pubDate>
+      
+      <guid>https://sheepbao.github.io/post/golang_pprof_over_https/</guid>
+      <description>以下所有观点都是个人愚见，有不同建议或补充的的欢迎emial, aboutme
+原文章地址
+pprof的简介 pprof是golang标准库里面的其中一个库，它通过其HTTP服务器得到运行时的分析数据，从而给pprof可视化工具提供数据分析来源。它可以用来分析性能消耗，分析内存泄漏，死锁等。
+具体使用可以了解官方包pprof，那我如何在http中使用pprof？如何在已有http或者https服务上使用pprof呢？ 这些答案在标准库找不到，随在此记录一下。
+如何启动pprof 在官方包中已经给出了例子:
+package main import &amp;quot;net/http&amp;quot; import _ &amp;quot;net/http/pprof&amp;quot; // 初始化pprof func main() { // do something ... go func() { log.Println(http.ListenAndServe(&amp;quot;localhost:6060&amp;quot;, nil)) //启动http服务器 }() }  启动完后，就可以使用go自动的工具go tool pprof
+如：
+go tool pprof http://localhost:6060/debug/pprof/heap // 获取堆的相关数据 go tool pprof http://localhost:6060/debug/pprof/profile // 获取30s内cpu的相关数据 go tool pprof http://localhost:6060/debug/pprof/block // 在你程序调用 runtime.SetBlockProfileRate ，查看goroutine阻塞的相关数据 go tool pprof http://localhost:6060/debug/pprof/mutex // 在你程序调用 runtime.SetMutexProfileFraction，查看谁占用mutex  为什么我自定义mux的http服务不能用？ 启动自定义mux的http服务器
+package main import ( &amp;quot;net/http&amp;quot; _ &amp;quot;net/http/pprof&amp;quot; ) func main() { // 启动一个自定义mux的http服务器 mux := http.</description>
+    </item>
     
     <item>
       <title>在Golang中各种永远阻塞的姿势</title>
