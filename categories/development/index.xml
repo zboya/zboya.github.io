@@ -6,10 +6,30 @@
     <description>Recent content in Development on boya blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Sun, 20 May 2018 11:58:40 +0800</lastBuildDate>
+    <lastBuildDate>Sat, 30 Jun 2018 10:58:40 +0800</lastBuildDate>
     
 	<atom:link href="https://sheepbao.github.io/categories/development/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>gvisor的网络栈实现-简介</title>
+      <link>https://sheepbao.github.io/post/google_golang_netstack/</link>
+      <pubDate>Sat, 30 Jun 2018 10:58:40 +0800</pubDate>
+      
+      <guid>https://sheepbao.github.io/post/google_golang_netstack/</guid>
+      <description>gvisor的网络栈实现-简介 这篇是一系列文章的第一篇，介绍网络栈的基础知识。文章打算从上层往下层写，后面打算的继续写的内容有：
+netstack-基本数据结构的实现
+netstack-udp的实现
+netstack-tcp的实现
+netstack-ip的实现
+netstack-link的实现
+以下所有观点都是个人愚见，有不同建议或补充的的欢迎emialaboutme
+原文章地址
+gvisor简介 gvisor是google新推出一款沙箱运行时，他可以和docker和k8s无缝连接。 gVisor能够在保证轻量化优势的同时，提供与虚拟机类似的隔离效果。gVisor的核心为一套运行非特权普通进程的内核， 且支持大多数Linux系统调用。该内核使用Go编写，这主要是考虑到Go语言拥有良好的内存管理机制与类型安全性。 与在虚拟机当中一样，gVisor沙箱中运行的应用程序也将获得自己的内核与一组虚拟设备——这一点与主机及其它沙箱方案有所区别。 当然gvisor实现的不仅仅是一个完整的网络栈，还实现了文件系统等，但这里我只对网络栈感兴趣，所以也只讲网络栈的实现
+netstack gvisor的网络实现在readme里有介绍，是另一个google项目，netstack, 详细介绍期源码前我们先复习一下网络栈的一些知识。
+理论和现实 网络信息的传输其实很复杂，一个信息传到另一个地方，需要各种过五关斩六将。但庆幸的是，网络硬件已经帮我们做了大部分的事，我们只要考虑软件的事。
+理论七层模型 +------------------------------+ | 应用层 | Application +------------------------------+ | 表示层 | Presentation +------------------------------+ | 会话层 | Session +------------------------------+ | 传输层 | Transport +------------------------------+ | 网络层 | Network +------------------------------+ | 链路层 | Link +------------------------------+ | 物理层 | Physical +------------------------------+  现实五层模型（tcpip网络分层） +------------------------------+ | 应用层 | Application +------------------------------+ | 传输层 | Transport +------------------------------+ | 网络层 | Network +------------------------------+ | 链路层 | Link +------------------------------+ | 物理层 | Physical +------------------------------+  现实中大部分的实现都是按tcpip网络分层来实现的，netstack也不例外，可以说现在的网络是tcpip的天下，据说史前公网上还是有其他协议的， 反正数据包不是用ip报文来传输的，但后来都被淘汰了，作为一个90后，我也只是听说，从来没见过除了ip之外的其他协议，即使有，现在也不必深究。 netstack其实只实现了链路层、网络层、传输层这三层。</description>
+    </item>
     
     <item>
       <title>golang在自定义的https服务器中启用pprof接口</title>

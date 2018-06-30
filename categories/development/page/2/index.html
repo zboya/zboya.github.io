@@ -168,6 +168,38 @@
         <div class="posts-list">
           
             <article class="post-preview">
+              <a href="https://sheepbao.github.io/post/golang_udp_programing/">
+                <h2 class="post-title">udp编程的那些事与golang udp的实践</h2>
+
+                
+              </a>
+
+              <p class="post-meta">
+                Posted on June 19, 2017
+              </p>
+              <div class="post-entry">
+                
+                  udp编程的那些事与golang udp的实践 tcp/ip大协议中，tcp编程大家应该比较熟，应用的场景也很多，但是udp在现实中，应用也不少，而在大部分博文中，都很少对udp的编程进行研究，最近研究了一下udp编程，正好做个记录。
+sheepbao 2017.06.15
+tcp Vs udp tcp和udp都是著名的传输协议，他们都是基于ip协议，都在OSI模型中传输层。tcp我们都很清楚，它提供了可靠的数据传输，而udp我们也知道，它不提供数据传输的可靠性，只是尽力传输。 他们的特性决定了它们很大的不同，tcp提供可靠性传输，有三次握手，4次分手，相当于具有逻辑上的连接，可以知道这个tcp连接的状态，所以我们都说tcp是面向连接的socket，而udp没有握手，没有分手，也不存在逻辑上的连接，所以我们也都说udp是非面向连接的socket。
+我们都畏惧不知道状态的东西，所以即使tcp的协议比udp复杂很多，但对于系统应用层的编程来说，tcp编程其实比udp编程容易。而udp相对比较灵活，所以对于udp编程反而没那么容易，但其实掌握后udp编程也并不难。
+udp协议 udp的首部 2 2 (byte) +---+---+---+---+---+---+---+---+ - | src port | dst port | | +---+---+---+---+---+---+---+---+ 8（bytes） | length | check sum | | +---+---+---+---+---+---+---+---+ - | | + data + | | +---+---+---+---+---+---+---+---+  udp的首部真的很简单，头2个字节表示的是原端口，后2个字节表示的是目的端口，端口是系统层区分进程的标识。接着是udp长度，最后就是校验和，这个其实很重要，现在的系统都是默认开启udp校验和的，所以我们才能确保udp消息传输的完整性。如果这个校验和关闭了，那会让我们绝对会很忧伤，因为udp不仅不能保证数据一定到达，还不能保证即使数据到了，这个数据是否是正确的。比如：我在发送端发送了“hello”，而接收端却接收到了“hell”。如果真的是这样，我们就必须自己去校验数据的正确性。还好udp默认开发了校验，我们可以保证udp的数据完整性。
+udp数据的封装 +---------+ | 应用数据 | +---------+ | | v v +---------+---------+ | udp首部 | 应用数据 | +---------+---------+ | | v UDP数据报 v +---------+---------+---------+ | ip首部 | udp首部 | 应用数据 | +---------+---------+---------+ | | v IP数据报 v +---------+---------+---------+---------+---------+ |以太网首部 | ip首部 | udp首部 | 应用数据 |以太网尾部 | +---------+---------+---------+---------+---------+ | 14 20 8 4 | | -&gt; 以太网帧 &lt;- |  数据的封装和tcp是一样，应用层的数据加上udp首部，构成udp数据报，再加上ip首部构成ip数据报，最后加上以太网首部和尾部构成以太网帧，经过网卡发送出去。
+                  <a href="https://sheepbao.github.io/post/golang_udp_programing/" class="post-read-more">[Read More]</a>
+                
+              </div>
+
+              
+                <span class="post-meta">
+                  
+                    #<a href="https://sheepbao.github.io/tags/go/">Go</a>&nbsp;
+                  
+                </span>
+              
+
+            </article>
+          
+            <article class="post-preview">
               <a href="https://sheepbao.github.io/post/go1.9_note/">
                 <h2 class="post-title">Go1.9的主要更新</h2>
 
@@ -539,39 +571,6 @@ s := []int{1,2,3,4,5,6} s1 := s[0:2] fmt.Println(s1) // [1 2] s2 := s[4:] fmt.Pr
 
             </article>
           
-            <article class="post-preview">
-              <a href="https://sheepbao.github.io/post/golang_http_proxy/">
-                <h2 class="post-title">用golang写一个http代理，可以抓包和科学上网</h2>
-
-                
-              </a>
-
-              <p class="post-meta">
-                Posted on June 15, 2016
-              </p>
-              <div class="post-entry">
-                
-                  用golang写一个http代理，可以抓包和科学上网 缘起 因为在工作中需要对上网进行限制，只让我们的app上网，意思就是放行app请求的所有域名或ip，而其他域名都禁止，所以我需要对app的http请求进行抓包。上网搜了一下，win下的fiddler不错，可惜我用的是Linux系统，fiddler不跨平台，找了下linux下的抓包软件，当然tcpdump和wireshare是足够强大的，完全可以实现我要的小小要求，但用起来有一定的复杂性，门槛稍高。在网上找到其他类似的软件还挺多，charles、NProxy等，最后发现mitmproxy最符合我的胃口，如图： 但是mitmproxy的安装依赖太多，python就是这样，一不小心就报错了，so，想着用golang实现类似的功能，自己也很喜欢go语言，如果有空能安静写写自己喜欢的代码，是多么的幸福。想好了就实践，Let&rsquo;s do it，当然凡事都有个从简到繁的过程，下面的特性慢慢增加。
-特性 特性，也可以说功能，以下是实现或者将要实现的特性
-http代理 http请求响应的抓取 修改http请求 重复请求 同时监听多端口 支持socks5、websocket、https协议 界面支持终端和网页两种形式  安装 git clone https://github.com/sheepbao/gomitmproxy.git cd gomitmproxy go build  使用  http代理  gomimtproxy  不带任何参数，表示http代理，默认端口8080,更改端口用 -port
- http抓包  gomimtproxy -m  加 -m 参数，表示抓取http请求和响应  http代理科学上网
-首先你得有个墙外的服务器，如阿里香港的服务器，为图中的Server，假设其ip地址为：22.222.222.222
-  在Server执行: gomitmproxy -port 8888  在你自己电脑执行: gomitmproxy -port 8080 -raddr 22.222.222.222:8888  然后浏览器设置代理，ip为localhost，端口为8080,即可实现科学上网
-源码简析 对于网络编程，Anything is a socket! 实现http代理并不难，简单地说就是用代理服务器代替客户端去请求web服务，然后在把请求的结果返回给客户端。 先来个示意图：  1. 客户端发起一个到gomitmproxy的连接，并且提交了HTTP CONNECT请求。 2.
-                  <a href="https://sheepbao.github.io/post/golang_http_proxy/" class="post-read-more">[Read More]</a>
-                
-              </div>
-
-              
-                <span class="post-meta">
-                  
-                    #<a href="https://sheepbao.github.io/tags/go/">Go</a>&nbsp;
-                  
-                </span>
-              
-
-            </article>
-          
         </div>
         
           <ul class="pager main-pager">
@@ -580,6 +579,10 @@ http代理 http请求响应的抓取 修改http请求 重复请求 同时监听�
                 <a href="/categories/development/page/1">&larr; Newer Posts</a>
               </li>
             
+            
+              <li class="next">
+                <a href="/categories/development/page/3">Older Posts &rarr;</a>
+              </li>
             
           </ul>
         
