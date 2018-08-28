@@ -21,17 +21,15 @@
   <link rel="canonical" href="https://sheepbao.github.io/" />
   <link rel="alternate" href="https://sheepbao.github.io/index.xml" type="application/rss+xml" title="boya blog">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.7.1/katex.min.css" integrity="sha384-wITovz90syo1dJWVh32uuETPVEtGigN07tkttEqPv+uR2SE/mbQcG7ATL28aI9H0" crossorigin="anonymous">
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" />
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
-  <link rel="stylesheet" href="https://sheepbao.github.io/css/main.css" />
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic" />
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" />
-  <link rel="stylesheet" href="https://sheepbao.github.io/css/pygment_highlights.css" />
-  <link rel="stylesheet" href="https://sheepbao.github.io/css/highlight.min.css" />
+  <link rel="stylesheet" href="https://sheepbao.github.io/css/main.css" /><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" /><link rel="stylesheet" href="https://sheepbao.github.io/css/syntax.css" /><link rel="stylesheet" href="https://sheepbao.github.io/css/codeblock.css" />
 
 
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/photoswipe/4.1.1/photoswipe.min.css" integrity="sha256-sCl5PUOGMLfFYctzDW3MtRib0ctyUvI9Qsmq2wXOeBY=" crossorigin="anonymous" />
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/photoswipe/4.1.1/default-skin/default-skin.min.css" integrity="sha256-BFeI1V+Vh1Rk37wswuOYn5lsTcaU96hGaI7OUVCLjPc=" crossorigin="anonymous" />
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/photoswipe/4.1.2/photoswipe.min.css" integrity="sha384-h/L2W9KefUClHWaty3SLE5F/qvc4djlyR4qY3NUV5HGQBBW7stbcfff1+I/vmsHh" crossorigin="anonymous">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/photoswipe/4.1.2/default-skin/default-skin.min.css" integrity="sha384-iD0dNku6PYSIQLyfTOpB06F2KCZJAKLOThS5HRe8b3ibhdEQ6eKsFf/EeFxdOt5R" crossorigin="anonymous">
 
 
 
@@ -188,13 +186,53 @@
           
           
             <article class="post-preview">
-              <a href="https://sheepbao.github.io/post/golang_debug_gctrace/">
-                <h2 class="post-title">golang开启GODEBUG=gctrace=1 显示信息的含义</h2>
+              <a href="https://sheepbao.github.io/post/golang_string_connect_performance/">
+                <h2 class="post-title">Golang 字符串连接性能探究</h2>
+                
                 
               </a>
 
               <span class="post-meta">
-  Posted on December 3, 2016
+  
+  
+  <i class="fa fa-calendar-o"></i>&nbsp;Posted on December 12, 2016
+  
+  
+  
+</span>
+
+
+              <div class="post-entry">
+                
+                  Golang 字符串连接性能探究 为何探究 几乎所有的软件项目，不管是什么语言，都会用到处理字符串，而拼接字符是最基本，也最常用的。一般连接字符串都有好几种方式，不同的方式适合不同的场景，此次仅探究如果快速动态连接大量的字符串。
+相关问题  https://gocn.io/question/265&amp;sort_key=agree_count&amp;sort=DESC http://stackoverflow.com/questions/1760757/how-to-efficiently-concatenate-strings-in-go/23857998  探究的代码 还是代码最明了
+package main import ( &quot;bytes&quot; &quot;fmt&quot; &quot;strings&quot; &quot;time&quot; ) var way map[int]string func benchmarkStringFunction(n int, index int) (d time.Duration) { v := &quot;ni shuo wo shi bu shi tai wu liao le a?&quot; var s string var buf bytes.Buffer t0 := time.Now() for i := 0; i &lt; n; i++ { switch index { case 0: // fmt.Sprintf s = fmt.
+                  <a href="https://sheepbao.github.io/post/golang_string_connect_performance/" class="post-read-more">[Read More]</a>
+                
+              </div>
+
+              
+                <div class="blog-tags">
+                  
+                    <a href="https://sheepbao.github.io//tags/go/">Go</a>&nbsp;
+                  
+                </div>
+              
+            </article>
+          
+            <article class="post-preview">
+              <a href="https://sheepbao.github.io/post/golang_debug_gctrace/">
+                <h2 class="post-title">golang开启GODEBUG=gctrace=1 显示信息的含义</h2>
+                
+                
+              </a>
+
+              <span class="post-meta">
+  
+  
+  <i class="fa fa-calendar-o"></i>&nbsp;Posted on December 3, 2016
+  
+  
   
 </span>
 
@@ -210,11 +248,11 @@ gc 1 @2.104s 0%: 0.018+1.3+0.076 ms clock, 0.054+0.35/1.0/3.0+0.23 ms cpu, 4-&gt
               </div>
 
               
-                <span class="post-meta">
-                
-                  #<a href="https://sheepbao.github.io/tags/go/">Go</a>&nbsp;
-                
-                </span>
+                <div class="blog-tags">
+                  
+                    <a href="https://sheepbao.github.io//tags/go/">Go</a>&nbsp;
+                  
+                </div>
               
             </article>
           
@@ -222,10 +260,15 @@ gc 1 @2.104s 0%: 0.018+1.3+0.076 ms clock, 0.054+0.35/1.0/3.0+0.23 ms cpu, 4-&gt
               <a href="https://sheepbao.github.io/post/rtmp_note/">
                 <h2 class="post-title">RTMP协议学习笔记</h2>
                 
+                
               </a>
 
               <span class="post-meta">
-  Posted on September 13, 2016
+  
+  
+  <i class="fa fa-calendar-o"></i>&nbsp;Posted on September 13, 2016
+  
+  
   
 </span>
 
@@ -242,11 +285,11 @@ RTMP协议概览 握手、消息块概念 握手的目的是为了确认对端RT
               </div>
 
               
-                <span class="post-meta">
-                
-                  #<a href="https://sheepbao.github.io/tags/rtmp/">RTMP</a>&nbsp;
-                
-                </span>
+                <div class="blog-tags">
+                  
+                    <a href="https://sheepbao.github.io//tags/rtmp/">RTMP</a>&nbsp;
+                  
+                </div>
               
             </article>
           
@@ -254,10 +297,15 @@ RTMP协议概览 握手、消息块概念 握手的目的是为了确认对端RT
               <a href="https://sheepbao.github.io/post/golang_backend_mind_map/">
                 <h2 class="post-title">golang 后端开发思维导图</h2>
                 
+                
               </a>
 
               <span class="post-meta">
-  Posted on July 17, 2016
+  
+  
+  <i class="fa fa-calendar-o"></i>&nbsp;Posted on July 17, 2016
+  
+  
   
 </span>
 
@@ -277,11 +325,11 @@ by sheepbao.</p>
               </div>
 
               
-                <span class="post-meta">
-                
-                  #<a href="https://sheepbao.github.io/tags/go/">Go</a>&nbsp;
-                
-                </span>
+                <div class="blog-tags">
+                  
+                    <a href="https://sheepbao.github.io//tags/go/">Go</a>&nbsp;
+                  
+                </div>
               
             </article>
           
@@ -289,10 +337,15 @@ by sheepbao.</p>
               <a href="https://sheepbao.github.io/post/understand_golang_slice/">
                 <h2 class="post-title">深入理解go的slice和到底什么时候该用slice</h2>
                 
+                
               </a>
 
               <span class="post-meta">
-  Posted on June 27, 2016
+  
+  
+  <i class="fa fa-calendar-o"></i>&nbsp;Posted on June 27, 2016
+  
+  
   
 </span>
 
@@ -311,11 +364,11 @@ s := []int{1,2,3,4,5,6} s1 := s[0:2] fmt.Println(s1) // [1 2] s2 := s[4:] fmt.Pr
               </div>
 
               
-                <span class="post-meta">
-                
-                  #<a href="https://sheepbao.github.io/tags/go/">Go</a>&nbsp;
-                
-                </span>
+                <div class="blog-tags">
+                  
+                    <a href="https://sheepbao.github.io//tags/go/">Go</a>&nbsp;
+                  
+                </div>
               
             </article>
           
@@ -323,10 +376,15 @@ s := []int{1,2,3,4,5,6} s1 := s[0:2] fmt.Println(s1) // [1 2] s2 := s[4:] fmt.Pr
               <a href="https://sheepbao.github.io/post/golang_http_proxy/">
                 <h2 class="post-title">用golang写一个http代理，可以抓包和科学上网</h2>
                 
+                
               </a>
 
               <span class="post-meta">
-  Posted on June 15, 2016
+  
+  
+  <i class="fa fa-calendar-o"></i>&nbsp;Posted on June 15, 2016
+  
+  
   
 </span>
 
@@ -345,11 +403,11 @@ http代理 http请求响应的抓取 修改http请求 重复请求 同时监听�
               </div>
 
               
-                <span class="post-meta">
-                
-                  #<a href="https://sheepbao.github.io/tags/go/">Go</a>&nbsp;
-                
-                </span>
+                <div class="blog-tags">
+                  
+                    <a href="https://sheepbao.github.io//tags/go/">Go</a>&nbsp;
+                  
+                </div>
               
             </article>
           
@@ -359,7 +417,7 @@ http代理 http请求响应的抓取 修改http请求 重复请求 同时监听�
           <ul class="pager main-pager">
             
               <li class="previous">
-                <a href="/page/2">&larr; Newer Posts</a>
+                <a href="https://sheepbao.github.io/page/2/">&larr; Newer Posts</a>
               </li>
             
             
@@ -379,7 +437,7 @@ http代理 http请求响应的抓取 修改http请求 重复请求 同时监听�
         </ul>
         <p class="credits copyright text-muted">
           
-          
+
           &nbsp;&bull;&nbsp;
           2018
 
@@ -402,13 +460,13 @@ http代理 http请求响应的抓取 修改http请求 重复请求 同时监听�
 <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.7.1/contrib/auto-render.min.js" integrity="sha384-dq1/gEHSxPZQ7DdrM82ID4YVol9BYyU7GbWlIwnwyPzotpoc57wDw/guX8EaYGPx" crossorigin="anonymous"></script>
 <script src="https://code.jquery.com/jquery-1.12.4.min.js" integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ=" crossorigin="anonymous"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
-<script src="https://sheepbao.github.io/js/main.js"></script>
-<script src="https://sheepbao.github.io/js/highlight.min.js"></script>
-<script> hljs.initHighlightingOnLoad(); </script>
-<script> renderMathInElement(document.body); </script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/photoswipe/4.1.1/photoswipe.min.js" integrity="sha256-UplRCs9v4KXVJvVY+p+RSo5Q4ilAUXh7kpjyIP5odyc=" crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/photoswipe/4.1.1/photoswipe-ui-default.min.js" integrity="sha256-PWHOlUzc96pMc8ThwRIXPn8yH4NOLu42RQ0b9SpnpFk=" crossorigin="anonymous"></script>
+<script src="https://sheepbao.github.io/js/main.js"></script><script> renderMathInElement(document.body); </script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/photoswipe/4.1.2/photoswipe.min.js" integrity="sha384-QELNnmcmU8IR9ZAykt67vGr9/rZJdHbiWi64V88fCPaOohUlHCqUD/unNN0BXSqy" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/photoswipe/4.1.2/photoswipe-ui-default.min.js" integrity="sha384-m67o7SkQ1ALzKZIFh4CiTA8tmadaujiTa9Vu+nqPSwDOqHrDmxLezTdFln8077+q" crossorigin="anonymous"></script>
 <script src="https://sheepbao.github.io/js/load-photoswipe.js"></script>
+
+
+
 
 
 

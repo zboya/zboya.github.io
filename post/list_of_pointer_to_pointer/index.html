@@ -1,0 +1,494 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+
+  <title>二级指针操作链表</title>
+  <meta property="og:title" content="二级指针操作链表" />
+  <meta name="twitter:title" content="二级指针操作链表" />
+  <meta name="description" content="利用二级指针操作链表 以下所有观点都是个人愚见，有不同建议或补充的的欢迎emial我aboutme
+导读 之前开了个项目来看golang runtime源码https://github.com/sheepbao/golang_runtime_reading，发现实现全局P链表的代码挺有趣的，遂研究记录一下。
+先看个例子 package ptplist import ( &quot;log&quot; &quot;testing&quot; &quot;unsafe&quot; ) type puintptr uintptr //go:nosplit func (pp puintptr) ptr() *p { return (*p)(unsafe.Pointer(pp)) } //go:nosplit func (pp *puintptr) set(p *p) { *pp = puintptr(unsafe.Pointer(p)) } type p struct { id int link puintptr } var pidleList puintptr func pidleput(_p_ *p) { _p_.link = pidleList pidleList.set(_p_) } func pidleget() *p { _p_ := pidleList.ptr() if _p_ != nil { pidleList = _p_.">
+  <meta property="og:description" content="利用二级指针操作链表 以下所有观点都是个人愚见，有不同建议或补充的的欢迎emial我aboutme
+导读 之前开了个项目来看golang runtime源码https://github.com/sheepbao/golang_runtime_reading，发现实现全局P链表的代码挺有趣的，遂研究记录一下。
+先看个例子 package ptplist import ( &quot;log&quot; &quot;testing&quot; &quot;unsafe&quot; ) type puintptr uintptr //go:nosplit func (pp puintptr) ptr() *p { return (*p)(unsafe.Pointer(pp)) } //go:nosplit func (pp *puintptr) set(p *p) { *pp = puintptr(unsafe.Pointer(p)) } type p struct { id int link puintptr } var pidleList puintptr func pidleput(_p_ *p) { _p_.link = pidleList pidleList.set(_p_) } func pidleget() *p { _p_ := pidleList.ptr() if _p_ != nil { pidleList = _p_.">
+  <meta name="twitter:description" content="利用二级指针操作链表 以下所有观点都是个人愚见，有不同建议或补充的的欢迎emial我aboutme
+导读 之前开了个项目来看golang runtime源码https://github.com/sheepbao/golang_runtime_reading，发现实现全局P链表的代码挺有趣的，遂研究记录一下。
+先看个例子 package ptplist import ( …">
+  <meta name="author" content=""/>
+  <link href='https://sheepbao.github.io/img/favicon.ico' rel='icon' type='image/x-icon'/>
+  <meta property="og:image" content="https://sheepbao.github.io/img/favicon.ico" />
+  <meta name="twitter:image" content="https://sheepbao.github.io/img/favicon.ico" />
+  <meta name="twitter:card" content="summary" />
+  <meta property="og:url" content="https://sheepbao.github.io/post/list_of_pointer_to_pointer/" />
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="boya blog" />
+
+  <meta name="generator" content="Hugo 0.26" />
+  <link rel="canonical" href="https://sheepbao.github.io/post/list_of_pointer_to_pointer/" />
+  <link rel="alternate" href="https://sheepbao.github.io/index.xml" type="application/rss+xml" title="boya blog">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.7.1/katex.min.css" integrity="sha384-wITovz90syo1dJWVh32uuETPVEtGigN07tkttEqPv+uR2SE/mbQcG7ATL28aI9H0" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://sheepbao.github.io/css/main.css" /><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" /><link rel="stylesheet" href="https://sheepbao.github.io/css/syntax.css" /><link rel="stylesheet" href="https://sheepbao.github.io/css/codeblock.css" />
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/photoswipe/4.1.2/photoswipe.min.css" integrity="sha384-h/L2W9KefUClHWaty3SLE5F/qvc4djlyR4qY3NUV5HGQBBW7stbcfff1+I/vmsHh" crossorigin="anonymous">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/photoswipe/4.1.2/default-skin/default-skin.min.css" integrity="sha384-iD0dNku6PYSIQLyfTOpB06F2KCZJAKLOThS5HRe8b3ibhdEQ6eKsFf/EeFxdOt5R" crossorigin="anonymous">
+
+
+
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+<div class="pswp__bg"></div>
+
+<div class="pswp__scroll-wrap">
+    
+    <div class="pswp__container">
+      <div class="pswp__item"></div>
+      <div class="pswp__item"></div>
+      <div class="pswp__item"></div>
+    </div>
+    
+    <div class="pswp__ui pswp__ui--hidden">
+    <div class="pswp__top-bar">
+      
+      <div class="pswp__counter"></div>
+      <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+      <button class="pswp__button pswp__button--share" title="Share"></button>
+      <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+      <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+      
+      
+      <div class="pswp__preloader">
+        <div class="pswp__preloader__icn">
+          <div class="pswp__preloader__cut">
+            <div class="pswp__preloader__donut"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+      <div class="pswp__share-tooltip"></div>
+    </div>
+    <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+    </button>
+    <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+    </button>
+    <div class="pswp__caption">
+      <div class="pswp__caption__center"></div>
+    </div>
+    </div>
+    </div>
+</div>
+
+</head>
+
+  <body>
+    <nav class="navbar navbar-default navbar-fixed-top navbar-custom">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#main-navbar">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="https://sheepbao.github.io/">boya blog</a>
+    </div>
+
+    <div class="collapse navbar-collapse" id="main-navbar">
+      <ul class="nav navbar-nav navbar-right">
+        
+          
+            <li>
+              <a title="posts" href="/post/">posts</a>
+            </li>
+          
+        
+          
+            <li>
+              <a title="categories" href="/categories/">categories</a>
+            </li>
+          
+        
+          
+            <li>
+              <a title="tags" href="/tags/">tags</a>
+            </li>
+          
+        
+          
+            <li>
+              <a title="aboutme" href="/about/">aboutme</a>
+            </li>
+          
+        
+
+        
+
+        
+      </ul>
+    </div>
+
+    <div class="avatar-container">
+      <div class="avatar-img-border">
+        
+          <a title="boya blog" href="https://sheepbao.github.io/">
+            <img class="avatar-img" src="https://sheepbao.github.io/img/favicon.ico" alt="boya blog" />
+          </a>
+        
+      </div>
+    </div>
+
+  </div>
+</nav>
+
+
+
+
+    
+  
+  
+  
+
+
+
+
+  
+
+  <header class="header-section ">
+    
+    <div class="intro-header no-img">
+      
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+            <div class="post-heading">
+              <h1>二级指针操作链表</h1>
+                
+                
+                  <span class="post-meta">
+  
+  
+  <i class="fa fa-calendar-o"></i>&nbsp;Posted on August 26, 2018
+  
+  
+  
+</span>
+
+
+                
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+
+    
+<div class="container" role="main">
+  <div class="row">
+    <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+      <article role="main" class="blog-post">
+        
+
+<h1 id="利用二级指针操作链表">利用二级指针操作链表</h1>
+
+<p>以下所有观点都是个人愚见，有不同建议或补充的的欢迎emial我<a href="https://sheepbao.github.io/about/">aboutme</a></p>
+
+<h2 id="导读">导读</h2>
+
+<p>之前开了个项目来看golang runtime源码<a href="https://github.com/sheepbao/golang_runtime_reading">https://github.com/sheepbao/golang_runtime_reading</a>，发现实现全局P链表的代码挺有趣的，遂研究记录一下。</p>
+
+<h2 id="先看个例子">先看个例子</h2>
+
+<pre><code class="language-go">package ptplist
+
+import (
+	&quot;log&quot;
+	&quot;testing&quot;
+	&quot;unsafe&quot;
+)
+
+type puintptr uintptr
+
+//go:nosplit
+func (pp puintptr) ptr() *p { return (*p)(unsafe.Pointer(pp)) }
+
+//go:nosplit
+func (pp *puintptr) set(p *p) { *pp = puintptr(unsafe.Pointer(p)) }
+
+type p struct {
+	id   int
+	link puintptr
+}
+
+var pidleList puintptr 
+
+func pidleput(_p_ *p) {
+	_p_.link = pidleList
+	pidleList.set(_p_)
+}
+
+func pidleget() *p {
+	_p_ := pidleList.ptr()
+	if _p_ != nil {
+		pidleList = _p_.link
+	}
+	return _p_
+}
+
+func TestPtoPList(t *testing.T) {
+	for i := 0; i &lt; 5; i++ {
+		tp := p{id: i}
+		pidleput(&amp;tp)
+		log.Printf(&quot;put p: %d&quot;, i)
+	}
+	log.Println(&quot;&quot;)
+	for i := 0; i &lt; 5; i++ {
+		tp := pidleget()
+		log.Printf(&quot;get p: %d&quot;, tp.id)
+	}
+
+}
+</code></pre>
+
+<p>结果：</p>
+
+<pre><code>=== RUN   TestPtoPList
+2018/08/28 17:25:22 put p: 0
+2018/08/28 17:25:22 put p: 1
+2018/08/28 17:25:22 put p: 2
+2018/08/28 17:25:22 put p: 3
+2018/08/28 17:25:22 put p: 4
+2018/08/28 17:25:22 
+2018/08/28 17:25:22 get p: 4
+2018/08/28 17:25:22 get p: 3
+2018/08/28 17:25:22 get p: 2
+2018/08/28 17:25:22 get p: 1
+2018/08/28 17:25:22 get p: 0
+--- PASS: TestPtoPList (0.00s)
+</code></pre>
+
+<h2 id="分析">分析</h2>
+
+<p>从结果上看<code>pidleList</code>实现了一个栈，<code>pidleput</code>把一个新的p push到<code>pidleList</code>，<code>pidleget</code>是从<code>pidleList</code> pop出一个p。
+具体看看这个怎么实现的：</p>
+
+<pre><code class="language-go">type puintptr uintptr
+</code></pre>
+
+<p>首先我们定义了puintptr类型，底层类型为uintptr。<a href="https://golang.google.cn/pkg/builtin/#uintptr">uintptr</a>是整型，可以足够保存指针的值得范围，在32平台下为4字节，在64位平台下是8字节，它和unsafe.Pointer可相互转换。
+uintptr和unsafe.Pointer的区别就是：unsafe.Pointer只是单纯的通用指针类型，用于转换不同类型指针，它不可以参与指针运算；而uintptr是可用于指针运算的。</p>
+
+<h4 id="uintptr和unsafe-pointer互转换">uintptr和unsafe.Pointer互转换</h4>
+
+<pre><code class="language-go">func TestUintprt1(t *testing.T) {
+	var a int
+	a = 2018
+	b := (*int)(unsafe.Pointer(&amp;a))
+	t.Logf(&quot;a.addr=%p, b.addr=%p, *b=%d&quot;, &amp;a, b, *b)
+	buintptr := uintptr((unsafe.Pointer(&amp;a)))
+	t.Logf(&quot;buintptr=0x%x&quot;, buintptr)
+}
+</code></pre>
+
+<p>output:</p>
+
+<pre><code>a.addr=0xc42008e1e0, b.addr=0xc42008e1e0, *b=2018
+buintptr=0xc42008e1e0
+</code></pre>
+
+<p>buintptr的值就等于a的地址</p>
+
+<h4 id="uintptr的指针运算取数组">uintptr的指针运算取数组</h4>
+
+<pre><code class="language-go">func TestUintprt2(t *testing.T) {
+	var a [2]int
+	a[0] = 2018
+	a[1] = 2019
+
+	t.Logf(&quot;a0.addr=%p, a1.addr=%p&quot;, &amp;a[0], &amp;a[1])
+	auintptr := uintptr((unsafe.Pointer(&amp;a)))
+	t.Logf(&quot;auintptr=0x%x&quot;, auintptr)
+	// 把auintptr的值加上一个指针的长度, 和C语言的p++一样
+	a1uintptr := auintptr + unsafe.Sizeof(&amp;a)
+	a1pointer := unsafe.Pointer(a1uintptr)
+	// 得到a[1]
+	a1 := *(*int)(a1pointer)
+	t.Logf(&quot;a1pointer=%p, a1=%d&quot;, a1pointer, a1)
+}
+</code></pre>
+
+<p>output:</p>
+
+<pre><code>a0.addr=0xc42009c1e0, a1.addr=0xc42009c1e8
+auintptr=0xc42009c1e0
+a1pointer=0xc42009c1e8, a1=2019
+</code></pre>
+
+<p>获取到auintptr表示a数组的首地址，把它加上一个指针长度，就会得到a数组下一个元素。这个和C语言的p++是一样的，只不过golang不推崇指针运算，写起来很麻烦。</p>
+
+<pre><code class="language-go">//go:nosplit
+func (pp puintptr) ptr() *p { return (*p)(unsafe.Pointer(pp)) }
+
+//go:nosplit
+func (pp *puintptr) set(p *p) { *pp = puintptr(unsafe.Pointer(p)) }
+</code></pre>
+
+<p>接着给puintptr类型增加了两个方法，比如现有有个puintptr类型的值pl，那么：<br />
+<code>ptr()</code>方法，将pl变为p类型的指针返回，<code>set(p *p)</code>方法将p的地址转换为puintptr，并将这puintptr赋值给pl，也就是说pl的值等于p的地址。
+这里的pp是pl的指针，*pl就是二级指针了。理解这两个方法就好理解代码了。</p>
+
+<pre><code class="language-go">func pidleput(_p_ *p) {
+    // 将pidleList赋值给link ，最开始的时候pidleList为0，但是之后pidleList是上个p的地址
+    _p_.link = pidleList
+    // pidleList保存_p_的地址
+	pidleList.set(_p_)
+}
+</code></pre>
+
+<p>接着定义put方法，<code>_p_.link</code>保存上个p的地址，<code>pidleList</code>保存当前<code>_p_</code>的地址，这里就构成了单向链表，看图最明显</p>
+
+<pre><code>/*
+        p1                 p2
+	+-------+           +-------+
+	|   id  |&lt;-----+    |   id  |&lt;------ pidleList
+	+-------+      |    +-------+
+	| link  |      +----| link  |
+	+-------+           +-------+
+*/
+</code></pre>
+
+<p>所以每当pidleput时将当前p的link指向上个p，pidleList指向最新的p</p>
+
+<pre><code class="language-go">func pidleget() *p {
+    // 获取pidleList指向的p
+    _p_ := pidleList.ptr()
+    // _p_ 不等于0
+	if _p_ != nil {
+        // 将pidleList重新指向下一个p
+		pidleList = _p_.link
+	}
+	return _p_
+}
+</code></pre>
+
+<p>理解了上面的pidleget就简单了。</p>
+
+<h2 id="golang-源码">golang 源码</h2>
+
+<p>想具体看源码的话可以看下面的连接：</p>
+
+<p><a href="https://github.com/sheepbao/golang_runtime_reading/blob/master/src/runtime/proc.go">https://github.com/sheepbao/golang_runtime_reading/blob/master/src/runtime/proc.go</a></p>
+
+<p><a href="https://github.com/sheepbao/golang_runtime_reading/blob/master/src/runtime/runtime2.go">https://github.com/sheepbao/golang_runtime_reading/blob/master/src/runtime/runtime2.go</a></p>
+
+
+        
+          <div class="blog-tags">
+            
+              <a href="https://sheepbao.github.io//tags/go/">Go</a>&nbsp;
+            
+          </div>
+        
+
+        
+      </article>
+
+      
+        <ul class="pager blog-pager">
+          
+            <li class="previous">
+              <a href="https://sheepbao.github.io/post/google_golang_netstack/" data-toggle="tooltip" data-placement="top" title="gvisor的网络栈实现-简介">&larr; Previous Post</a>
+            </li>
+          
+          
+        </ul>
+      
+
+
+      
+        
+          <div class="disqus-comments">
+            <div id="disqus_thread"></div>
+<script>
+    var disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "sheepbao" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+          </div>
+        
+        
+      
+
+    </div>
+  </div>
+</div>
+
+    <footer>
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+        <ul class="list-inline text-center footer-links">
+          
+          
+        </ul>
+        <p class="credits copyright text-muted">
+          
+
+          &nbsp;&bull;&nbsp;
+          2018
+
+          
+            &nbsp;&bull;&nbsp;
+            <a href="https://sheepbao.github.io/">boya blog</a>
+          
+        </p>
+        
+        <p class="credits theme-by text-muted">
+          <a href="http://gohugo.io">Hugo v0.26</a> powered &nbsp;&bull;&nbsp; Theme by <a href="http://deanattali.com/beautiful-jekyll/">Beautiful Jekyll</a> adapted to <a href="https://github.com/halogenica/beautifulhugo">Beautiful Hugo</a>
+          
+        </p>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.7.1/katex.min.js" integrity="sha384-/y1Nn9+QQAipbNQWU65krzJralCnuOasHncUFXGkdwntGeSvQicrYkiUBwsgUqc1" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.7.1/contrib/auto-render.min.js" integrity="sha384-dq1/gEHSxPZQ7DdrM82ID4YVol9BYyU7GbWlIwnwyPzotpoc57wDw/guX8EaYGPx" crossorigin="anonymous"></script>
+<script src="https://code.jquery.com/jquery-1.12.4.min.js" integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ=" crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+<script src="https://sheepbao.github.io/js/main.js"></script><script> renderMathInElement(document.body); </script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/photoswipe/4.1.2/photoswipe.min.js" integrity="sha384-QELNnmcmU8IR9ZAykt67vGr9/rZJdHbiWi64V88fCPaOohUlHCqUD/unNN0BXSqy" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/photoswipe/4.1.2/photoswipe-ui-default.min.js" integrity="sha384-m67o7SkQ1ALzKZIFh4CiTA8tmadaujiTa9Vu+nqPSwDOqHrDmxLezTdFln8077+q" crossorigin="anonymous"></script>
+<script src="https://sheepbao.github.io/js/load-photoswipe.js"></script>
+
+
+
+
+
+
+  </body>
+</html>
+
