@@ -5,16 +5,16 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
 
-  <title>二级指针操作链表</title>
-  <meta property="og:title" content="二级指针操作链表" />
-  <meta name="twitter:title" content="二级指针操作链表" />
-  <meta name="description" content="利用二级指针操作链表 以下所有观点都是个人愚见，有不同建议或补充的的欢迎emial我aboutme
+  <title>golang二级指针操作链表</title>
+  <meta property="og:title" content="golang二级指针操作链表" />
+  <meta name="twitter:title" content="golang二级指针操作链表" />
+  <meta name="description" content="golang利用二级指针操作链表 以下所有观点都是个人愚见，有不同建议或补充的的欢迎emial我aboutme
 导读 之前开了个项目来看golang runtime源码https://github.com/sheepbao/golang_runtime_reading，发现实现全局P链表的代码挺有趣的，遂研究记录一下。
 先看个例子 package ptplist import ( &quot;log&quot; &quot;testing&quot; &quot;unsafe&quot; ) type puintptr uintptr //go:nosplit func (pp puintptr) ptr() *p { return (*p)(unsafe.Pointer(pp)) } //go:nosplit func (pp *puintptr) set(p *p) { *pp = puintptr(unsafe.Pointer(p)) } type p struct { id int link puintptr } var pidleList puintptr func pidleput(_p_ *p) { _p_.link = pidleList pidleList.set(_p_) } func pidleget() *p { _p_ := pidleList.ptr() if _p_ != nil { pidleList = _p_.">
-  <meta property="og:description" content="利用二级指针操作链表 以下所有观点都是个人愚见，有不同建议或补充的的欢迎emial我aboutme
+  <meta property="og:description" content="golang利用二级指针操作链表 以下所有观点都是个人愚见，有不同建议或补充的的欢迎emial我aboutme
 导读 之前开了个项目来看golang runtime源码https://github.com/sheepbao/golang_runtime_reading，发现实现全局P链表的代码挺有趣的，遂研究记录一下。
 先看个例子 package ptplist import ( &quot;log&quot; &quot;testing&quot; &quot;unsafe&quot; ) type puintptr uintptr //go:nosplit func (pp puintptr) ptr() *p { return (*p)(unsafe.Pointer(pp)) } //go:nosplit func (pp *puintptr) set(p *p) { *pp = puintptr(unsafe.Pointer(p)) } type p struct { id int link puintptr } var pidleList puintptr func pidleput(_p_ *p) { _p_.link = pidleList pidleList.set(_p_) } func pidleget() *p { _p_ := pidleList.ptr() if _p_ != nil { pidleList = _p_.">
-  <meta name="twitter:description" content="利用二级指针操作链表 以下所有观点都是个人愚见，有不同建议或补充的的欢迎emial我aboutme
+  <meta name="twitter:description" content="golang利用二级指针操作链表 以下所有观点都是个人愚见，有不同建议或补充的的欢迎emial我aboutme
 导读 之前开了个项目来看golang runtime源码https://github.com/sheepbao/golang_runtime_reading，发现实现全局P链表的代码挺有趣的，遂研究记录一下。
 先看个例子 package ptplist import ( …">
   <meta name="author" content=""/>
@@ -169,7 +169,7 @@
         <div class="row">
           <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
             <div class="post-heading">
-              <h1>二级指针操作链表</h1>
+              <h1>golang二级指针操作链表</h1>
                 
                 
                   <span class="post-meta">
@@ -198,7 +198,7 @@
       <article role="main" class="blog-post">
         
 
-<h1 id="利用二级指针操作链表">利用二级指针操作链表</h1>
+<h1 id="golang利用二级指针操作链表">golang利用二级指针操作链表</h1>
 
 <p>以下所有观点都是个人愚见，有不同建议或补充的的欢迎emial我<a href="https://sheepbao.github.io/about/">aboutme</a></p>
 
