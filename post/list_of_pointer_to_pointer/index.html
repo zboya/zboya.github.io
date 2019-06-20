@@ -9,13 +9,13 @@
   <meta property="og:title" content="golang二级指针操作链表" />
   <meta name="twitter:title" content="golang二级指针操作链表" />
   <meta name="description" content="golang利用二级指针操作链表 以下所有观点都是个人愚见，有不同建议或补充的的欢迎emial我aboutme
-导读 之前开了个项目来看golang runtime源码https://github.com/sheepbao/golang_runtime_reading，发现实现全局P链表的代码挺有趣的，遂研究记录一下。
+导读 之前开了个项目来看golang runtime源码https://github.com/zboya/golang_runtime_reading，发现实现全局P链表的代码挺有趣的，遂研究记录一下。
 先看个例子 package ptplist import ( &quot;log&quot; &quot;testing&quot; &quot;unsafe&quot; ) type puintptr uintptr //go:nosplit func (pp puintptr) ptr() *p { return (*p)(unsafe.Pointer(pp)) } //go:nosplit func (pp *puintptr) set(p *p) { *pp = puintptr(unsafe.Pointer(p)) } type p struct { id int link puintptr } var pidleList puintptr func pidleput(_p_ *p) { _p_.link = pidleList pidleList.set(_p_) } func pidleget() *p { _p_ := pidleList.ptr() if _p_ != nil { pidleList = _p_.">
   <meta property="og:description" content="golang利用二级指针操作链表 以下所有观点都是个人愚见，有不同建议或补充的的欢迎emial我aboutme
-导读 之前开了个项目来看golang runtime源码https://github.com/sheepbao/golang_runtime_reading，发现实现全局P链表的代码挺有趣的，遂研究记录一下。
+导读 之前开了个项目来看golang runtime源码https://github.com/zboya/golang_runtime_reading，发现实现全局P链表的代码挺有趣的，遂研究记录一下。
 先看个例子 package ptplist import ( &quot;log&quot; &quot;testing&quot; &quot;unsafe&quot; ) type puintptr uintptr //go:nosplit func (pp puintptr) ptr() *p { return (*p)(unsafe.Pointer(pp)) } //go:nosplit func (pp *puintptr) set(p *p) { *pp = puintptr(unsafe.Pointer(p)) } type p struct { id int link puintptr } var pidleList puintptr func pidleput(_p_ *p) { _p_.link = pidleList pidleList.set(_p_) } func pidleget() *p { _p_ := pidleList.ptr() if _p_ != nil { pidleList = _p_.">
   <meta name="twitter:description" content="golang利用二级指针操作链表 以下所有观点都是个人愚见，有不同建议或补充的的欢迎emial我aboutme
-导读 之前开了个项目来看golang runtime源码https://github.com/sheepbao/golang_runtime_reading，发现实现全局P链表的代码挺有趣的，遂研究记录一下。
+导读 之前开了个项目来看golang runtime源码https://github.com/zboya/golang_runtime_reading，发现实现全局P链表的代码挺有趣的，遂研究记录一下。
 先看个例子 package ptplist import ( …">
   <meta name="author" content=""/>
   <link href='https://zboya.github.io/img/favicon.ico' rel='icon' type='image/x-icon'/>
@@ -204,7 +204,7 @@
 
 <h2 id="导读">导读</h2>
 
-<p>之前开了个项目来看golang runtime源码<a href="https://github.com/sheepbao/golang_runtime_reading">https://github.com/sheepbao/golang_runtime_reading</a>，发现实现全局P链表的代码挺有趣的，遂研究记录一下。</p>
+<p>之前开了个项目来看golang runtime源码<a href="https://github.com/zboya/golang_runtime_reading">https://github.com/zboya/golang_runtime_reading</a>，发现实现全局P链表的代码挺有趣的，遂研究记录一下。</p>
 
 <h2 id="先看个例子">先看个例子</h2>
 
@@ -386,9 +386,9 @@ func (pp *puintptr) set(p *p) { *pp = puintptr(unsafe.Pointer(p)) }
 
 <p>想具体看源码的话可以看下面的连接：</p>
 
-<p><a href="https://github.com/sheepbao/golang_runtime_reading/blob/master/src/runtime/proc.go">https://github.com/sheepbao/golang_runtime_reading/blob/master/src/runtime/proc.go</a></p>
+<p><a href="https://github.com/zboya/golang_runtime_reading/blob/master/src/runtime/proc.go">https://github.com/zboya/golang_runtime_reading/blob/master/src/runtime/proc.go</a></p>
 
-<p><a href="https://github.com/sheepbao/golang_runtime_reading/blob/master/src/runtime/runtime2.go">https://github.com/sheepbao/golang_runtime_reading/blob/master/src/runtime/runtime2.go</a></p>
+<p><a href="https://github.com/zboya/golang_runtime_reading/blob/master/src/runtime/runtime2.go">https://github.com/zboya/golang_runtime_reading/blob/master/src/runtime/runtime2.go</a></p>
 
 
         

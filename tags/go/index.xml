@@ -18,7 +18,7 @@
       
       <guid>https://zboya.github.io/post/list_of_pointer_to_pointer/</guid>
       <description>golang利用二级指针操作链表 以下所有观点都是个人愚见，有不同建议或补充的的欢迎emial我aboutme
-导读 之前开了个项目来看golang runtime源码https://github.com/sheepbao/golang_runtime_reading，发现实现全局P链表的代码挺有趣的，遂研究记录一下。
+导读 之前开了个项目来看golang runtime源码https://github.com/zboya/golang_runtime_reading，发现实现全局P链表的代码挺有趣的，遂研究记录一下。
 先看个例子 package ptplist import ( &amp;quot;log&amp;quot; &amp;quot;testing&amp;quot; &amp;quot;unsafe&amp;quot; ) type puintptr uintptr //go:nosplit func (pp puintptr) ptr() *p { return (*p)(unsafe.Pointer(pp)) } //go:nosplit func (pp *puintptr) set(p *p) { *pp = puintptr(unsafe.Pointer(p)) } type p struct { id int link puintptr } var pidleList puintptr func pidleput(_p_ *p) { _p_.link = pidleList pidleList.set(_p_) } func pidleget() *p { _p_ := pidleList.ptr() if _p_ != nil { pidleList = _p_.</description>
     </item>
     
@@ -250,7 +250,7 @@ When a variable (or an object) is allocated in a subroutine, a pointer to the va
       
       <guid>https://zboya.github.io/post/golang_stream_server/</guid>
       <description>sms 用golang实现的流媒体服务器,来自开源，现在回馈给开源社区。
-特性  模块化，易扩展 高性能，易部署，跨平台 支持rtmp推拉流 支持http-flv分发 支持hls分发 支持http接口请求来推拉流  源码编译 git clone https://github.com/sheepbao/sms.git cd sms ./build.sh  交叉编译 ./build.sh linux arm // or ./build.sh os arch  运行 ./bin/sms  项目地址 github: https://github.com/sheepbao/sms</description>
+特性  模块化，易扩展 高性能，易部署，跨平台 支持rtmp推拉流 支持http-flv分发 支持hls分发 支持http接口请求来推拉流  源码编译 git clone https://github.com/zboya/sms.git cd sms ./build.sh  交叉编译 ./build.sh linux arm // or ./build.sh os arch  运行 ./bin/sms  项目地址 github: https://github.com/zboya/sms</description>
     </item>
     
     <item>
@@ -325,7 +325,7 @@ s := []int{1,2,3,4,5,6} s1 := s[0:2] fmt.Println(s1) // [1 2] s2 := s[4:] fmt.Pr
       <guid>https://zboya.github.io/post/golang_http_proxy/</guid>
       <description>用golang写一个http代理，可以抓包和科学上网 缘起 因为在工作中需要对上网进行限制，只让我们的app上网，意思就是放行app请求的所有域名或ip，而其他域名都禁止，所以我需要对app的http请求进行抓包。上网搜了一下，win下的fiddler不错，可惜我用的是Linux系统，fiddler不跨平台，找了下linux下的抓包软件，当然tcpdump和wireshare是足够强大的，完全可以实现我要的小小要求，但用起来有一定的复杂性，门槛稍高。在网上找到其他类似的软件还挺多，charles、NProxy等，最后发现mitmproxy最符合我的胃口，如图： 但是mitmproxy的安装依赖太多，python就是这样，一不小心就报错了，so，想着用golang实现类似的功能，自己也很喜欢go语言，如果有空能安静写写自己喜欢的代码，是多么的幸福。想好了就实践，Let&amp;rsquo;s do it，当然凡事都有个从简到繁的过程，下面的特性慢慢增加。
 特性 特性，也可以说功能，以下是实现或者将要实现的特性
-http代理 http请求响应的抓取 修改http请求 重复请求 同时监听多端口 支持socks5、websocket、https协议 界面支持终端和网页两种形式  安装 git clone https://github.com/sheepbao/gomitmproxy.git cd gomitmproxy go build  使用  http代理  gomimtproxy  不带任何参数，表示http代理，默认端口8080,更改端口用 -port
+http代理 http请求响应的抓取 修改http请求 重复请求 同时监听多端口 支持socks5、websocket、https协议 界面支持终端和网页两种形式  安装 git clone https://github.com/zboya/gomitmproxy.git cd gomitmproxy go build  使用  http代理  gomimtproxy  不带任何参数，表示http代理，默认端口8080,更改端口用 -port
  http抓包  gomimtproxy -m  加 -m 参数，表示抓取http请求和响应  http代理科学上网
 首先你得有个墙外的服务器，如阿里香港的服务器，为图中的Server，假设其ip地址为：22.222.222.222
   在Server执行: gomitmproxy -port 8888  在你自己电脑执行: gomitmproxy -port 8080 -raddr 22.222.222.222:8888  然后浏览器设置代理，ip为localhost，端口为8080,即可实现科学上网
