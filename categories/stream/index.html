@@ -9,22 +9,22 @@
   <meta property="og:title" content="Stream" />
   <meta name="twitter:title" content="Stream" />
   <meta name="author" content=""/>
-  <link href='https://sheepbao.github.io/img/favicon.ico' rel='icon' type='image/x-icon'/>
-  <meta property="og:image" content="https://sheepbao.github.io/img/favicon.ico" />
-  <meta name="twitter:image" content="https://sheepbao.github.io/img/favicon.ico" />
+  <link href='https://zboya.github.io/img/favicon.ico' rel='icon' type='image/x-icon'/>
+  <meta property="og:image" content="https://zboya.github.io/img/favicon.ico" />
+  <meta name="twitter:image" content="https://zboya.github.io/img/favicon.ico" />
   <meta name="twitter:card" content="summary" />
-  <meta property="og:url" content="https://sheepbao.github.io/categories/stream/" />
+  <meta property="og:url" content="https://zboya.github.io/categories/stream/" />
   <meta property="og:type" content="website" />
   <meta property="og:site_name" content="boya blog" />
 
   <meta name="generator" content="Hugo 0.26" />
-  <link rel="canonical" href="https://sheepbao.github.io/categories/stream/" />
-  <link rel="alternate" href="https://sheepbao.github.io/categories/stream/index.xml" type="application/rss+xml" title="boya blog">
+  <link rel="canonical" href="https://zboya.github.io/categories/stream/" />
+  <link rel="alternate" href="https://zboya.github.io/categories/stream/index.xml" type="application/rss+xml" title="boya blog">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.7.1/katex.min.css" integrity="sha384-wITovz90syo1dJWVh32uuETPVEtGigN07tkttEqPv+uR2SE/mbQcG7ATL28aI9H0" crossorigin="anonymous">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
-  <link rel="stylesheet" href="https://sheepbao.github.io/css/main.css" /><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic" />
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" /><link rel="stylesheet" href="https://sheepbao.github.io/css/syntax.css" /><link rel="stylesheet" href="https://sheepbao.github.io/css/codeblock.css" />
+  <link rel="stylesheet" href="https://zboya.github.io/css/main.css" /><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" /><link rel="stylesheet" href="https://zboya.github.io/css/syntax.css" /><link rel="stylesheet" href="https://zboya.github.io/css/codeblock.css" />
 
 
 
@@ -89,7 +89,7 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="https://sheepbao.github.io/">boya blog</a>
+      <a class="navbar-brand" href="https://zboya.github.io/">boya blog</a>
     </div>
 
     <div class="collapse navbar-collapse" id="main-navbar">
@@ -129,8 +129,8 @@
     <div class="avatar-container">
       <div class="avatar-img-border">
         
-          <a title="boya blog" href="https://sheepbao.github.io/">
-            <img class="avatar-img" src="https://sheepbao.github.io/img/favicon.ico" alt="boya blog" />
+          <a title="boya blog" href="https://zboya.github.io/">
+            <img class="avatar-img" src="https://zboya.github.io/img/favicon.ico" alt="boya blog" />
           </a>
         
       </div>
@@ -166,7 +166,7 @@
         <div class="posts-list">
           
             <article class="post-preview">
-              <a href="https://sheepbao.github.io/post/rtmp_note/">
+              <a href="https://zboya.github.io/post/rtmp_note/">
                 <h2 class="post-title">RTMP协议学习笔记</h2>
 
                 
@@ -191,14 +191,14 @@ RTMP的背景和应用 每项技术都有起来源，RTMP也不例外，RTMP是A
 RTMP协议概览 握手、消息块概念 握手的目的是为了确认对端RTMP的Version和确认对端能互相通信。 消息块就是消息的载体，是RTMP协议最重要的载体，这个载体是有一定格式的，如果把Client和Server端当作铁路的两个站点，那这个消息块就是火车，它负责运输货物。正如火车有火车头、车厢一样，消息块也有基本头，消息头和消息负载。RTMP协议当中，除了握手协议，其他的数据都是以消息块的方式发送的，发送一个消息时，当块大小比需要发送的消息的字节数更大时，一个消息块就相当于一个消息，否则消息需要分成多个消息块。  握手 +-+-+-+-+-+-+ +-+-+-+-+-+-+ | Client | | Server | +-+-+-+-+-+-+ +-+-+-+-+-+-+ |-------- C0C1 --------&gt;| |&lt;------ S0S1S2 --------| |--------- C2 ---------&gt;|   C0和S0的格式（1 byte）
 +-+-+-+-+-+-+-+-+ | version | +-+-+-+-+-+-+-+-+  C1和S1的格式
 +-+-+-+-+-+-+-+-+-+-+ | time (4 bytes) | +-+-+-+-+-+-+-+-+-+-+ | zero (4 bytes) | +-+-+-+-+-+-+-+-+-+-+ | random bytes | +-+-+-+-+-+-+-+-+-+-+ |random bytes(cont) | | .... | +-+-+-+-+-+-+-+-+-+-+  time: 4 字节 本字段包含时间戳。该时间戳应该是发送这个数据块的端点的后续块的时间起始点。可以是 0 ,或其他的任何值。为了同步多个流,端点可能发送其块流的当前值。 zero: 4 字节 本字段必须是全零。 random bytes: 1528 字节。 本字段可以包含任何值。因为每个端点必须用自己初始化的握手和对端初始化的
-                  <a href="https://sheepbao.github.io/post/rtmp_note/" class="post-read-more">[Read More]</a>
+                  <a href="https://zboya.github.io/post/rtmp_note/" class="post-read-more">[Read More]</a>
                 
               </div>
 
               
                 <div class="blog-tags">
                   
-                    <a href="https://sheepbao.github.io//tags/rtmp/">RTMP</a>&nbsp;
+                    <a href="https://zboya.github.io//tags/rtmp/">RTMP</a>&nbsp;
                   
                 </div>
               
@@ -227,7 +227,7 @@ RTMP协议概览 握手、消息块概念 握手的目的是为了确认对端RT
 
           
             &nbsp;&bull;&nbsp;
-            <a href="https://sheepbao.github.io/">boya blog</a>
+            <a href="https://zboya.github.io/">boya blog</a>
           
         </p>
         
@@ -244,10 +244,10 @@ RTMP协议概览 握手、消息块概念 握手的目的是为了确认对端RT
 <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.7.1/contrib/auto-render.min.js" integrity="sha384-dq1/gEHSxPZQ7DdrM82ID4YVol9BYyU7GbWlIwnwyPzotpoc57wDw/guX8EaYGPx" crossorigin="anonymous"></script>
 <script src="https://code.jquery.com/jquery-1.12.4.min.js" integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ=" crossorigin="anonymous"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
-<script src="https://sheepbao.github.io/js/main.js"></script><script> renderMathInElement(document.body); </script>
+<script src="https://zboya.github.io/js/main.js"></script><script> renderMathInElement(document.body); </script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/photoswipe/4.1.2/photoswipe.min.js" integrity="sha384-QELNnmcmU8IR9ZAykt67vGr9/rZJdHbiWi64V88fCPaOohUlHCqUD/unNN0BXSqy" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/photoswipe/4.1.2/photoswipe-ui-default.min.js" integrity="sha384-m67o7SkQ1ALzKZIFh4CiTA8tmadaujiTa9Vu+nqPSwDOqHrDmxLezTdFln8077+q" crossorigin="anonymous"></script>
-<script src="https://sheepbao.github.io/js/load-photoswipe.js"></script>
+<script src="https://zboya.github.io/js/load-photoswipe.js"></script>
 
 
 

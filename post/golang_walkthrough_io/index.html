@@ -31,22 +31,22 @@ buf := make([]byte, 8) if _, err := io.">
   <meta name="twitter:description" content="Golang walkthrough: io package Go是用于处理字节的编程语言。 无论您有字节列表，字节流还是单个字节，Go都可以轻松处理。 从这些简单的原语，我们构建了我们的抽象和服务。 io包是标准库中最基础的包之一。 它提供了一组用于处理字节流的接口和助手。
 这篇文章是一系列演练的一部分，可以帮助您更好地了解标准库。 虽然官方的文档提供了大量的信息，但是在现实世界的环境中还是很难 …">
   <meta name="author" content=""/>
-  <link href='https://sheepbao.github.io/img/favicon.ico' rel='icon' type='image/x-icon'/>
-  <meta property="og:image" content="https://sheepbao.github.io/img/favicon.ico" />
-  <meta name="twitter:image" content="https://sheepbao.github.io/img/favicon.ico" />
+  <link href='https://zboya.github.io/img/favicon.ico' rel='icon' type='image/x-icon'/>
+  <meta property="og:image" content="https://zboya.github.io/img/favicon.ico" />
+  <meta name="twitter:image" content="https://zboya.github.io/img/favicon.ico" />
   <meta name="twitter:card" content="summary" />
-  <meta property="og:url" content="https://sheepbao.github.io/post/golang_walkthrough_io/" />
+  <meta property="og:url" content="https://zboya.github.io/post/golang_walkthrough_io/" />
   <meta property="og:type" content="website" />
   <meta property="og:site_name" content="boya blog" />
 
   <meta name="generator" content="Hugo 0.26" />
-  <link rel="canonical" href="https://sheepbao.github.io/post/golang_walkthrough_io/" />
-  <link rel="alternate" href="https://sheepbao.github.io/index.xml" type="application/rss+xml" title="boya blog">
+  <link rel="canonical" href="https://zboya.github.io/post/golang_walkthrough_io/" />
+  <link rel="alternate" href="https://zboya.github.io/index.xml" type="application/rss+xml" title="boya blog">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.7.1/katex.min.css" integrity="sha384-wITovz90syo1dJWVh32uuETPVEtGigN07tkttEqPv+uR2SE/mbQcG7ATL28aI9H0" crossorigin="anonymous">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
-  <link rel="stylesheet" href="https://sheepbao.github.io/css/main.css" /><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic" />
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" /><link rel="stylesheet" href="https://sheepbao.github.io/css/syntax.css" /><link rel="stylesheet" href="https://sheepbao.github.io/css/codeblock.css" />
+  <link rel="stylesheet" href="https://zboya.github.io/css/main.css" /><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" /><link rel="stylesheet" href="https://zboya.github.io/css/syntax.css" /><link rel="stylesheet" href="https://zboya.github.io/css/codeblock.css" />
 
 
 
@@ -111,7 +111,7 @@ buf := make([]byte, 8) if _, err := io.">
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="https://sheepbao.github.io/">boya blog</a>
+      <a class="navbar-brand" href="https://zboya.github.io/">boya blog</a>
     </div>
 
     <div class="collapse navbar-collapse" id="main-navbar">
@@ -151,8 +151,8 @@ buf := make([]byte, 8) if _, err := io.">
     <div class="avatar-container">
       <div class="avatar-img-border">
         
-          <a title="boya blog" href="https://sheepbao.github.io/">
-            <img class="avatar-img" src="https://sheepbao.github.io/img/favicon.ico" alt="boya blog" />
+          <a title="boya blog" href="https://zboya.github.io/">
+            <img class="avatar-img" src="https://zboya.github.io/img/favicon.ico" alt="boya blog" />
           </a>
         
       </div>
@@ -486,7 +486,7 @@ type RuneScanner interface {
         
           <div class="blog-tags">
             
-              <a href="https://sheepbao.github.io//tags/go/">Go</a>&nbsp;
+              <a href="https://zboya.github.io//tags/go/">Go</a>&nbsp;
             
           </div>
         
@@ -498,12 +498,12 @@ type RuneScanner interface {
         <ul class="pager blog-pager">
           
             <li class="previous">
-              <a href="https://sheepbao.github.io/post/virtual_network_in_linux/" data-toggle="tooltip" data-placement="top" title="Linux 中的虚拟网络-简介">&larr; Previous Post</a>
+              <a href="https://zboya.github.io/post/virtual_network_in_linux/" data-toggle="tooltip" data-placement="top" title="Linux 中的虚拟网络-简介">&larr; Previous Post</a>
             </li>
           
           
             <li class="next">
-              <a href="https://sheepbao.github.io/post/tcp_rto_research_and_golang_implement/" data-toggle="tooltip" data-placement="top" title="TCP RTO计算方法以及go实现验证">Next Post &rarr;</a>
+              <a href="https://zboya.github.io/post/tcp_rto_research_and_golang_implement/" data-toggle="tooltip" data-placement="top" title="TCP RTO计算方法以及go实现验证">Next Post &rarr;</a>
             </li>
           
         </ul>
@@ -558,7 +558,7 @@ type RuneScanner interface {
 
           
             &nbsp;&bull;&nbsp;
-            <a href="https://sheepbao.github.io/">boya blog</a>
+            <a href="https://zboya.github.io/">boya blog</a>
           
         </p>
         
@@ -575,10 +575,10 @@ type RuneScanner interface {
 <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.7.1/contrib/auto-render.min.js" integrity="sha384-dq1/gEHSxPZQ7DdrM82ID4YVol9BYyU7GbWlIwnwyPzotpoc57wDw/guX8EaYGPx" crossorigin="anonymous"></script>
 <script src="https://code.jquery.com/jquery-1.12.4.min.js" integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ=" crossorigin="anonymous"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
-<script src="https://sheepbao.github.io/js/main.js"></script><script> renderMathInElement(document.body); </script>
+<script src="https://zboya.github.io/js/main.js"></script><script> renderMathInElement(document.body); </script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/photoswipe/4.1.2/photoswipe.min.js" integrity="sha384-QELNnmcmU8IR9ZAykt67vGr9/rZJdHbiWi64V88fCPaOohUlHCqUD/unNN0BXSqy" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/photoswipe/4.1.2/photoswipe-ui-default.min.js" integrity="sha384-m67o7SkQ1ALzKZIFh4CiTA8tmadaujiTa9Vu+nqPSwDOqHrDmxLezTdFln8077+q" crossorigin="anonymous"></script>
-<script src="https://sheepbao.github.io/js/load-photoswipe.js"></script>
+<script src="https://zboya.github.io/js/load-photoswipe.js"></script>
 
 
 

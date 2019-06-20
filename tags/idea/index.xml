@@ -2,21 +2,21 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Idea on boya blog</title>
-    <link>https://sheepbao.github.io/tags/idea/</link>
+    <link>https://zboya.github.io/tags/idea/</link>
     <description>Recent content in Idea on boya blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <lastBuildDate>Fri, 09 Mar 2018 11:58:40 +0800</lastBuildDate>
     
-	<atom:link href="https://sheepbao.github.io/tags/idea/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="https://zboya.github.io/tags/idea/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title>利用DDoS模型来通信</title>
-      <link>https://sheepbao.github.io/post/p2p_by_non_servers/</link>
+      <link>https://zboya.github.io/post/p2p_by_non_servers/</link>
       <pubDate>Fri, 09 Mar 2018 11:58:40 +0800</pubDate>
       
-      <guid>https://sheepbao.github.io/post/p2p_by_non_servers/</guid>
+      <guid>https://zboya.github.io/post/p2p_by_non_servers/</guid>
       <description>利用DDoS来通信 前两天看到一个新闻，世界上最大的同性交友网站github遭受了DDoS攻击了，最高的流量达到1.35Tbps（心疼github 10秒钟）。有别于普通的DDoS，该DDoS称为反射型DDoS攻击，也称放大型攻击，我个人认为放大型攻击毕竟形象。
 以下想法纯属个人意见。有不同建议或补充的的欢迎emial我aboutme
 放大型DDoS攻击的原理简单解释 一句话解释就是攻击者伪装源目标服务器IP，发送给中间人，中间人放大后发送给目标服务器。 稍微详细的讲：假设有三台服务器A、B、C，A的IP为ip1，B的IP为ip2, C的IP为ip3，A要攻击C。
