@@ -676,9 +676,9 @@ top:
 </code></pre>
 
 <p>可以看到调度程序本质就是尽力找到可运行的g，然后去运行g上面的任务函数。查找g的流程如下，<br />
-1. 如果当前GC需要停止整个世界（STW), 则调用gcstopm休眠当前的M。
-2. 每隔61次调度轮回从全局队列找，避免全局队列中的g被饿死。
-3. 从p.runnext获取g，从p的本地队列中获取。
+1. 如果当前GC需要停止整个世界（STW), 则调用gcstopm休眠当前的M。<br />
+2. 每隔61次调度轮回从全局队列找，避免全局队列中的g被饿死。<br />
+3. 从p.runnext获取g，从p的本地队列中获取。<br />
 4. 调用 <code>findrunnable</code> 找g，找不到的话就将m休眠，等待唤醒。</p>
 
 <p>当找到一个g后，就会调用 <code>execute</code> 去执行g，我们暂时不管 <code>execute</code> 是如何切到g的栈上和执行g的任务函数。
@@ -810,15 +810,17 @@ go func() ---&gt; | G | ---&gt; | P | local | &lt;=== balance ===&gt; | global |
 <p>复用线程</p>
 </blockquote>
 
-<p>goroutines本身就是运行在一组线程之上，不需要频繁的创建、销毁线程，而是对线程的复用。在调度器中复用线程还有2个体现：<br />
-1. work stealing，当本线程无可运行的G时，尝试从其他线程绑定的P偷取G，而不是销毁线程。<br />
-2. hand off，当本线程因为G进行系统调用阻塞时，线程释放绑定的P，把P转移给其他空闲的线程执行。</p>
+<pre><code>goroutines本身就是运行在一组线程之上，不需要频繁的创建、销毁线程，而是对线程的复用。在调度器中复用线程还有2个体现：  
+1. work stealing，当本线程无可运行的G时，尝试从其他线程绑定的P偷取G，而不是销毁线程。   
+2. hand off，当本线程因为G进行系统调用阻塞时，线程释放绑定的P，把P转移给其他空闲的线程执行。  
+</code></pre>
 
 <blockquote>
 <p>利用并行</p>
 </blockquote>
 
-<p>Go的一个强项就是天生支持并发，并发包含了并行的实现，并行度由GOMAXPROCS来控制，默认等于cpu数，当GOMAXPROCS大于1时，就最多有GOMAXPROCS个线程同时处于运行状态，这些线程可能分布在多个CPU核上同时运行，这样就可以充分利用多核。</p>
+<pre><code>Go的一个强项就是天生支持并发，并发包含了并行的实现，并行度由GOMAXPROCS来控制，默认等于cpu数，当GOMAXPROCS大于1时，就最多有GOMAXPROCS个线程同时处于运行状态，这些线程可能分布在多个CPU核上同时运行，这样就可以充分利用多核。
+</code></pre>
 
 <blockquote>
 <p>调度器的两小策略</p>
@@ -925,13 +927,13 @@ go func() ---&gt; | G | ---&gt; | P | local | &lt;=== balance ===&gt; | global |
 <pre><code class="language-go">go func() { ... }
 </code></pre>
 
-<p>当使用go关键字新建一个goroutine时，<code>runtime</code> 会调用 <code>newproc</code> 来生成新的g，详细流程如下：
-1. 用 <code>systemstack</code> 切换到系统堆栈，调用 <code>newproc1</code> ，<code>newproc1</code> 实现g的获取。
-2. 尝试从p的本地g空闲链表和全局g空闲链表找到一个g的实例。
-3. 如果上面未找到，则调用 <code>malg</code> 生成新的g的实例，且分配好g的栈和设置好栈的边界，接着添加到 allgs 数组里面，allgs保存了所有的g。
-4. 保存g切换的上下文，这里很关键，g的切换依赖 <code>sched</code> 字段。
-5. 生成唯一的goid，赋值给该g。
-6. 调用 <code>runqput</code> 将g插入队列中，如果本地队列还有剩余的位置，将G插入本地队列的尾部，若本地队列已满，插入全局队列。
+<p>当使用go关键字新建一个goroutine时，<code>runtime</code> 会调用 <code>newproc</code> 来生成新的g，详细流程如下：<br />
+1. 用 <code>systemstack</code> 切换到系统堆栈，调用 <code>newproc1</code> ，<code>newproc1</code> 实现g的获取。<br />
+2. 尝试从p的本地g空闲链表和全局g空闲链表找到一个g的实例。<br />
+3. 如果上面未找到，则调用 <code>malg</code> 生成新的g的实例，且分配好g的栈和设置好栈的边界，接着添加到 allgs 数组里面，allgs保存了所有的g。<br />
+4. 保存g切换的上下文，这里很关键，g的切换依赖 <code>sched</code> 字段。<br />
+5. 生成唯一的goid，赋值给该g。<br />
+6. 调用 <code>runqput</code> 将g插入队列中，如果本地队列还有剩余的位置，将G插入本地队列的尾部，若本地队列已满，插入全局队列。<br />
 7. 如果有空闲的p 且 m没有处于自旋状态 且 <code>main goroutine</code>已经启动，那么唤醒或新建某个m来执行任务。</p>
 
 <pre><code class="language-go">// Create a new g running fn with siz bytes of arguments.
@@ -1534,14 +1536,14 @@ top:
 </code></pre>
 
 <p><code>findrunnable</code> 查找G的过程：<br />
-1. 调用 runqget ，尝试从P本地队列中获取G，获取到返回
-2. 调用 globrunqget ，尝试从全局队列中获取G，获取到返回
-3. 从网络IO轮询器中找到就绪的G，把这个G变为可运行的G
-4. 如果不是所有的P都是空闲的，最多四次，随机选一个P，尝试从这P中偷取一些G，获取到返回
-5. 上面都找不到G来运行，判断此时P是否处于 <code>GC mark</code> 阶段，如果是，那么此时可以安全的扫描和黑化对象和返回 <code>gcBgMarkWorker</code> 来运行， <code>gcBgMarkWorker</code> 是GC后代标记的goroutine。
-6. 再次从全局队列中获取G，获取到返回
-7. 再次检查所有的P，有没有可以运行的G
-8. 再次检查网络IO轮询器
+1. 调用 runqget ，尝试从P本地队列中获取G，获取到返回<br />
+2. 调用 globrunqget ，尝试从全局队列中获取G，获取到返回<br />
+3. 从网络IO轮询器中找到就绪的G，把这个G变为可运行的G<br />
+4. 如果不是所有的P都是空闲的，最多四次，随机选一个P，尝试从这P中偷取一些G，获取到返回<br />
+5. 上面都找不到G来运行，判断此时P是否处于 <code>GC mark</code> 阶段，如果是，那么此时可以安全的扫描和黑化对象和返回   <code>gcBgMarkWorker</code> 来运行， <code>gcBgMarkWorker</code> 是GC后代标记的goroutine。<br />
+6. 再次从全局队列中获取G，获取到返回<br />
+7. 再次检查所有的P，有没有可以运行的G<br />
+8. 再次检查网络IO轮询器<br />
 9. 实在找不到可运行的G了，那就调用 <code>stopm</code> 休眠吧</p>
 
 <pre><code class="language-go">// Finds a runnable goroutine to execute.
