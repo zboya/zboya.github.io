@@ -13,10 +13,10 @@
     
     <item>
       <title>深入golang runtime的调度</title>
-      <link>https://zboya.github.io/post/go_schdule/</link>
+      <link>https://zboya.github.io/post/go_schedule/</link>
       <pubDate>Sat, 15 Jun 2019 23:58:40 +0800</pubDate>
       
-      <guid>https://zboya.github.io/post/go_schdule/</guid>
+      <guid>https://zboya.github.io/post/go_schedule/</guid>
       <description>深入golang runtime的调度 zboya listomebao@gmail.com 版权所有，转载请注明原文地址。
 很多gopher懂GPM，更多gopher不懂GPM！
 相关项目地址在https://github.com/sheepbao/golang_runtime_reading，下文若有任何错误的地方欢迎指出。
