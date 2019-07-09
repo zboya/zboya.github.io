@@ -166,6 +166,49 @@
         <div class="posts-list">
           
             <article class="post-preview">
+              <a href="https://zboya.github.io/post/golang_code_specification/">
+                <h2 class="post-title">Golang代码规范</h2>
+
+                
+              </a>
+
+              <p class="post-meta">
+                <span class="post-meta">
+  
+  
+  <i class="fa fa-calendar-o"></i>&nbsp;Posted on August 2, 2017
+  
+  
+  
+</span>
+
+
+              </p>
+              <div class="post-entry">
+                
+                  Golang代码规范 参考https://golang.org/doc/effective_go.html
+项目目录结构规范 PROJECT_NAME ├── README.md 介绍软件及文档入口 ├── bin 编译好的二进制文件,执行./build.sh自动生成，该目录也用于程序打包 ├── build.sh 自动编译的脚本 ├── doc 该项目的文档 ├── pack 打包后的程序放在此处 ├── pack.sh 自动打包的脚本，生成类似xxxx.20170713_14:45:35.tar.gz的文件，放在pack文件下 └── src 该项目的源代码 ├── main 项目主函数 ├── model 项目代码 ├── research 在实现该项目中探究的一些程序 └── vendor 存放go的库 ├── github.com/xxx 第三方库 └── xxx.com/obc 公司内部的公共库  项目的目录结构尽量做到简明、层次清楚
+文件名命名规范 用小写，尽量见名思义，看见文件名就可以知道这个文件下的大概内容，对于源代码里的文件，文件名要很好的代表了一个模块实现的功能。
+命名规范 包名 包名用小写,使用短命名,尽量和标准库不要冲突
+接口名 单个函数的接口名以&rdquo;er&rdquo;作为后缀，如Reader,Writer
+接口的实现则去掉“er”
+type Reader interface { Read(p []byte) (n int, err error) }  两个函数的接口名综合两个函数名
+type WriteFlusher interface { Write([]byte) (int, error) Flush() error }  三个以上函数的接口名，类似于结构体名
+                  <a href="https://zboya.github.io/post/golang_code_specification/" class="post-read-more">[Read More]</a>
+                
+              </div>
+
+              
+                <div class="blog-tags">
+                  
+                    <a href="https://zboya.github.io//tags/go/">Go</a>&nbsp;
+                  
+                </div>
+              
+
+            </article>
+          
+            <article class="post-preview">
               <a href="https://zboya.github.io/post/golang_udp_programing/">
                 <h2 class="post-title">udp编程的那些事与golang udp的实践</h2>
 
@@ -617,48 +660,6 @@ by sheepbao.</p>
 
             </article>
           
-            <article class="post-preview">
-              <a href="https://zboya.github.io/post/understand_golang_slice/">
-                <h2 class="post-title">深入理解go的slice和到底什么时候该用slice</h2>
-
-                
-              </a>
-
-              <p class="post-meta">
-                <span class="post-meta">
-  
-  
-  <i class="fa fa-calendar-o"></i>&nbsp;Posted on June 27, 2016
-  
-  
-  
-</span>
-
-
-              </p>
-              <div class="post-entry">
-                
-                  深入理解go的slice和到底什么时候该用slice 前言 用过go语言的亲们都知道，slice（中文翻译为切片）在编程中经常用到，它代表变长的序列，序列中每个元素都有相同的类型，类似一个动态数组，利用append可以实现动态增长，利用slice的特性可以很容易的切割slice，它们是怎么实现这些特性的呢？现在我们来探究一下这些特性的本质是什么。
-先了解一下slice的特性  定义一个slice
-s := []int{1,2,3,4,5} fmt.Println(s) // [1 2 3 4 5]  一个slice类型一般写作[]T，其中T代表slice中元素的类型；slice的语法和数组很像，只是没有固定长度而已。
- slice的扩容
-s := []int{1,2,3,4,5} s = append(s, 6) fmt.Println(s) // [1 2 3 4 5 6]  内置append函数在现有数组的长度 &lt; 1024 时 cap 增长是翻倍的，再往上的增长率则是 1.25，至于为何后面会说。
- slice的切割
-s := []int{1,2,3,4,5,6} s1 := s[0:2] fmt.Println(s1) // [1 2] s2 := s[4:] fmt.Println(s2) // [5 6] s3 := s[:4] fmt.Println(s3) // [1 2 3 4]  slice作为函数参数
-                  <a href="https://zboya.github.io/post/understand_golang_slice/" class="post-read-more">[Read More]</a>
-                
-              </div>
-
-              
-                <div class="blog-tags">
-                  
-                    <a href="https://zboya.github.io//tags/go/">Go</a>&nbsp;
-                  
-                </div>
-              
-
-            </article>
-          
         </div>
         
           <ul class="pager main-pager">
@@ -690,7 +691,7 @@ s := []int{1,2,3,4,5,6} s1 := s[0:2] fmt.Println(s1) // [1 2] s2 := s[4:] fmt.Pr
           
 
           &nbsp;&bull;&nbsp;
-          2018
+          2019
 
           
             &nbsp;&bull;&nbsp;

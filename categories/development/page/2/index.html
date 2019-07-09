@@ -166,6 +166,44 @@
         <div class="posts-list">
           
             <article class="post-preview">
+              <a href="https://zboya.github.io/post/golang_code_slice/">
+                <h2 class="post-title">平时整理的一些golang代码片段</h2>
+
+                
+              </a>
+
+              <p class="post-meta">
+                <span class="post-meta">
+  
+  
+  <i class="fa fa-calendar-o"></i>&nbsp;Posted on August 22, 2017
+  
+  
+  
+</span>
+
+
+              </p>
+              <div class="post-entry">
+                
+                  golang 代码片段 by boya
+老司机请忽略！
+ 用chan实现斐波那契数列  import &quot;fmt&quot; func fibonacci(c, quit chan int) { x, y := 0, 1 for { select { case c &lt;- x: x, y = y, x+y case &lt;-quit: fmt.Println(&quot;quit&quot;) return } } } func main() { c := make(chan int) quit := make(chan int) go func() { for i := 0; i &lt; 10; i++ { fmt.Println(&lt;-c) } quit &lt;- 0 }() fibonacci(c, quit) }   字符串的简单映射  func main() { rot13 := func(r rune) rune { switch { case r &gt;= 'A' &amp;&amp; r &lt;= 'Z': return 'A' + (r-'A'+13)%26 case r &gt;= 'a' &amp;&amp; r &lt;= 'z': return 'a' + (r-'a'+13)%26 } return r } fmt.
+                  <a href="https://zboya.github.io/post/golang_code_slice/" class="post-read-more">[Read More]</a>
+                
+              </div>
+
+              
+                <div class="blog-tags">
+                  
+                    <a href="https://zboya.github.io//tags/go/">Go</a>&nbsp;
+                  
+                </div>
+              
+
+            </article>
+          
+            <article class="post-preview">
               <a href="https://zboya.github.io/post/golang_code_specification/">
                 <h2 class="post-title">Golang代码规范</h2>
 
@@ -617,49 +655,6 @@ gc 1 @2.104s 0%: 0.018+1.3+0.076 ms clock, 0.054+0.35/1.0/3.0+0.23 ms cpu, 4-&gt
 
             </article>
           
-            <article class="post-preview">
-              <a href="https://zboya.github.io/post/golang_backend_mind_map/">
-                <h2 class="post-title">golang 后端开发思维导图</h2>
-
-                
-              </a>
-
-              <p class="post-meta">
-                <span class="post-meta">
-  
-  
-  <i class="fa fa-calendar-o"></i>&nbsp;Posted on July 17, 2016
-  
-  
-  
-</span>
-
-
-              </p>
-              <div class="post-entry">
-                
-                  
-
-<h2 id="golang-后端开发思维导图">golang 后端开发思维导图</h2>
-
-<p>自己画的golang后台开发思维导图，当作笔记。
-转载请注明原作者。
-<img src="https://static.oschina.net/uploads/img/201607/17234123_9b2N.png" alt="输入图片说明" title="go后端思维导图" /><br />
-by sheepbao.</p>
-
-                
-              </div>
-
-              
-                <div class="blog-tags">
-                  
-                    <a href="https://zboya.github.io//tags/go/">Go</a>&nbsp;
-                  
-                </div>
-              
-
-            </article>
-          
         </div>
         
           <ul class="pager main-pager">
@@ -691,7 +686,7 @@ by sheepbao.</p>
           
 
           &nbsp;&bull;&nbsp;
-          2018
+          2019
 
           
             &nbsp;&bull;&nbsp;
