@@ -10,16 +10,16 @@
   <meta name="twitter:title" content="深入golang runtime的调度" />
   <meta name="description" content="深入golang runtime的调度 zboya listomebao@gmail.com 版权所有，转载请注明原文地址。
 很多gopher懂GPM，更多gopher不懂GPM！
-相关项目地址在https://github.com/sheepbao/golang_runtime_reading，下文若有任何错误的地方欢迎指出。
+相关项目地址在https://github.com/zboya/golang_runtime_reading，下文若有任何错误的地方欢迎指出。
  深入golang runtime的调度  理解调度器启动  相关术语 主要源码文件 调度基本组件  G（goroutine） P（processor） M（machine）  GPM的关系示意图 整体流程概览 go进程的启动 runtime调度器的启动  getg() 函数 g0和m0 mstartfn 真正的调度函数 schedule  runtime.main 的执行  调度机制  调度架构概览图 基本思想 类比模型 关于G  G的结构 G的新建 G的栈 G的状态  关于P  P的结构 P的分配 P的状态  关于M  M的结构 M的新建 辛勤工作的M M的状态 M的管理  抢占的实现 调度跟踪信息可视化  ref   理解调度器启动 本小节主要讲解golang程序启动到执行用户 package main 中的main函数的整个流程，也就是runtime启动到执行用户代码的流程。">
   <meta property="og:description" content="深入golang runtime的调度 zboya listomebao@gmail.com 版权所有，转载请注明原文地址。
 很多gopher懂GPM，更多gopher不懂GPM！
-相关项目地址在https://github.com/sheepbao/golang_runtime_reading，下文若有任何错误的地方欢迎指出。
+相关项目地址在https://github.com/zboya/golang_runtime_reading，下文若有任何错误的地方欢迎指出。
  深入golang runtime的调度  理解调度器启动  相关术语 主要源码文件 调度基本组件  G（goroutine） P（processor） M（machine）  GPM的关系示意图 整体流程概览 go进程的启动 runtime调度器的启动  getg() 函数 g0和m0 mstartfn 真正的调度函数 schedule  runtime.main 的执行  调度机制  调度架构概览图 基本思想 类比模型 关于G  G的结构 G的新建 G的栈 G的状态  关于P  P的结构 P的分配 P的状态  关于M  M的结构 M的新建 辛勤工作的M M的状态 M的管理  抢占的实现 调度跟踪信息可视化  ref   理解调度器启动 本小节主要讲解golang程序启动到执行用户 package main 中的main函数的整个流程，也就是runtime启动到执行用户代码的流程。">
   <meta name="twitter:description" content="深入golang runtime的调度 zboya listomebao@gmail.com 版权所有，转载请注明原文地址。
 很多gopher懂GPM，更多gopher不懂GPM！
-相关项目地址在https://github.com/sheepbao/golang_runtime_reading，下文若有任何错误的地方欢迎指出。
- 深入golang runtime的调度  理解调度器启动  相关术 …">
+相关项目地址在https://github.com/zboya/golang_runtime_reading，下文若有任何错误的地方欢迎指出。
+ 深入golang runtime的调度  理解调度器启动  相关术语 主 …">
   <meta name="author" content=""/>
   <link href='https://zboya.github.io/img/favicon.ico' rel='icon' type='image/x-icon'/>
   <meta property="og:image" content="https://zboya.github.io/img/favicon.ico" />
@@ -207,7 +207,7 @@
 
 <p>很多gopher懂GPM，更多gopher不懂GPM！</p>
 
-<p>相关项目地址在<a href="https://github.com/sheepbao/golang_runtime_reading">https://github.com/sheepbao/golang_runtime_reading</a>，下文若有任何错误的地方欢迎指出。</p>
+<p>相关项目地址在<a href="https://github.com/sheepbao/golang_runtime_reading">https://github.com/zboya/golang_runtime_reading</a>，下文若有任何错误的地方欢迎指出。</p>
 
 <!-- TOC -->
 
@@ -295,7 +295,7 @@
 <li><p>TLS(thread local storage)<br />
 <code>TLS</code>全称是Thread Local Storage，代表每个线程中的本地数据。写入TLS中的数据不会干扰到其余线程中的值。Go的协程实现非常依赖于TLS机制，会用于获取系统线程中当前的G和G所属于的M实例。
 Go操作TLS会使用系统原生的接口，以Linux X64为例，go在新建M时候会调用 arch_prctl 这个syscall来设置FS寄存器的值为M.tls的地址，运行中每个M的FS寄存器都会指向它们对应的M实例的tls，
-linux内核调度线程时FS寄存器会跟着线程一起切换，这样go代码只需要访问FS寄存机就可以获取到线程本地的数据。</p></li>
+linux内核调度线程时FS寄存器会跟着线程一起切换，这样go代码只需要访问FS寄存器就可以获取到线程本地的数据。</p></li>
 
 <li><p>spinning<br />
 <code>spinning</code> 表示自旋，字面的意思是自己围绕自己转。在程序里一般指一直重复某块代码。</p></li>
