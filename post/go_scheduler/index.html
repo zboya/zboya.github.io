@@ -474,9 +474,9 @@ func schedinit() {
 </code></pre>
 
 <p>主要分为四个步骤，<br />
-1. 调用 <code>runtime·osinit</code> 来获取系统的cpu个数。
+1. 调用 <code>runtime·osinit</code> 来获取系统的cpu个数。<br />
 2. 调用 <code>runtime·schedinit</code> 来初始化调度系统，会进行p的初始化，也会把m0和某个p绑定。
-3. 调用 <code>runtime·newproc</code> 新建一个goroutine，也叫<code>main goroutine</code>，它的任务函数是 <code>runtime.main</code> 函数，建好后插入m0绑定的p的本地队列。
+3. 调用 <code>runtime·newproc</code> 新建一个goroutine，也叫<code>main goroutine</code>，它的任务函数是 <code>runtime.main</code> 函数，建好后插入m0绑定的p的本地队列。<br />
 4. 调用 <code>runtime·mstart</code> 来启动m，进入启动调度系统。</p>
 
 <p>我们已经看到了调用 <code>runtime·mstart</code> 来启动m，那刚新建的 <code>main goroutine</code> 是如何被调度来执行的呢？回答这个问题需要，继续探究 mstart 的实现。</p>
@@ -541,17 +541,17 @@ func mstart1(dummy int32) {
 }
 </code></pre>
 
-<p><code>mstart</code> 只是简单的对 <code>mstart1</code> 的封装，接着看 <code>mstart1</code> 。
-1. 调用 <code>_g_ := getg()</code> 获取 <code>g</code> ，然后检查该 <code>g</code> 是不是 <code>g0</code> ，如果不是 <code>g0</code> ，直接抛出异常。
-2. 初始化m，主要是设置线程的备用信号堆栈和信号掩码
-3. 判断 <code>g</code> 绑定的 <code>m</code> 是不是 <code>m0</code>，如果是，需要一些特殊处理，主要是设置系统信号量的处理函数
-4. 检查 <code>m</code> 是否有起始任务函数？若有，执行它。
-5. 获取一个p，并和m绑定
+<p><code>mstart</code> 只是简单的对 <code>mstart1</code> 的封装，接着看 <code>mstart1</code> 。<br />
+1. 调用 <code>_g_ := getg()</code> 获取 <code>g</code> ，然后检查该 <code>g</code> 是不是 <code>g0</code> ，如果不是 <code>g0</code> ，直接抛出异常。<br />
+2. 初始化m，主要是设置线程的备用信号堆栈和信号掩码<br />
+3. 判断 <code>g</code> 绑定的 <code>m</code> 是不是 <code>m0</code>，如果是，需要一些特殊处理，主要是设置系统信号量的处理函数<br />
+4. 检查 <code>m</code> 是否有起始任务函数？若有，执行它。<br />
+5. 获取一个p，并和m绑定<br />
 6. 进入调度程序</p>
 
 <p>总结来看，<code>mstart1</code> 也未进行真正的调度，而是调度前的一些处理，但是看到这里有多了几个疑问，
-1. getg() 做了什么？
-2. 检查 g 是否正确，不是 g0 直接退出，那这个 g0 是什么呢？ m0 又是什么？
+1. getg() 做了什么？<br />
+2. 检查 g 是否正确，不是 g0 直接退出，那这个 g0 是什么呢？ m0 又是什么？<br />
 3. mstartfn 对应的实际函数是啥？</p>
 
 <p>真是越看问题越来越多啊，但没关系，这里我先解答上面的问题，如果不感兴趣的同学可以直接跳到 <code>schedule</code> 的分析。</p>
@@ -682,7 +682,7 @@ top:
 4. 调用 <code>findrunnable</code> 找g，找不到的话就将m休眠，等待唤醒。</p>
 
 <p>当找到一个g后，就会调用 <code>execute</code> 去执行g，我们暂时不管 <code>execute</code> 是如何切到g的栈上和执行g的任务函数。
-那么到这里我们可以回答我们心中的疑惑了。前面说了 main goroutine 在和m绑定的p的本地队列中，那么调用 runqget 的时候
+那么到这里我们可以回答我们心中的疑惑了。前面说了 main goroutine 在和m绑定的p的本地队列中，那么调用 <code>runqget</code> 的时候
 就可以从p的本地队列中获取到 <code>main goroutine</code> ，然后传给 <code>execute</code> 执行，这样 <code>main goroutine</code>就跑起来了。
 那么 <code>main goroutine</code> 又做了什么呢？</p>
 
@@ -753,10 +753,10 @@ func main() {
 </code></pre>
 
 <p><code>main</code> 在执行main包中的main函数之前，还是做了一些其他工作包括：<br />
-1. 新建一个线程来执行 <code>sysmon</code> ，sysmon的工作是系统后台监控（定期垃圾回收和调度抢占），下节再详细介绍。
-2. 确保是在主线程上运行
-3. runtime内存init函数的执行，<code>runtime_init</code> 是由编译器动态生成的，里面包含了 runtime 包中所有的 init 函数，感兴趣的同学可以在runtime包中搜 <code>func init()</code> ，会发现有挺多init函数。
-4. 启动gc清扫的goroutine
+1. 新建一个线程来执行 <code>sysmon</code> ，sysmon的工作是系统后台监控（定期垃圾回收和调度抢占），下节再详细介绍。<br />
+2. 确保是在主线程上运行<br />
+3. runtime内存init函数的执行，<code>runtime_init</code> 是由编译器动态生成的，里面包含了 runtime 包中所有的 init 函数，感兴趣的同学可以在runtime包中搜 <code>func init()</code> ，会发现有挺多init函数。<br />
+4. 启动gc清扫的goroutine<br />
 5. 执行 <code>main_init</code> 函数，编译器动态生成的，包括用户定义的所有的init函数。</p>
 
 <p>接下来就是真的执行 main 包中的main函数了，这里 main 函数由用户定义其具体内容，如果该 main 函数结束了，就会执行 exit(0) 来退出进程。
@@ -1758,16 +1758,16 @@ stop:
 
 <h4 id="m的状态">M的状态</h4>
 
-<pre><code>       mstart
-          |
-          v        
-      +------+       找不到可执行任务         	+-------+
-      |unspin| ----------------------------&gt; |spining| 
-	  |      | &lt;---------------------------- |       |
-      +------+       找到可执行任务            +-------+
-          ^                                      | stopm
-          |               wakep                  v
-      notewakeup &lt;-------------------------  notesleep
+<pre><code>mstart
+	|
+	v        
++------+       找不到可执行任务           +-------+
+|unspin| ----------------------------&gt; |spining| 
+|      | &lt;---------------------------- |       |
++------+       找到可执行任务            +-------+
+	^                                      | stopm
+	|               wakep                  v
+notewakeup &lt;-------------------------  notesleep
 </code></pre>
 
 <p>详见下面的解释。</p>
@@ -1979,10 +1979,9 @@ func startm(_p_ *p, spinning bool) {
 <p>cgo和syscall时，p的状态会被设置为 <code>_Psyscall</code>， <code>sysmon</code> 周期性地检查并retake p，
 如果发现p处于这个状态且超过10ms就会强制性收回p，m从cgo和syscall返回后会重新尝试拿p，进入调度循环。</p>
 
-<p>后台监控会先检查程序是否死锁，很多初学者跑一个go程序会报 <code>&quot;all goroutines are asleep - deadlock!&quot;</code> ，
-就是在这里报的。接着 <code>sysmon</code> 会进入一个无限循环, 第一轮回休眠20us, 之后每次休眠时间倍增, 最终每一轮都会休眠10ms.</p>
+<p>后台监控会先检查程序是否死锁，很多初学者跑一个go程序会报 <code>&quot;all goroutines are asleep - deadlock!&quot;</code> ，就是在这里报的。</p>
 
-<p><code>sysmon</code> 会进入一个无限循环, 第一轮回休眠20us, 之后每次休眠时间倍增, 最终每一轮都会休眠10ms。 <code>sysmon</code> 中有netpool(获取fd事件), retake(抢占), forcegc(按时间强制执行gc), scavenge heap(释放自由列表中多余的项减少内存占用)等处理。这里关注 <code>retake</code> 实现，因为它负责抢占的实现，其他的可以看注释。</p>
+<p>接着<code>sysmon</code> 会进入一个无限循环, 第一轮回休眠20us, 之后每次休眠时间倍增, 最终每一轮都会休眠10ms。 <code>sysmon</code> 中有netpool(获取fd事件), retake(抢占), forcegc(按时间强制执行gc), scavenge heap(释放自由列表中多余的项减少内存占用)等处理。这里关注 <code>retake</code> 实现，因为它负责抢占的实现，其他的可以看注释。</p>
 
 <pre><code class="language-go">// Always runs without a P, so write barriers are not allowed.
 func sysmon() {
