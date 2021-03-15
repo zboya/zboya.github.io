@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Life on boya blog</title>
@@ -6,6 +6,8 @@
     <description>Recent content in Life on boya blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
+    <managingEditor>listomebao@gmail.com (boya)</managingEditor>
+    <webMaster>listomebao@gmail.com (boya)</webMaster>
     <lastBuildDate>Sat, 31 Dec 2016 11:58:40 +0800</lastBuildDate>
     
 	<atom:link href="https://zboya.github.io/categories/life/index.xml" rel="self" type="application/rss+xml" />
@@ -15,7 +17,7 @@
       <title>我的2016-成长之年</title>
       <link>https://zboya.github.io/post/mylife_2016/</link>
       <pubDate>Sat, 31 Dec 2016 11:58:40 +0800</pubDate>
-      
+      <author>listomebao@gmail.com (boya)</author>
       <guid>https://zboya.github.io/post/mylife_2016/</guid>
       <description>type summary struct { Time time.Time // 2016.12.31 Author string // sheepbao Location string // shenzhen } func SayHelloTo2017() { println(` we try hard . cos we are creating the world . hello world !. hello 2017 ! `) }  说点啥 其实是看到挺多人写2016的总结，自己心痒也想写一个，当作记录吧，不写的话，很有可能以后就忘了，主要说说自己在2016的感受。
 感谢的话 感谢的有很多人，父母兄弟姐妹，亲戚好友都是很感谢的，木有他们也木有现在的我，2016大部分时间是在深圳，遇到不少人和不少事，最亲爱的Lavinia，以前listome的同事，现在sewise的同事，都很感谢。感谢Lavinia，给我的生活带来不一样的色彩，遇到你是我最大的幸运。感谢啊汪，牛逼的大学室友，虽然最后离我而去（离开深圳），说要上天，但还是很感谢。感谢徐总、陈哥和雯姐，我才有另一个机会，以不同的人生轨迹步入深圳，虽然我最后离开了，但是我也衷心希望listome越来越好。感谢肖大哥，教我很多互联网和编程知识，和你聊互联网历史很开心。感谢Richard和Eric，让我进入现在的公司，带领着我们前进，也认识很多优秀的同事，和他们学习了很多知识和技能，让我成长，特别是Kinov，总是孜孜不倦的教我，非常感谢，希望来年能更多的参与公司的项目，贡献自己的力量。

@@ -10,20 +10,24 @@
   <meta name="twitter:title" content="用golang写一个http代理，可以抓包和科学上网" />
   <meta name="description" content="用golang写一个http代理，可以抓包和科学上网 缘起 因为在工作中需要对上网进行限制，只让我们的app上网，意思就是放行app请求的所有域名或ip，而其他域名都禁止，所以我需要对app的http请求进行抓包。上网搜了一下，win下的fiddler不错，可惜我用的是Linux系统，fiddler不跨平台，找了下linux下的抓包软件，当然tcpdump和wireshare是足够强大的，完全可以实现我要的小小要求，但用起来有一定的复杂性，门槛稍高。在网上找到其他类似的软件还挺多，charles、NProxy等，最后发现mitmproxy最符合我的胃口，如图： 但是mitmproxy的安装依赖太多，python就是这样，一不小心就报错了，so，想着用golang实现类似的功能，自己也很喜欢go语言，如果有空能安静写写自己喜欢的代码，是多么的幸福。想好了就实践，Let&rsquo;s do it，当然凡事都有个从简到繁的过程，下面的特性慢慢增加。
 特性 特性，也可以说功能，以下是实现或者将要实现的特性
-http代理 http请求响应的抓取 修改http请求 重复请求 同时监听多端口 支持socks5、websocket、https协议 界面支持终端和网页两种形式  安装 git clone https://github.com/zboya/gomitmproxy.git cd gomitmproxy go build  使用  http代理  gomimtproxy  不带任何参数，表示http代理，默认端口8080,更改端口用 -port
- http抓包  gomimtproxy -m  加 -m 参数，表示抓取http请求和响应  http代理科学上网
+http代理 http请求响应的抓取 修改http请求 重复请求 同时监听多端口 支持socks5、websocket、https协议 界面支持终端和网页两种形式  安装 git clone https://github.com/zboya/gomitmproxy.git cd gomitmproxy go build  使用  http代理
+gomimtproxy   不带任何参数，表示http代理，默认端口8080,更改端口用 -port
+ http抓包
+gomimtproxy -m   加 -m 参数，表示抓取http请求和响应  http代理科学上网
 首先你得有个墙外的服务器，如阿里香港的服务器，为图中的Server，假设其ip地址为：22.222.222.222
-  在Server执行: gomitmproxy -port 8888  在你自己电脑执行: gomitmproxy -port 8080 -raddr 22.222.222.222:8888  然后浏览器设置代理，ip为localhost，端口为8080,即可实现科学上网
+在Server执行: gomitmproxy -port 8888  在你自己电脑执行: gomitmproxy -port 8080 -raddr 22.222.222.222:8888   然后浏览器设置代理，ip为localhost，端口为8080,即可实现科学上网
 源码简析 对于网络编程，Anything is a socket! 实现http代理并不难，简单地说就是用代理服务器代替客户端去请求web服务，然后在把请求的结果返回给客户端。 先来个示意图：  1. 客户端发起一个到gomitmproxy的连接，并且提交了HTTP CONNECT请求。 2.">
   <meta property="og:description" content="用golang写一个http代理，可以抓包和科学上网 缘起 因为在工作中需要对上网进行限制，只让我们的app上网，意思就是放行app请求的所有域名或ip，而其他域名都禁止，所以我需要对app的http请求进行抓包。上网搜了一下，win下的fiddler不错，可惜我用的是Linux系统，fiddler不跨平台，找了下linux下的抓包软件，当然tcpdump和wireshare是足够强大的，完全可以实现我要的小小要求，但用起来有一定的复杂性，门槛稍高。在网上找到其他类似的软件还挺多，charles、NProxy等，最后发现mitmproxy最符合我的胃口，如图： 但是mitmproxy的安装依赖太多，python就是这样，一不小心就报错了，so，想着用golang实现类似的功能，自己也很喜欢go语言，如果有空能安静写写自己喜欢的代码，是多么的幸福。想好了就实践，Let&rsquo;s do it，当然凡事都有个从简到繁的过程，下面的特性慢慢增加。
 特性 特性，也可以说功能，以下是实现或者将要实现的特性
-http代理 http请求响应的抓取 修改http请求 重复请求 同时监听多端口 支持socks5、websocket、https协议 界面支持终端和网页两种形式  安装 git clone https://github.com/zboya/gomitmproxy.git cd gomitmproxy go build  使用  http代理  gomimtproxy  不带任何参数，表示http代理，默认端口8080,更改端口用 -port
- http抓包  gomimtproxy -m  加 -m 参数，表示抓取http请求和响应  http代理科学上网
+http代理 http请求响应的抓取 修改http请求 重复请求 同时监听多端口 支持socks5、websocket、https协议 界面支持终端和网页两种形式  安装 git clone https://github.com/zboya/gomitmproxy.git cd gomitmproxy go build  使用  http代理
+gomimtproxy   不带任何参数，表示http代理，默认端口8080,更改端口用 -port
+ http抓包
+gomimtproxy -m   加 -m 参数，表示抓取http请求和响应  http代理科学上网
 首先你得有个墙外的服务器，如阿里香港的服务器，为图中的Server，假设其ip地址为：22.222.222.222
-  在Server执行: gomitmproxy -port 8888  在你自己电脑执行: gomitmproxy -port 8080 -raddr 22.222.222.222:8888  然后浏览器设置代理，ip为localhost，端口为8080,即可实现科学上网
+在Server执行: gomitmproxy -port 8888  在你自己电脑执行: gomitmproxy -port 8080 -raddr 22.222.222.222:8888   然后浏览器设置代理，ip为localhost，端口为8080,即可实现科学上网
 源码简析 对于网络编程，Anything is a socket! 实现http代理并不难，简单地说就是用代理服务器代替客户端去请求web服务，然后在把请求的结果返回给客户端。 先来个示意图：  1. 客户端发起一个到gomitmproxy的连接，并且提交了HTTP CONNECT请求。 2.">
   <meta name="twitter:description" content="用golang写一个http代理，可以抓包和科学上网 缘起 因为在工作中需要对上网进行限制，只让我们的app上网，意思就是放行app请求的所有域名或ip，而其他域名都禁止，所以我需要对app的http请求进行抓包。上网搜了一下，win下的fiddler不错，可惜我用的是Linux系统，fiddler不跨平台，找了下linux下的抓包软件，当然tcpdump和wireshare是足够强大的，完全可以 …">
-  <meta name="author" content=""/>
+  <meta name="author" content="boya"/>
   <link href='https://zboya.github.io/img/favicon.ico' rel='icon' type='image/x-icon'/>
   <meta property="og:image" content="https://zboya.github.io/img/favicon.ico" />
   <meta name="twitter:image" content="https://zboya.github.io/img/favicon.ico" />
@@ -32,7 +36,7 @@ http代理 http请求响应的抓取 修改http请求 重复请求 同时监听�
   <meta property="og:type" content="website" />
   <meta property="og:site_name" content="boya blog" />
 
-  <meta name="generator" content="Hugo 0.26" />
+  <meta name="generator" content="Hugo 0.59.1" />
   <link rel="canonical" href="https://zboya.github.io/post/golang_http_proxy/" />
   <link rel="alternate" href="https://zboya.github.io/index.xml" type="application/rss+xml" title="boya blog">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.7.1/katex.min.css" integrity="sha384-wITovz90syo1dJWVh32uuETPVEtGigN07tkttEqPv+uR2SE/mbQcG7ATL28aI9H0" crossorigin="anonymous">
@@ -217,13 +221,13 @@ http代理 http请求响应的抓取 修改http请求 重复请求 同时监听�
 <p>特性，也可以说功能，以下是实现或者将要实现的特性</p>
 
 <ul class="task-list">
-<li><input type="checkbox" checked disabled class="task-list-item"> http代理</li>
-<li><input type="checkbox" checked disabled class="task-list-item"> http请求响应的抓取</li>
-<li><input type="checkbox" disabled class="task-list-item"> 修改http请求</li>
-<li><input type="checkbox" disabled class="task-list-item"> 重复请求</li>
-<li><input type="checkbox" disabled class="task-list-item"> 同时监听多端口</li>
-<li><input type="checkbox" disabled class="task-list-item"> 支持socks5、websocket、https协议</li>
-<li><input type="checkbox" disabled class="task-list-item"> 界面支持终端和网页两种形式</li>
+<li><label><input type="checkbox" checked disabled class="task-list-item"> http代理</label></li>
+<li><label><input type="checkbox" checked disabled class="task-list-item"> http请求响应的抓取</label></li>
+<li><label><input type="checkbox" disabled class="task-list-item"> 修改http请求</label></li>
+<li><label><input type="checkbox" disabled class="task-list-item"> 重复请求</label></li>
+<li><label><input type="checkbox" disabled class="task-list-item"> 同时监听多端口</label></li>
+<li><label><input type="checkbox" disabled class="task-list-item"> 支持socks5、websocket、https协议</label></li>
+<li><label><input type="checkbox" disabled class="task-list-item"> 界面支持终端和网页两种形式</label></li>
 </ul>
 
 <h2 id="安装">安装</h2>
@@ -236,20 +240,20 @@ go build
 <h2 id="使用">使用</h2>
 
 <ul>
-<li>http代理</li>
-</ul>
+<li><p>http代理</p>
 
 <pre><code class="language-bash">gomimtproxy 
-</code></pre>
+</code></pre></li>
+</ul>
 
 <p>不带任何参数，表示http代理，默认端口8080,更改端口用 -port</p>
 
 <ul>
-<li>http抓包</li>
-</ul>
+<li><p>http抓包</p>
 
 <pre><code class="language-bash">gomimtproxy -m 
-</code></pre>
+</code></pre></li>
+</ul>
 
 <p>加 -m 参数，表示抓取http请求和响应
 <img src="https://raw.githubusercontent.com/sheepbao/gomitmproxy/master/doc/goproxy.png" alt="fetch http" /></p>
@@ -257,8 +261,7 @@ go build
 <ul>
 <li><p>http代理科学上网</p>
 
-<p>首先你得有个墙外的服务器，如阿里香港的服务器，为图中的Server，假设其ip地址为：22.222.222.222</p></li>
-</ul>
+<p>首先你得有个墙外的服务器，如阿里香港的服务器，为图中的Server，假设其ip地址为：22.222.222.222</p>
 
 <pre><code class="language-bash">在Server执行:
 gomitmproxy -port 8888
@@ -266,7 +269,8 @@ gomitmproxy -port 8888
 
 <pre><code class="language-bash">在你自己电脑执行:
 gomitmproxy -port 8080 -raddr 22.222.222.222:8888
-</code></pre>
+</code></pre></li>
+</ul>
 
 <p>然后浏览器设置代理，ip为localhost，端口为8080,即可实现科学上网</p>
 
@@ -436,7 +440,7 @@ func httpDump(req *http.Request, resp *http.Response) {
         <ul class="pager blog-pager">
           
             <li class="previous">
-              <a href="https://zboya.github.io/post/%E5%A6%82%E4%BD%95%E6%8E%92%E9%99%A4%E5%92%8C%E5%A4%84%E7%90%86bug/" data-toggle="tooltip" data-placement="top" title="">&larr; Previous Post</a>
+              <a href="https://zboya.github.io/post/gops/" data-toggle="tooltip" data-placement="top" title="">&larr; Previous Post</a>
             </li>
           
           
@@ -452,7 +456,7 @@ func httpDump(req *http.Request, resp *http.Response) {
         
           <div class="disqus-comments">
             <div id="disqus_thread"></div>
-<script>
+<script type="application/javascript">
     var disqus_config = function () {
     
     
@@ -469,8 +473,8 @@ func httpDump(req *http.Request, resp *http.Response) {
         (d.head || d.body).appendChild(s);
     })();
 </script>
-<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
-<a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
           </div>
         
         
@@ -486,9 +490,29 @@ func httpDump(req *http.Request, resp *http.Response) {
       <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
         <ul class="list-inline text-center footer-links">
           
+              <li>
+                <a href="mailto:listomebao@gmail.com" title="Email me">
+                  <span class="fa-stack fa-lg">
+                    <i class="fa fa-circle fa-stack-2x"></i>
+                    <i class="fa fa-envelope fa-stack-1x fa-inverse"></i>
+                  </span>
+                </a>
+              </li>
+              <li>
+                <a href="https://github.com/zboya" title="GitHub">
+                  <span class="fa-stack fa-lg">
+                    <i class="fa fa-circle fa-stack-2x"></i>
+                    <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                  </span>
+                </a>
+              </li>
           
         </ul>
         <p class="credits copyright text-muted">
+          
+            
+              <a href="zboya.github.io">boya</a>
+            
           
 
           &nbsp;&bull;&nbsp;
@@ -501,7 +525,7 @@ func httpDump(req *http.Request, resp *http.Response) {
         </p>
         
         <p class="credits theme-by text-muted">
-          <a href="http://gohugo.io">Hugo v0.26</a> powered &nbsp;&bull;&nbsp; Theme by <a href="http://deanattali.com/beautiful-jekyll/">Beautiful Jekyll</a> adapted to <a href="https://github.com/halogenica/beautifulhugo">Beautiful Hugo</a>
+          <a href="http://gohugo.io">Hugo v0.59.1</a> powered &nbsp;&bull;&nbsp; Theme by <a href="http://deanattali.com/beautiful-jekyll/">Beautiful Jekyll</a> adapted to <a href="https://github.com/halogenica/beautifulhugo">Beautiful Hugo</a>
           
         </p>
       </div>

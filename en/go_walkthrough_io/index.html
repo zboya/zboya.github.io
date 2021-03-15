@@ -5,32 +5,20 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
 
-  <title>golang开启GODEBUG=gctrace=1 显示信息的含义</title>
-  <meta property="og:title" content="golang开启GODEBUG=gctrace=1 显示信息的含义" />
-  <meta name="twitter:title" content="golang开启GODEBUG=gctrace=1 显示信息的含义" />
-  <meta name="description" content="golang开启GODEBUG gctrace =1 显示信息的含义 如何开启打印gc信息 只要在程序执行之前加上环境变量GODEBUG=gctrace=1 ，如：
-GODEBUG=gctrace=1 ./xxxx.exe or GODEBUG=gctrace=1 go run main.go
-程序将会显示gc信息，如下
-gc 1 @2.104s 0%: 0.018&#43;1.3&#43;0.076 ms clock, 0.054&#43;0.35/1.0/3.0&#43;0.23 ms cpu, 4-&gt;4-&gt;3 MB, 5 MB goal, 4 P gc 2 @2.241s 0%: 0.019&#43;2.4&#43;0.077 ms clock, 0.079&#43;0/2.4/6.4&#43;0.30 ms cpu, 5-&gt;6-&gt;5 MB, 6 MB goal, 4 P gc 3 @2.510s 0%: 0.011&#43;3.2&#43;0.063 ms clock, 0.047&#43;0.10/2.9/9.0&#43;0.25 ms cpu, 11-&gt;11-&gt;10 MB, 12 MB goal, 4 P gc 4 @3.021s 0%: 0.">
-  <meta property="og:description" content="golang开启GODEBUG gctrace =1 显示信息的含义 如何开启打印gc信息 只要在程序执行之前加上环境变量GODEBUG=gctrace=1 ，如：
-GODEBUG=gctrace=1 ./xxxx.exe or GODEBUG=gctrace=1 go run main.go
-程序将会显示gc信息，如下
-gc 1 @2.104s 0%: 0.018&#43;1.3&#43;0.076 ms clock, 0.054&#43;0.35/1.0/3.0&#43;0.23 ms cpu, 4-&gt;4-&gt;3 MB, 5 MB goal, 4 P gc 2 @2.241s 0%: 0.019&#43;2.4&#43;0.077 ms clock, 0.079&#43;0/2.4/6.4&#43;0.30 ms cpu, 5-&gt;6-&gt;5 MB, 6 MB goal, 4 P gc 3 @2.510s 0%: 0.011&#43;3.2&#43;0.063 ms clock, 0.047&#43;0.10/2.9/9.0&#43;0.25 ms cpu, 11-&gt;11-&gt;10 MB, 12 MB goal, 4 P gc 4 @3.021s 0%: 0.">
-  <meta name="twitter:description" content="golang开启GODEBUG gctrace =1 显示信息的含义 如何开启打印gc信息 只要在程序执行之前加上环境变量GODEBUG=gctrace=1 ，如：
-GODEBUG=gctrace=1 ./xxxx.exe or GODEBUG=gctrace=1 go run main.go
-程序将会显示gc信息，如下
-gc 1 @2.104s 0%: 0.018&#43;1.3&#43;0.076 ms …">
+  <title>boya blog</title>
+  <meta property="og:title" content="boya blog" />
+  <meta name="twitter:title" content="boya blog" />
   <meta name="author" content="boya"/>
   <link href='https://zboya.github.io/img/favicon.ico' rel='icon' type='image/x-icon'/>
   <meta property="og:image" content="https://zboya.github.io/img/favicon.ico" />
   <meta name="twitter:image" content="https://zboya.github.io/img/favicon.ico" />
   <meta name="twitter:card" content="summary" />
-  <meta property="og:url" content="https://zboya.github.io/post/golang_debug_gctrace/" />
+  <meta property="og:url" content="https://zboya.github.io/en/go_walkthrough_io/" />
   <meta property="og:type" content="website" />
   <meta property="og:site_name" content="boya blog" />
 
   <meta name="generator" content="Hugo 0.59.1" />
-  <link rel="canonical" href="https://zboya.github.io/post/golang_debug_gctrace/" />
+  <link rel="canonical" href="https://zboya.github.io/en/go_walkthrough_io/" />
   <link rel="alternate" href="https://zboya.github.io/index.xml" type="application/rss+xml" title="boya blog">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.7.1/katex.min.css" integrity="sha384-wITovz90syo1dJWVh32uuETPVEtGigN07tkttEqPv+uR2SE/mbQcG7ATL28aI9H0" crossorigin="anonymous">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
@@ -162,36 +150,7 @@ gc 1 @2.104s 0%: 0.018&#43;1.3&#43;0.076 ms …">
 
 
 
-  
-
-  <header class="header-section ">
-    
-    <div class="intro-header no-img">
-      
-      <div class="container">
-        <div class="row">
-          <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
-            <div class="post-heading">
-              <h1>golang开启GODEBUG=gctrace=1 显示信息的含义</h1>
-                
-                
-                  <span class="post-meta">
-  
-  
-  <i class="fa fa-calendar-o"></i>&nbsp;Posted on December 3, 2016
-  
-  
-  
-</span>
-
-
-                
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </header>
+  <div class="intro-header"></div>
 
 
     
@@ -201,99 +160,6 @@ gc 1 @2.104s 0%: 0.018&#43;1.3&#43;0.076 ms …">
       <article role="main" class="blog-post">
         
 
-<h1 id="golang开启godebug-gctrace-1-显示信息的含义">golang开启GODEBUG gctrace =1 显示信息的含义</h1>
-
-<h3 id="如何开启打印gc信息">如何开启打印gc信息</h3>
-
-<p>只要在程序执行之前加上环境变量<code>GODEBUG=gctrace=1</code> ，如：<br />
-<code>GODEBUG=gctrace=1 ./xxxx.exe</code> or <code>GODEBUG=gctrace=1 go run main.go</code></p>
-
-<p>程序将会显示gc信息，如下</p>
-
-<pre><code>gc 1 @2.104s 0%: 0.018+1.3+0.076 ms clock, 0.054+0.35/1.0/3.0+0.23 ms cpu, 4-&gt;4-&gt;3 MB, 5 MB goal, 4 P
-gc 2 @2.241s 0%: 0.019+2.4+0.077 ms clock, 0.079+0/2.4/6.4+0.30 ms cpu, 5-&gt;6-&gt;5 MB, 6 MB goal, 4 P
-gc 3 @2.510s 0%: 0.011+3.2+0.063 ms clock, 0.047+0.10/2.9/9.0+0.25 ms cpu, 11-&gt;11-&gt;10 MB, 12 MB goal, 4 P
-gc 4 @3.021s 0%: 0.013+6.6+0.076 ms clock, 0.053+0.34/6.2/18+0.30 ms cpu, 21-&gt;21-&gt;20 MB, 22 MB goal, 4 P
-gc 5 @3.725s 0%: 0.015+15+0.079 ms clock, 0.062+0.35/15/45+0.31 ms cpu, 40-&gt;40-&gt;39 MB, 41 MB goal, 4 P
-gc 6 @4.741s 0%: 0.008+35+0.17 ms clock, 0.035+0.19/35/100+0.70 ms cpu, 76-&gt;76-&gt;75 MB, 78 MB goal, 4 P
-gc 7 @6.688s 0%: 0.020+117+0.34 ms clock, 0.082+11/117/330+1.3 ms cpu, 147-&gt;148-&gt;146 MB, 151 MB goal, 4 P
-gc 8 @68.645s 0%: 0.019+146+0.30 ms clock, 0.078+0.006/146/407+1.2 ms cpu, 285-&gt;285-&gt;248 MB, 292 MB goal, 4 P
-scvg0: inuse: 426, idle: 0, sys: 427, released: 0, consumed: 427 (MB)
-gc 9 @175.448s 0%: 0.030+60+0.12 ms clock, 0.12+0.013/60/177+0.51 ms cpu, 484-&gt;484-&gt;248 MB, 496 MB goal, 4 P
-gc 10 @236.621s 0%: 0.006+59+0.11 ms clock, 0.025+0/59/173+0.47 ms cpu, 484-&gt;484-&gt;248 MB, 496 MB goal, 4 P
-gc 11 @285.967s 0%: 0.027+57+0.22 ms clock, 0.11+0/57/163+0.89 ms cpu, 484-&gt;484-&gt;248 MB, 496 MB goal, 4 P
-scvg1: inuse: 331, idle: 175, sys: 507, released: 0, consumed: 507 (MB)
-gc 12 @333.817s 0%: 0.009+52+0.18 ms clock, 0.036+0/52/155+0.72 ms cpu, 484-&gt;484-&gt;248 MB, 496 MB goal, 4 P
-</code></pre>
-
-<h3 id="gc信息的含义">gc信息的含义</h3>
-
-<p>查看官方的<a href="https://godoc.org/runtime">runtime</a>说明：</p>
-
-<pre><code class="language-html">gctrace: setting gctrace=1 causes the garbage collector to emit a single line to standard
-error at each collection, summarizing the amount of memory collected and the
-length of the pause. Setting gctrace=2 emits the same summary but also
-repeats each collection. The format of this line is subject to change.
-Currently, it is:
-	gc # @#s #%: #+#+# ms clock, #+#/#/#+# ms cpu, #-&gt;#-&gt;# MB, # MB goal, # P
-where the fields are as follows:
-	gc #        the GC number, incremented at each GC
-	@#s         time in seconds since program start
-	#%          percentage of time spent in GC since program start
-	#+...+#     wall-clock/CPU times for the phases of the GC
-	#-&gt;#-&gt;# MB  heap size at GC start, at GC end, and live heap
-	# MB goal   goal heap size
-	# P         number of processors used
-The phases are stop-the-world (STW) sweep termination, concurrent
-mark and scan, and STW mark termination. The CPU times
-for mark/scan are broken down in to assist time (GC performed in
-line with allocation), background GC time, and idle GC time.
-If the line ends with &quot;(forced)&quot;, this GC was forced by a
-runtime.GC() call and all phases are STW.
-
-Setting gctrace to any value &gt; 0 also causes the garbage collector
-to emit a summary when memory is released back to the system.
-This process of returning memory to the system is called scavenging.
-The format of this summary is subject to change.
-Currently it is:
-	scvg#: # MB released  printed only if non-zero
-	scvg#: inuse: # idle: # sys: # released: # consumed: # (MB)
-where the fields are as follows:
-	scvg#        the scavenge cycle number, incremented at each scavenge
-	inuse: #     MB used or partially used spans
-	idle: #      MB spans pending scavenging
-	sys: #       MB mapped from the system
-	released: #  MB released to the system
-	consumed: #  MB allocated from the system
-</code></pre>
-
-<p>垃圾回收信息<br />
-<code>gc 1 @2.104s 0%: 0.018+1.3+0.076 ms clock, 0.054+0.35/1.0/3.0+0.23 ms cpu, 4-&gt;4-&gt;3 MB, 5 MB goal, 4 P</code>。<br />
-<code>1</code> 表示第一次执行<br />
-<code>@2.104s</code> 表示程序执行的总时间<br />
-<code>0%</code> 垃圾回收时间占用的百分比，（不知道和谁比？难道是和上面的程序执行总时间，这样比较感觉没意义）<br />
-<code>0.018+1.3+0.076 ms clock</code> 垃圾回收的时间，分别为0.018ms<strong>STW</strong>（stop-the-world）清扫的时间, 1.3ms并发标记和扫描的时间，0.076ms<strong>STW</strong>标记的时间<br />
-<code>0.054+0.35/1.0/3.0+0.23 ms cpu</code>  垃圾回收占用cpu时间, 0.054ms<strong>STW</strong>清扫占用的cpu时间，0.35ms辅助时间，1.0ms后台gc时间，3.0ms空闲gc时间，<strong>STW</strong>标记终止时间。
-<code>4-&gt;4-&gt;3 MB</code> 堆的大小，gc后堆的大小，存活堆的大小<br />
-<code>5 MB goal</code> 整体堆的大小<br />
-<code>4 P</code> 使用的处理器数量</p>
-
-<p>系统内存回收信息,这个很直白，看单词就知道大概意思了<br />
-<code>scvg0: inuse: 426, idle: 0, sys: 427, released: 0, consumed: 427 (MB)</code></p>
-
-<p><code>426</code> 使用多少M内存<br />
-<code>0</code> 剩下要清除的内存<br />
-<code>427</code> 系统映射的内存<br />
-<code>0</code> 释放的系统内存<br />
-<code>427</code> 申请的系统内存</p>
-
-
-        
-          <div class="blog-tags">
-            
-              <a href="https://zboya.github.io//tags/go/">Go</a>&nbsp;
-            
-          </div>
         
 
         
@@ -302,13 +168,9 @@ where the fields are as follows:
       
         <ul class="pager blog-pager">
           
-            <li class="previous">
-              <a href="https://zboya.github.io/post/rtmp_note/" data-toggle="tooltip" data-placement="top" title="RTMP协议学习笔记">&larr; Previous Post</a>
-            </li>
-          
           
             <li class="next">
-              <a href="https://zboya.github.io/post/golang_string_connect_performance/" data-toggle="tooltip" data-placement="top" title="Golang 字符串连接性能探究">Next Post &rarr;</a>
+              <a href="https://zboya.github.io/en/go_walkthrough_bytes_strings/" data-toggle="tooltip" data-placement="top" title="">Next Post &rarr;</a>
             </li>
           
         </ul>

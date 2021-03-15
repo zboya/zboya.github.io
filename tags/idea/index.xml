@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Idea on boya blog</title>
@@ -6,6 +6,8 @@
     <description>Recent content in Idea on boya blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
+    <managingEditor>listomebao@gmail.com (boya)</managingEditor>
+    <webMaster>listomebao@gmail.com (boya)</webMaster>
     <lastBuildDate>Fri, 09 Mar 2018 11:58:40 +0800</lastBuildDate>
     
 	<atom:link href="https://zboya.github.io/tags/idea/index.xml" rel="self" type="application/rss+xml" />
@@ -15,7 +17,7 @@
       <title>利用DDoS模型来通信</title>
       <link>https://zboya.github.io/post/p2p_by_non_servers/</link>
       <pubDate>Fri, 09 Mar 2018 11:58:40 +0800</pubDate>
-      
+      <author>listomebao@gmail.com (boya)</author>
       <guid>https://zboya.github.io/post/p2p_by_non_servers/</guid>
       <description>利用DDoS来通信 前两天看到一个新闻，世界上最大的同性交友网站github遭受了DDoS攻击了，最高的流量达到1.35Tbps（心疼github 10秒钟）。有别于普通的DDoS，该DDoS称为反射型DDoS攻击，也称放大型攻击，我个人认为放大型攻击毕竟形象。
 以下想法纯属个人意见。有不同建议或补充的的欢迎emial我aboutme

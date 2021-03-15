@@ -10,14 +10,17 @@
   <meta name="twitter:title" content="平时整理的一些golang代码片段" />
   <meta name="description" content="golang 代码片段 by boya
 老司机请忽略！
- 用chan实现斐波那契数列  import &quot;fmt&quot; func fibonacci(c, quit chan int) { x, y := 0, 1 for { select { case c &lt;- x: x, y = y, x&#43;y case &lt;-quit: fmt.Println(&quot;quit&quot;) return } } } func main() { c := make(chan int) quit := make(chan int) go func() { for i := 0; i &lt; 10; i&#43;&#43; { fmt.Println(&lt;-c) } quit &lt;- 0 }() fibonacci(c, quit) }   字符串的简单映射  func main() { rot13 := func(r rune) rune { switch { case r &gt;= &#39;A&#39; &amp;&amp; r &lt;= &#39;Z&#39;: return &#39;A&#39; &#43; (r-&#39;A&#39;&#43;13)%26 case r &gt;= &#39;a&#39; &amp;&amp; r &lt;= &#39;z&#39;: return &#39;a&#39; &#43; (r-&#39;a&#39;&#43;13)%26 } return r } fmt.">
+ 用chan实现斐波那契数列
+import &quot;fmt&quot; func fibonacci(c, quit chan int) { x, y := 0, 1 for { select { case c &lt;- x: x, y = y, x&#43;y case &lt;-quit: fmt.Println(&quot;quit&quot;) return } } } func main() { c := make(chan int) quit := make(chan int) go func() { for i := 0; i &lt; 10; i&#43;&#43; { fmt.Println(&lt;-c) } quit &lt;- 0 }() fibonacci(c, quit) }  字符串的简单映射">
   <meta property="og:description" content="golang 代码片段 by boya
 老司机请忽略！
- 用chan实现斐波那契数列  import &quot;fmt&quot; func fibonacci(c, quit chan int) { x, y := 0, 1 for { select { case c &lt;- x: x, y = y, x&#43;y case &lt;-quit: fmt.Println(&quot;quit&quot;) return } } } func main() { c := make(chan int) quit := make(chan int) go func() { for i := 0; i &lt; 10; i&#43;&#43; { fmt.Println(&lt;-c) } quit &lt;- 0 }() fibonacci(c, quit) }   字符串的简单映射  func main() { rot13 := func(r rune) rune { switch { case r &gt;= &#39;A&#39; &amp;&amp; r &lt;= &#39;Z&#39;: return &#39;A&#39; &#43; (r-&#39;A&#39;&#43;13)%26 case r &gt;= &#39;a&#39; &amp;&amp; r &lt;= &#39;z&#39;: return &#39;a&#39; &#43; (r-&#39;a&#39;&#43;13)%26 } return r } fmt.">
+ 用chan实现斐波那契数列
+import &quot;fmt&quot; func fibonacci(c, quit chan int) { x, y := 0, 1 for { select { case c &lt;- x: x, y = y, x&#43;y case &lt;-quit: fmt.Println(&quot;quit&quot;) return } } } func main() { c := make(chan int) quit := make(chan int) go func() { for i := 0; i &lt; 10; i&#43;&#43; { fmt.Println(&lt;-c) } quit &lt;- 0 }() fibonacci(c, quit) }  字符串的简单映射">
   <meta name="twitter:description" content="golang 代码片段 by boya
 老司机请忽略！
- 用chan实现斐波那契数列  import &quot;fmt&quot; func fibonacci(c, quit chan int) { x, y := 0, 1 for { select { case c &lt;- x: x, y = y, x&#43;y case &lt;-quit: …">
-  <meta name="author" content=""/>
+ 用chan实现斐波那契数列
+import &quot;fmt&quot; func fibonacci(c, quit chan int) { x, y := 0, 1 for { select { case c &lt;- x: x, y = y, x&#43;y case &lt;-quit: …">
+  <meta name="author" content="boya"/>
   <link href='https://zboya.github.io/img/favicon.ico' rel='icon' type='image/x-icon'/>
   <meta property="og:image" content="https://zboya.github.io/img/favicon.ico" />
   <meta name="twitter:image" content="https://zboya.github.io/img/favicon.ico" />
@@ -26,7 +29,7 @@
   <meta property="og:type" content="website" />
   <meta property="og:site_name" content="boya blog" />
 
-  <meta name="generator" content="Hugo 0.26" />
+  <meta name="generator" content="Hugo 0.59.1" />
   <link rel="canonical" href="https://zboya.github.io/post/golang_code_slice/" />
   <link rel="alternate" href="https://zboya.github.io/index.xml" type="application/rss+xml" title="boya blog">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.7.1/katex.min.css" integrity="sha384-wITovz90syo1dJWVh32uuETPVEtGigN07tkttEqPv+uR2SE/mbQcG7ATL28aI9H0" crossorigin="anonymous">
@@ -204,8 +207,7 @@
 老司机请忽略！</p>
 
 <ul>
-<li>用chan实现斐波那契数列</li>
-</ul>
+<li><p>用chan实现斐波那契数列</p>
 
 <pre><code class="language-go">import &quot;fmt&quot;
 func fibonacci(c, quit chan int) {
@@ -231,11 +233,9 @@ func main() {
 	}()
 	fibonacci(c, quit)
 }
-</code></pre>
+</code></pre></li>
 
-<ul>
-<li>字符串的简单映射</li>
-</ul>
+<li><p>字符串的简单映射</p>
 
 <pre><code class="language-go">func main() {
 	rot13 := func(r rune) rune {
@@ -249,52 +249,46 @@ func main() {
 	}
 	fmt.Println(strings.Map(rot13, &quot;'hello gopher...&quot;))
 }
-</code></pre>
+</code></pre></li>
 
-<ul>
-<li>利用chan做延时(超时)</li>
-</ul>
+<li><p>利用chan做延时(超时)</p>
 
 <pre><code class="language-go">import &quot;time&quot;
 import &quot;fmt&quot;
 func main() {
-    c1 := make(chan string, 1)
-    go func() {
-        time.Sleep(time.Second * 2)
-        c1 &lt;- &quot;result 1&quot;
-    }()
-    select {
-    case res := &lt;-c1:
-        fmt.Println(res)
-    case &lt;-time.After(time.Second * 1):
-        fmt.Println(&quot;timeout 1&quot;)
-    }
+c1 := make(chan string, 1)
+go func() {
+    time.Sleep(time.Second * 2)
+    c1 &lt;- &quot;result 1&quot;
+}()
+select {
+case res := &lt;-c1:
+    fmt.Println(res)
+case &lt;-time.After(time.Second * 1):
+    fmt.Println(&quot;timeout 1&quot;)
 }
-</code></pre>
+}
+</code></pre></li>
 
-<ul>
-<li>利用闭包输出递增整数的平方</li>
-</ul>
+<li><p>利用闭包输出递增整数的平方</p>
 
 <pre><code class="language-go">func squares() func() int {
-    var x int
-    return func() int {
-        x++
-        return x * x
-    }
+var x int
+return func() int {
+    x++
+    return x * x
+}
 }
 func main() {
-    f := squares()
-    fmt.Println(f()) // &quot;1&quot;
-    fmt.Println(f()) // &quot;4&quot;
-    fmt.Println(f()) // &quot;9&quot;
-    fmt.Println(f()) // &quot;16&quot;
+f := squares()
+fmt.Println(f()) // &quot;1&quot;
+fmt.Println(f()) // &quot;4&quot;
+fmt.Println(f()) // &quot;9&quot;
+fmt.Println(f()) // &quot;16&quot;
 }
-</code></pre>
+</code></pre></li>
 
-<ul>
-<li>统计整数包含多少个值为1的2进制数</li>
-</ul>
+<li><p>统计整数包含多少个值为1的2进制数</p>
 
 <pre><code class="language-go">package main
 
@@ -323,28 +317,24 @@ func PopCount(x uint64) int {
 func main() {
 	println(PopCount(9))
 }
-</code></pre>
+</code></pre></li>
 
-<ul>
-<li>常量生成器</li>
-</ul>
+<li><p>常量生成器</p>
 
 <pre><code class="language-go">const (
-    _ = 1 &lt;&lt; (10 * iota)
-    KiB // 1024
-    MiB // 1048576
-    GiB // 1073741824
-    TiB // 1099511627776             (exceeds 1 &lt;&lt; 32)
-    PiB // 1125899906842624
-    EiB // 1152921504606846976
-    ZiB // 1180591620717411303424    (exceeds 1 &lt;&lt; 64)
-    YiB // 1208925819614629174706176
+_ = 1 &lt;&lt; (10 * iota)
+KiB // 1024
+MiB // 1048576
+GiB // 1073741824
+TiB // 1099511627776             (exceeds 1 &lt;&lt; 32)
+PiB // 1125899906842624
+EiB // 1152921504606846976
+ZiB // 1180591620717411303424    (exceeds 1 &lt;&lt; 64)
+YiB // 1208925819614629174706176
 )
-</code></pre>
+</code></pre></li>
 
-<ul>
-<li>二叉树和利用二叉树排序</li>
-</ul>
+<li><p>二叉树和利用二叉树排序</p>
 
 <pre><code class="language-go">package main
 
@@ -391,11 +381,9 @@ func main() {
 	Sort(data)
 	fmt.Println(data)
 }
-</code></pre>
+</code></pre></li>
 
-<ul>
-<li>通过方法表达式来操作选用哪个方法</li>
-</ul>
+<li><p>通过方法表达式来操作选用哪个方法</p>
 
 <pre><code class="language-go">type Point struct{ X, Y float64 }
 
@@ -405,78 +393,68 @@ func (p Point) Sub(q Point) Point { return Point{p.X - q.X, p.Y - q.Y} }
 type Path []Point
 
 func (path Path) TranslateBy(offset Point, add bool) {
-    var op func(p, q Point) Point
-    if add {
-        op = Point.Add
-    } else {
-        op = Point.Sub
-    }
-    for i := range path {
-        // Call either path[i].Add(offset) or path[i].Sub(offset).
-        path[i] = op(path[i], offset)
-    }
+var op func(p, q Point) Point
+if add {
+    op = Point.Add
+} else {
+    op = Point.Sub
 }
-</code></pre>
+for i := range path {
+    // Call either path[i].Add(offset) or path[i].Sub(offset).
+    path[i] = op(path[i], offset)
+}
+}
+</code></pre></li>
 
-<ul>
-<li>interface的类型断言</li>
-</ul>
+<li><p>interface的类型断言</p>
 
 <pre><code class="language-go">func sqlQuote(x interface{}) string {
-    switch x := x.(type) {
-    case nil:
-        return &quot;NULL&quot;
-    case int, uint:
-        return fmt.Sprintf(&quot;%d&quot;, x) // x has type interface{} here.
-    case bool:
-        if x {
-            return &quot;TRUE&quot;
-        }
-        return &quot;FALSE&quot;
-    case string:
-        return sqlQuoteString(x) // (not shown)
-    default:
-        panic(fmt.Sprintf(&quot;unexpected type %T: %v&quot;, x, x))
+switch x := x.(type) {
+case nil:
+    return &quot;NULL&quot;
+case int, uint:
+    return fmt.Sprintf(&quot;%d&quot;, x) // x has type interface{} here.
+case bool:
+    if x {
+        return &quot;TRUE&quot;
     }
+    return &quot;FALSE&quot;
+case string:
+    return sqlQuoteString(x) // (not shown)
+default:
+    panic(fmt.Sprintf(&quot;unexpected type %T: %v&quot;, x, x))
 }
-</code></pre>
+}
+</code></pre></li>
 
-<ul>
-<li>ch这个channel的buffer大小是1，所以会交替的为空或为满，所以只有一个case可以进行下去，无论i是奇数或者偶数，它都会打印<code>0 2 4 6 8</code>。</li>
-</ul>
+<li><p>ch这个channel的buffer大小是1，所以会交替的为空或为满，所以只有一个case可以进行下去，无论i是奇数或者偶数，它都会打印<code>0 2 4 6 8</code>。</p>
 
 <pre><code class="language-go">ch := make(chan int, 1)
 for i := 0; i &lt; 10; i++ {
-    select {
-    case x := &lt;-ch:
-        fmt.Println(x) // &quot;0&quot; &quot;2&quot; &quot;4&quot; &quot;6&quot; &quot;8&quot;
-    case ch &lt;- i:
-    }
+select {
+case x := &lt;-ch:
+    fmt.Println(x) // &quot;0&quot; &quot;2&quot; &quot;4&quot; &quot;6&quot; &quot;8&quot;
+case ch &lt;- i:
 }
-</code></pre>
+}
+</code></pre></li>
 
-<ul>
-<li>用const 表示字符格式</li>
-</ul>
+<li><p>用const 表示字符格式</p>
 
 <pre><code class="language-go">const template = `Warning: you are using %d bytes of  storage,%d%% of your quota.`
-</code></pre>
+</code></pre></li>
 
-<ul>
-<li>反射</li>
-</ul>
+<li><p>反射</p>
 
 <pre><code class="language-go">func main() {
-  hl := hello
-  fv := reflect.ValueOf(hl)
-  fmt.Println(&quot;fv is reflect.Func ?&quot;,fv.Kind() == reflect.Func)
-  fv.Call(nil)
+hl := hello
+fv := reflect.ValueOf(hl)
+fmt.Println(&quot;fv is reflect.Func ?&quot;,fv.Kind() == reflect.Func)
+fv.Call(nil)
 }
-</code></pre>
+</code></pre></li>
 
-<ul>
-<li>变长参数</li>
-</ul>
+<li><p>变长参数</p>
 
 <pre><code class="language-go">func (engine *Engine) Use(middleware ...HandlerFunc) IRoutes {
 	engine.RouterGroup.Use(middleware...)
@@ -484,53 +462,45 @@ for i := 0; i &lt; 10; i++ {
 	engine.rebuild405Handlers()
 	return engine
 }
-</code></pre>
+</code></pre></li>
 
-<ul>
-<li>心跳包的简单实现</li>
-</ul>
+<li><p>心跳包的简单实现</p>
 
 <pre><code class="language-go">func worker(start chan bool) {
-        heartbeat := time.Tick(30 * time.Second)
-        for {
-                select {
-                     // … do some stuff
-                case &lt;- heartbeat:
-                    //… do heartbeat stuff
-                }
-        }
-}
-</code></pre>
-
-<ul>
-<li>删除某个slice的某个元素</li>
-</ul>
-
-<pre><code class="language-go">for i := range s {
-    if equal(s[i], element) {
-    	s = append(s[:i], s[i+1:]...)
+    heartbeat := time.Tick(30 * time.Second)
+    for {
+            select {
+                 // … do some stuff
+            case &lt;- heartbeat:
+                //… do heartbeat stuff
+            }
     }
 }
-</code></pre>
+</code></pre></li>
 
-<ul>
-<li>把数组转slice</li>
-</ul>
+<li><p>删除某个slice的某个元素</p>
+
+<pre><code class="language-go">for i := range s {
+if equal(s[i], element) {
+	s = append(s[:i], s[i+1:]...)
+}
+}
+</code></pre></li>
+
+<li><p>把数组转slice</p>
 
 <pre><code class="language-go">func main() { 
-    a := [3]int{1, 2, 3} 
-    b := a[:] 
-    fmt.Println(b) 
+a := [3]int{1, 2, 3} 
+b := a[:] 
+fmt.Println(b) 
 } 
 func main(){
-    a := [3]int{1, 2, 3}
-    b := (&amp;a)[:]
+a := [3]int{1, 2, 3}
+b := (&amp;a)[:]
 }
-</code></pre>
+</code></pre></li>
 
-<ul>
-<li>数据转发</li>
-</ul>
+<li><p>数据转发</p>
 
 <pre><code class="language-go">func forward(src net.Conn, network, address string, timeout time.Duration) {
 	defer src.Close()
@@ -561,11 +531,9 @@ func cp(c chan error, w io.Writer, r io.Reader) {
 	c &lt;- err
 	fmt.Println(&quot;cp end&quot;)
 }
-</code></pre>
+</code></pre></li>
 
-<ul>
-<li>获取当前目录和父级目录</li>
-</ul>
+<li><p>获取当前目录和父级目录</p>
 
 <pre><code class="language-go">func substr(s string, pos, length int) string {
 	runes := []rune(s)
@@ -587,11 +555,9 @@ func getCurrentDirectory() string {
 	}
 	return strings.Replace(dir, &quot;\\&quot;, &quot;/&quot;, -1)
 }
-</code></pre>
+</code></pre></li>
 
-<ul>
-<li>保存当前程序的pid</li>
-</ul>
+<li><p>保存当前程序的pid</p>
 
 <pre><code class="language-go">func savePid() {
 	pidFilename := ROOT + &quot;/pid/&quot; +filepath.Base(os.Args[0]) + &quot;.pid&quot;
@@ -599,20 +565,16 @@ func getCurrentDirectory() string {
 
 	ioutil.WriteFile(pidFilename, []byte(strconv.Itoa(pid)), 0755)
 }
-</code></pre>
+</code></pre></li>
 
-<ul>
-<li>利用struct{}当channel</li>
-</ul>
+<li><p>利用struct{}当channel</p>
 
 <pre><code class="language-go">ch:=make(chan struct{})
 ch &lt;- struct{}{}
 &lt;-ch
-</code></pre>
+</code></pre></li>
 
-<ul>
-<li>break加label</li>
-</ul>
+<li><p>break加label</p>
 
 <pre><code class="language-go">OuterLoop:
 	for i = 0; i &lt; n; i++ {
@@ -627,45 +589,41 @@ ch &lt;- struct{}{}
 			}
 		}
 	}
-</code></pre>
+</code></pre></li>
 
-<ul>
-<li>Go语言实现http共享文件服务器</li>
-</ul>
+<li><p>Go语言实现http共享文件服务器</p>
 
-<pre><code class="language-go">   package main  
-    import (  
-            &quot;net/http&quot;  
-            &quot;os&quot;  
-            &quot;strings&quot;  
-    )  
-    func shareDir(dirName string,port string,ch chan bool){  
-            h := http.FileServer(http.Dir(dirName))  
-            err := http.ListenAndServe(&quot;:&quot;+port,h)  
-            if err != nil {  
-                    println(&quot;ListenAndServe : &quot;,err.Error())  
-                    ch &lt;- false  
-            }  
-    }  
-    func main(){  
-            ch := make(chanbool)  
-            port := &quot;8000&quot;//Default port  
-            iflen(os.Args)&gt;1 {  
-                    port = strings.Join(os.Args[1:2],&quot;&quot;)  
-            }  
-            go shareDir(&quot;.&quot;,port,ch)  
-            println(&quot;Listening on port &quot;,port,&quot;...&quot;)  
-            bresult := &lt;-ch  
-            iffalse == bresult {  
-                    println(&quot;Listening on port &quot;,port,&quot; failed&quot;)  
-            }  
-    }  
+<pre><code class="language-go">package main  
+import (  
+        &quot;net/http&quot;  
+        &quot;os&quot;  
+        &quot;strings&quot;  
+)  
+func shareDir(dirName string,port string,ch chan bool){  
+        h := http.FileServer(http.Dir(dirName))  
+        err := http.ListenAndServe(&quot;:&quot;+port,h)  
+        if err != nil {  
+                println(&quot;ListenAndServe : &quot;,err.Error())  
+                ch &lt;- false  
+        }  
+}  
+func main(){  
+        ch := make(chanbool)  
+        port := &quot;8000&quot;//Default port  
+        iflen(os.Args)&gt;1 {  
+                port = strings.Join(os.Args[1:2],&quot;&quot;)  
+        }  
+        go shareDir(&quot;.&quot;,port,ch)  
+        println(&quot;Listening on port &quot;,port,&quot;...&quot;)  
+        bresult := &lt;-ch  
+        iffalse == bresult {  
+                println(&quot;Listening on port &quot;,port,&quot; failed&quot;)  
+        }  
+}  
     
-</code></pre>
+</code></pre></li>
 
-<ul>
-<li>简单的TCP代理服务器</li>
-</ul>
+<li><p>简单的TCP代理服务器</p>
 
 <pre><code class="language-go">package main
 
@@ -710,76 +668,70 @@ func fatal(s string, a ...interface{}) {
 	os.Exit(2)
 }
 
-</code></pre>
+</code></pre></li>
 
-<ul>
-<li>选择排序是不稳定的。算法复杂度是O(n ^2 )。</li>
-</ul>
+<li><p>选择排序是不稳定的。算法复杂度是O(n ^2 )。</p>
 
 <pre><code class="language-go">package main
 import (    
-    &quot;fmt&quot;
+&quot;fmt&quot;
 )
 
 type SortInterface interface {
-    sort()
+sort()
 }
 type Sortor struct {
-    name string
+name string
 }
 
 func main() {
-    arry := []int{6, 1, 3, 5, 8, 4, 2, 0, 9, 7}
-    learnsort := Sortor{name: &quot;选择排序--从小到大--不稳定--n*n---&quot;}
-    learnsort.sort(arry)
-    fmt.Println(learnsort.name, arry)
+arry := []int{6, 1, 3, 5, 8, 4, 2, 0, 9, 7}
+learnsort := Sortor{name: &quot;选择排序--从小到大--不稳定--n*n---&quot;}
+learnsort.sort(arry)
+fmt.Println(learnsort.name, arry)
 }
 
 func (sorter Sortor) sort(arry []int) {
-    arrylength := len(arry)    for i := 0; i &lt; arrylength; i++ {
-        min := i        for j := i + 1; j &lt; arrylength; j++ {            if arry[j] &lt; arry[min] {
-                min = j
-            }
+arrylength := len(arry)    for i := 0; i &lt; arrylength; i++ {
+    min := i        for j := i + 1; j &lt; arrylength; j++ {            if arry[j] &lt; arry[min] {
+            min = j
         }
-        t := arry[i]
-        arry[i] = arry[min]
-        arry[min] = t
-
     }
+    t := arry[i]
+    arry[i] = arry[min]
+    arry[min] = t
+
+}
 }
 
 http://blog.csdn.net/guoer9973/article/details/51924715
-</code></pre>
+</code></pre></li>
 
-<ul>
-<li>检查文件或目录是否存在</li>
-</ul>
+<li><p>检查文件或目录是否存在</p>
 
 <pre><code class="language-go">// 如果由 filename 指定的文件或目录存在则返回 true，否则返回 false
 func fileExist(filename string) bool {
-    _, err := os.Stat(filename)
-    return err == nil || os.IsExist(err)
+_, err := os.Stat(filename)
+return err == nil || os.IsExist(err)
 }
-</code></pre>
+</code></pre></li>
 
-<ul>
-<li>重定向golang的panic信息</li>
-</ul>
+<li><p>重定向golang的panic信息</p>
 
 <pre><code class="language-go">package main
 
 import (
-    &quot;log&quot;
-    &quot;os&quot;
-    &quot;syscall&quot;
+&quot;log&quot;
+&quot;os&quot;
+&quot;syscall&quot;
 )
 
 // redirectStderr to the file passed in
 func redirectStderr(f *os.File) {
-    err := syscall.Dup2(int(f.Fd()), int(os.Stderr.Fd()))
-    if err != nil {
-        log.Fatalf(&quot;Failed to redirect stderr to file: %v&quot;, err)
-    }
+err := syscall.Dup2(int(f.Fd()), int(os.Stderr.Fd()))
+if err != nil {
+    log.Fatalf(&quot;Failed to redirect stderr to file: %v&quot;, err)
+}
 }
 </code></pre>
 
@@ -818,17 +770,15 @@ func redirect_err() {
 		log4go.Error(&quot;SetStdHandle failed: %v&quot;, err)
 	}
 }
-</code></pre>
+</code></pre></li>
 
-<ul>
-<li>go 执行命令并获取stderr</li>
-</ul>
+<li><p>go 执行命令并获取stderr</p>
 
-<pre><code class="language-go">    var stderr io.ReadCloser
-    cmd := exec.Command(&quot;ping&quot;, 
-        &quot;localhost&quot;
-    )
-    stderr, err = cmd.StderrPipe()
+<pre><code class="language-go">var stderr io.ReadCloser
+cmd := exec.Command(&quot;ping&quot;, 
+    &quot;localhost&quot;
+)
+stderr, err = cmd.StderrPipe()
 	if err != nil {
 		glog.Errorln(&quot;stderr pipe error: &quot;, err)
 	}
@@ -858,23 +808,19 @@ func redirect_err() {
 	if err!=nil {
 	    return err
 	}
-</code></pre>
+</code></pre></li>
 
-<ul>
-<li>判断accept是不是临时错误</li>
-</ul>
+<li><p>判断accept是不是临时错误</p>
 
-<pre><code class="language-go"> for {
-    conn,err:=ln.Accept()
-    if err, ok := err.(net.Error); ok &amp;&amp; err.Temporary() {
-        continue
-    }
+<pre><code class="language-go">for {
+conn,err:=ln.Accept()
+if err, ok := err.(net.Error); ok &amp;&amp; err.Temporary() {
+    continue
 }
-</code></pre>
+}
+</code></pre></li>
 
-<ul>
-<li>快速遍历当前文件夹和文件</li>
-</ul>
+<li><p>快速遍历当前文件夹和文件</p>
 
 <pre><code class="language-go">package main
 
@@ -893,7 +839,8 @@ func main() {
 		fmt.Println(file)
 	}
 }
-</code></pre>
+</code></pre></li>
+</ul>
 
 
         
@@ -927,7 +874,7 @@ func main() {
         
           <div class="disqus-comments">
             <div id="disqus_thread"></div>
-<script>
+<script type="application/javascript">
     var disqus_config = function () {
     
     
@@ -944,8 +891,8 @@ func main() {
         (d.head || d.body).appendChild(s);
     })();
 </script>
-<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
-<a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
           </div>
         
         
@@ -961,9 +908,29 @@ func main() {
       <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
         <ul class="list-inline text-center footer-links">
           
+              <li>
+                <a href="mailto:listomebao@gmail.com" title="Email me">
+                  <span class="fa-stack fa-lg">
+                    <i class="fa fa-circle fa-stack-2x"></i>
+                    <i class="fa fa-envelope fa-stack-1x fa-inverse"></i>
+                  </span>
+                </a>
+              </li>
+              <li>
+                <a href="https://github.com/zboya" title="GitHub">
+                  <span class="fa-stack fa-lg">
+                    <i class="fa fa-circle fa-stack-2x"></i>
+                    <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                  </span>
+                </a>
+              </li>
           
         </ul>
         <p class="credits copyright text-muted">
+          
+            
+              <a href="zboya.github.io">boya</a>
+            
           
 
           &nbsp;&bull;&nbsp;
@@ -976,7 +943,7 @@ func main() {
         </p>
         
         <p class="credits theme-by text-muted">
-          <a href="http://gohugo.io">Hugo v0.26</a> powered &nbsp;&bull;&nbsp; Theme by <a href="http://deanattali.com/beautiful-jekyll/">Beautiful Jekyll</a> adapted to <a href="https://github.com/halogenica/beautifulhugo">Beautiful Hugo</a>
+          <a href="http://gohugo.io">Hugo v0.59.1</a> powered &nbsp;&bull;&nbsp; Theme by <a href="http://deanattali.com/beautiful-jekyll/">Beautiful Jekyll</a> adapted to <a href="https://github.com/halogenica/beautifulhugo">Beautiful Hugo</a>
           
         </p>
       </div>

@@ -1,0 +1,542 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+
+  <title>boya blog</title>
+  <meta property="og:title" content="boya blog" />
+  <meta name="twitter:title" content="boya blog" />
+  <meta name="description" content="使用gops轻松监控golang程序和性能分析 什么是gops gops是google开发的一个在你系统上列出和分析golang程序的工具。它也是一个golang的库，当你集成这个库以后，分析golang程序会变得很简单。
+安装 go get -u github.com/google/gops
+在你的程序中启动gops的agent package main import ( &quot;log&quot; &quot;time&quot; &quot;github.com/google/gops/agent&quot; ) func main() { if err := agent.Listen(agent.Options{ Addr: &quot;listen tcp address&quot;, // 你想监听的地址，不填的话系统会自动分配一个端口给它用。 }); err != nil { log.Fatal(err) } time.Sleep(time.Hour) }  gops使用 当你的程序嵌入了gops的agent，那么你就可以对你的golang程序进行诊断了。 除了诊断golang程序，gops程序也可以列出当前系统的golang程序和其系统，即时那些golang程序没有嵌入gops的agent。 注意的是只有程序嵌入了gops的agent才可以进行程序的分析，包括程序的堆、内存信息、cpu性能分析等
+列出所有golang程序 $ gops 983 980 uplink-soecks go1.9 /usr/local/bin/uplink-soecks 52697 52695 gops go1.10 /Users/jbd/bin/gops 4132 4130 foops * go1.9 /Users/jbd/bin/foops 51130 51128 gocode go1.9.2 /Users/jbd/bin/gocode  $ gops tree .">
+  <meta property="og:description" content="使用gops轻松监控golang程序和性能分析 什么是gops gops是google开发的一个在你系统上列出和分析golang程序的工具。它也是一个golang的库，当你集成这个库以后，分析golang程序会变得很简单。
+安装 go get -u github.com/google/gops
+在你的程序中启动gops的agent package main import ( &quot;log&quot; &quot;time&quot; &quot;github.com/google/gops/agent&quot; ) func main() { if err := agent.Listen(agent.Options{ Addr: &quot;listen tcp address&quot;, // 你想监听的地址，不填的话系统会自动分配一个端口给它用。 }); err != nil { log.Fatal(err) } time.Sleep(time.Hour) }  gops使用 当你的程序嵌入了gops的agent，那么你就可以对你的golang程序进行诊断了。 除了诊断golang程序，gops程序也可以列出当前系统的golang程序和其系统，即时那些golang程序没有嵌入gops的agent。 注意的是只有程序嵌入了gops的agent才可以进行程序的分析，包括程序的堆、内存信息、cpu性能分析等
+列出所有golang程序 $ gops 983 980 uplink-soecks go1.9 /usr/local/bin/uplink-soecks 52697 52695 gops go1.10 /Users/jbd/bin/gops 4132 4130 foops * go1.9 /Users/jbd/bin/foops 51130 51128 gocode go1.9.2 /Users/jbd/bin/gocode  $ gops tree .">
+  <meta name="twitter:description" content="使用gops轻松监控golang程序和性能分析 什么是gops gops是google开发的一个在你系统上列出和分析golang程序的工具。它也是一个golang的库，当你集成这个库以后，分析golang程序会变得很简单。
+安装 go get -u github.com/google/gops
+在你的程序中启动gops的agent package main import ( …">
+  <meta name="author" content="boya"/>
+  <link href='https://zboya.github.io/img/favicon.ico' rel='icon' type='image/x-icon'/>
+  <meta property="og:image" content="https://zboya.github.io/img/favicon.ico" />
+  <meta name="twitter:image" content="https://zboya.github.io/img/favicon.ico" />
+  <meta name="twitter:card" content="summary" />
+  <meta property="og:url" content="https://zboya.github.io/post/gops/" />
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="boya blog" />
+
+  <meta name="generator" content="Hugo 0.59.1" />
+  <link rel="canonical" href="https://zboya.github.io/post/gops/" />
+  <link rel="alternate" href="https://zboya.github.io/index.xml" type="application/rss+xml" title="boya blog">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.7.1/katex.min.css" integrity="sha384-wITovz90syo1dJWVh32uuETPVEtGigN07tkttEqPv+uR2SE/mbQcG7ATL28aI9H0" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://zboya.github.io/css/main.css" /><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" /><link rel="stylesheet" href="https://zboya.github.io/css/syntax.css" /><link rel="stylesheet" href="https://zboya.github.io/css/codeblock.css" />
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/photoswipe/4.1.2/photoswipe.min.css" integrity="sha384-h/L2W9KefUClHWaty3SLE5F/qvc4djlyR4qY3NUV5HGQBBW7stbcfff1+I/vmsHh" crossorigin="anonymous">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/photoswipe/4.1.2/default-skin/default-skin.min.css" integrity="sha384-iD0dNku6PYSIQLyfTOpB06F2KCZJAKLOThS5HRe8b3ibhdEQ6eKsFf/EeFxdOt5R" crossorigin="anonymous">
+
+
+
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+<div class="pswp__bg"></div>
+
+<div class="pswp__scroll-wrap">
+    
+    <div class="pswp__container">
+      <div class="pswp__item"></div>
+      <div class="pswp__item"></div>
+      <div class="pswp__item"></div>
+    </div>
+    
+    <div class="pswp__ui pswp__ui--hidden">
+    <div class="pswp__top-bar">
+      
+      <div class="pswp__counter"></div>
+      <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+      <button class="pswp__button pswp__button--share" title="Share"></button>
+      <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+      <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+      
+      
+      <div class="pswp__preloader">
+        <div class="pswp__preloader__icn">
+          <div class="pswp__preloader__cut">
+            <div class="pswp__preloader__donut"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+      <div class="pswp__share-tooltip"></div>
+    </div>
+    <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+    </button>
+    <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+    </button>
+    <div class="pswp__caption">
+      <div class="pswp__caption__center"></div>
+    </div>
+    </div>
+    </div>
+</div>
+
+</head>
+
+  <body>
+    <nav class="navbar navbar-default navbar-fixed-top navbar-custom">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#main-navbar">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="https://zboya.github.io/">boya blog</a>
+    </div>
+
+    <div class="collapse navbar-collapse" id="main-navbar">
+      <ul class="nav navbar-nav navbar-right">
+        
+          
+            <li>
+              <a title="posts" href="/post/">posts</a>
+            </li>
+          
+        
+          
+            <li>
+              <a title="categories" href="/categories/">categories</a>
+            </li>
+          
+        
+          
+            <li>
+              <a title="tags" href="/tags/">tags</a>
+            </li>
+          
+        
+          
+            <li>
+              <a title="aboutme" href="/about/">aboutme</a>
+            </li>
+          
+        
+
+        
+
+        
+      </ul>
+    </div>
+
+    <div class="avatar-container">
+      <div class="avatar-img-border">
+        
+          <a title="boya blog" href="https://zboya.github.io/">
+            <img class="avatar-img" src="https://zboya.github.io/img/favicon.ico" alt="boya blog" />
+          </a>
+        
+      </div>
+    </div>
+
+  </div>
+</nav>
+
+
+
+
+    
+  
+  
+  
+
+
+
+
+  <div class="intro-header"></div>
+
+
+    
+<div class="container" role="main">
+  <div class="row">
+    <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+      <article role="main" class="blog-post">
+        
+
+<h1 id="使用gops轻松监控golang程序和性能分析">使用gops轻松监控golang程序和性能分析</h1>
+
+<h2 id="什么是gops">什么是gops</h2>
+
+<p>gops是google开发的一个在你系统上列出和分析golang程序的工具。它也是一个golang的库，当你集成这个库以后，分析golang程序会变得很简单。</p>
+
+<h2 id="安装">安装</h2>
+
+<p><code>go get -u github.com/google/gops</code></p>
+
+<h2 id="在你的程序中启动gops的agent">在你的程序中启动gops的agent</h2>
+
+<pre><code class="language-go">package main
+
+import (
+	&quot;log&quot;
+	&quot;time&quot;
+
+	&quot;github.com/google/gops/agent&quot;
+)
+
+func main() {
+	if err := agent.Listen(agent.Options{
+        Addr: &quot;listen tcp address&quot;,  // 你想监听的地址，不填的话系统会自动分配一个端口给它用。
+    }); err != nil {
+		log.Fatal(err)
+	}
+	time.Sleep(time.Hour)
+}
+</code></pre>
+
+<h2 id="gops使用">gops使用</h2>
+
+<p>当你的程序嵌入了gops的agent，那么你就可以对你的golang程序进行诊断了。
+除了诊断golang程序，gops程序也可以列出当前系统的golang程序和其系统，即时那些golang程序没有嵌入gops的agent。
+注意的是<code>只有程序嵌入了gops的agent才可以进行程序的分析，包括程序的堆、内存信息、cpu性能分析等</code></p>
+
+<h3 id="列出所有golang程序">列出所有golang程序</h3>
+
+<pre><code class="language-shell">$ gops
+
+983   980    uplink-soecks  go1.9   /usr/local/bin/uplink-soecks
+52697 52695  gops           go1.10  /Users/jbd/bin/gops
+4132  4130   foops        * go1.9   /Users/jbd/bin/foops
+51130 51128  gocode         go1.9.2 /Users/jbd/bin/gocode
+</code></pre>
+
+<pre><code>$ gops tree
+
+...
+├── 1
+│   └── 13962 [gocode] {go1.9}
+├── 557
+│   └── 635 [com.docker.supervisor] {go1.9.2}
+│       └── 638 [com.docker.driver.amd64-linux] {go1.9.2}
+└── 13744
+    └── 67243 [gops] {go1.10}
+</code></pre>
+
+<pre><code>$ gops &lt;pid&gt;
+
+parent PID:	5985
+threads:	27
+memory usage:	0.199%
+cpu usage:	0.139%
+username:	jbd
+cmd+args:	/Applications/Splice.app/Contents/Resources/Splice Helper.app/Contents/MacOS/Splice Helper -pid 5985
+local/remote:	127.0.0.1:56765 &lt;-&gt; :0 (LISTEN)
+local/remote:	127.0.0.1:56765 &lt;-&gt; 127.0.0.1:50955 (ESTABLISHED)
+local/remote:	100.76.175.164:52353 &lt;-&gt; 54.241.191.232:443 (ESTABLISHED)
+</code></pre>
+
+<h3 id="打印指定程序的堆栈信息">打印指定程序的堆栈信息</h3>
+
+<p>用于显示程序所有堆栈信息，包括每个 goroutine 的堆栈信息、运行状态等。</p>
+
+<pre><code>$ gops stack (&lt;pid&gt;|&lt;addr&gt;)
+
+gops stack 85709
+goroutine 20 [running]:
+runtime/pprof.writeGoroutineStacks(0x1197600, 0xc0000f0000, 0x30, 0xc000076000)
+	/Users/boya/golang/go/src/runtime/pprof/pprof.go:679 +0x9d
+runtime/pprof.writeGoroutine(0x1197600, 0xc0000f0000, 0x2, 0x4ed28d60, 0xeaf54e38f8079f88)
+	/Users/boya/golang/go/src/runtime/pprof/pprof.go:668 +0x44
+runtime/pprof.(*Profile).WriteTo(0x1275c40, 0x1197600, 0xc0000f0000, 0x2, 0xc0000f0000, 0x0)
+	/Users/boya/golang/go/src/runtime/pprof/pprof.go:329 +0x3da
+github.com/google/gops/agent.handle(0x4211008, 0xc0000f0000, 0xc0000e0000, 0x1, 0x1, 0x0, 0x0)
+	/Users/boya/gopath/pkg/mod/github.com/google/gops@v0.3.6/agent/agent.go:181 +0x1ab
+github.com/google/gops/agent.listen()
+	/Users/boya/gopath/pkg/mod/github.com/google/gops@v0.3.6/agent/agent.go:129 +0x275
+created by github.com/google/gops/agent.Listen
+	/Users/boya/gopath/pkg/mod/github.com/google/gops@v0.3.6/agent/agent.go:110 +0x364
+
+goroutine 1 [sleep]:
+runtime.goparkunlock(...)
+	/Users/boya/golang/go/src/runtime/proc.go:310
+time.Sleep(0x34630b8a000)
+	/Users/boya/golang/go/src/runtime/time.go:105 +0x157
+main.main()
+	/Users/boydzheng/program/go/learn/Learning_go/gops/main.go:14 +0xa3
+
+goroutine 19 [syscall]:
+os/signal.signal_recv(0x0)
+	/Users/boya/golang/go/src/runtime/sigqueue.go:144 +0x96
+os/signal.loop()
+	/Users/boya/golang/go/src/os/signal/signal_unix.go:23 +0x22
+created by os/signal.init.0
+	/Users/boya/golang/go/src/os/signal/signal_unix.go:29 +0x41
+# ...
+</code></pre>
+
+<p><code>goroutine 20 [running]</code> 这里的 <code>20</code> 表示goroutine的id，它是在每个go进程中是全局唯一的。<code>running</code> 表示正在运行状态。</p>
+
+<h3 id="打印指定程序的内存占有信息">打印指定程序的内存占有信息</h3>
+
+<p>查看程序当前的内存统计信息</p>
+
+<pre><code>$ gops memstats (&lt;pid&gt;|&lt;addr&gt;)
+
+gops memstats 40515
+alloc: 2.14MB (2247328 bytes)
+total-alloc: 2.14MB (2247328 bytes)
+sys: 68.31MB (71631096 bytes)
+lookups: 0
+mallocs: 417
+frees: 6
+heap-alloc: 2.14MB (2247328 bytes)
+heap-sys: 63.66MB (66748416 bytes)
+heap-idle: 61.05MB (64012288 bytes)
+heap-in-use: 2.61MB (2736128 bytes)
+heap-released: 60.98MB (63946752 bytes)
+heap-objects: 411
+stack-in-use: 352.00KB (360448 bytes)
+stack-sys: 352.00KB (360448 bytes)
+stack-mspan-inuse: 10.36KB (10608 bytes)
+stack-mspan-sys: 16.00KB (16384 bytes)
+stack-mcache-inuse: 13.56KB (13888 bytes)
+stack-mcache-sys: 16.00KB (16384 bytes)
+other-sys: 787.56KB (806457 bytes)
+gc-sys: 2.14MB (2240512 bytes)
+next-gc: when heap-alloc &gt;= 4.27MB (4473924 bytes)
+last-gc: -
+gc-pause-total: 0s
+gc-pause: 0
+num-gc: 0
+enable-gc: true
+debug-gc: false
+</code></pre>
+
+<h3 id="打印golang版本">打印golang版本</h3>
+
+<pre><code>$ gops version (&lt;pid&gt;|&lt;addr&gt;)
+
+gops version 40515
+go1.13.5
+</code></pre>
+
+<h3 id="打印runtime的统计信息">打印runtime的统计信息</h3>
+
+<p>包括goroutines个数、线程个数、GOMAXPROCS和cpu数。</p>
+
+<pre><code>$ gops stats (&lt;pid&gt;|&lt;addr&gt;)
+
+gops stats 40515
+goroutines: 3
+OS threads: 8
+GOMAXPROCS: 8
+num CPU: 8
+
+</code></pre>
+
+<h3 id="生成cpu性能文件">生成cpu性能文件</h3>
+
+<p>采集30s的CPU的性能分析数据并且保存在文件中，用go自带的性能分析工具进行分析，效果等价于<code>go tool pprof</code>。<br />
+显示的信息中会告诉你文件保存的路径。</p>
+
+<pre><code>$ gops pprof-cpu (&lt;pid&gt;|&lt;addr&gt;)
+
+gops pprof-cpu 40515
+Profiling CPU now, will take 30 secs...
+Profile dump saved to: /var/folders/r8/yjb25qtj0xng2vmkrtjfrwc913t5c8/T/profile919446242
+Profiling dump saved to: /var/folders/r8/yjb25qtj0xng2vmkrtjfrwc913t5c8/T/profile919446242
+Binary file saved to: /var/folders/r8/yjb25qtj0xng2vmkrtjfrwc913t5c8/T/binary227917017
+File: binary227917017
+Type: cpu
+Time: Jan 14, 2020 at 10:02am (CST)
+Duration: 30s, Total samples = 0
+No samples were found with the default sample value type.
+Try &quot;sample_index&quot; command to analyze different sample values.
+Entering interactive mode (type &quot;help&quot; for commands, &quot;o&quot; for options)
+(pprof) top
+Showing nodes accounting for 0, 0% of 0 total
+      flat  flat%   sum%        cum   cum%
+(pprof)
+</code></pre>
+
+<h3 id="生成堆信息文件">生成堆信息文件</h3>
+
+<p>采集当前heap的性能分析数据并且保存在文件中，用go自带的性能分析工具进行分析，效果等价于<code>go tool pprof</code>。<br />
+显示的信息中会告诉你文件保存的路径。</p>
+
+<pre><code>$ gops pprof-heap (&lt;pid&gt;|&lt;addr&gt;)
+
+gops pprof-heap 40515
+Profile dump saved to: /var/folders/r8/yjb25qtj0xng2vmkrtjfrwc913t5c8/T/profile801546231
+Profiling dump saved to: /var/folders/r8/yjb25qtj0xng2vmkrtjfrwc913t5c8/T/profile801546231
+Binary file saved to: /var/folders/r8/yjb25qtj0xng2vmkrtjfrwc913t5c8/T/binary652763370
+File: binary652763370
+Type: inuse_space
+Time: Jan 14, 2020 at 10:04am (CST)
+Entering interactive mode (type &quot;help&quot; for commands, &quot;o&quot; for options)
+(pprof) top
+Showing nodes accounting for 902.59kB, 100% of 902.59kB total
+      flat  flat%   sum%        cum   cum%
+  902.59kB   100%   100%   902.59kB   100%  compress/flate.NewWriter
+         0     0%   100%   902.59kB   100%  compress/gzip.(*Writer).Write
+         0     0%   100%   902.59kB   100%  runtime/pprof.(*profileBuilder).build
+         0     0%   100%   902.59kB   100%  runtime/pprof.profileWriter
+(pprof)
+</code></pre>
+
+<h2 id="采用http方式">采用http方式</h2>
+
+<p>http的方式也很简单，来自官方的文档<a href="https://golang.org/pkg/net/http/pprof/">https://golang.org/pkg/net/http/pprof/</a></p>
+
+<pre><code class="language-go">package main
+
+import _ &quot;net/http/pprof&quot;
+
+func main() {
+	go func() {
+		log.Println(http.ListenAndServe(&quot;localhost:6060&quot;, nil))
+	}()
+
+	// do things
+}
+</code></pre>
+
+<p>结合<code>go tool pprof</code>工具来使用，具体可查看<a href="https://golang.org/pkg/net/http/pprof/">https://golang.org/pkg/net/http/pprof/</a>。</p>
+
+<h2 id="总结">总结</h2>
+
+<p>不管是采用哪种方式（gops或者http/pprof），都建议在程序中添加其中一种采集程序信息的方式，这对程序的优化和问题分析都很有帮助。</p>
+
+<h2 id="ref">ref</h2>
+
+<p><a href="https://github.com/google/gops">https://github.com/google/gops</a><br />
+<a href="https://golang.org/pkg/net/http/pprof/">https://golang.org/pkg/net/http/pprof/</a></p>
+
+
+        
+
+        
+      </article>
+
+      
+        <ul class="pager blog-pager">
+          
+            <li class="previous">
+              <a href="https://zboya.github.io/post/%E5%A6%82%E4%BD%95%E6%8E%92%E9%99%A4%E5%92%8C%E5%A4%84%E7%90%86bug/" data-toggle="tooltip" data-placement="top" title="">&larr; Previous Post</a>
+            </li>
+          
+          
+            <li class="next">
+              <a href="https://zboya.github.io/post/golang_http_proxy/" data-toggle="tooltip" data-placement="top" title="用golang写一个http代理，可以抓包和科学上网">Next Post &rarr;</a>
+            </li>
+          
+        </ul>
+      
+
+
+      
+        
+          <div class="disqus-comments">
+            <div id="disqus_thread"></div>
+<script type="application/javascript">
+    var disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "sheepbao" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+          </div>
+        
+        
+      
+
+    </div>
+  </div>
+</div>
+
+    <footer>
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+        <ul class="list-inline text-center footer-links">
+          
+              <li>
+                <a href="mailto:listomebao@gmail.com" title="Email me">
+                  <span class="fa-stack fa-lg">
+                    <i class="fa fa-circle fa-stack-2x"></i>
+                    <i class="fa fa-envelope fa-stack-1x fa-inverse"></i>
+                  </span>
+                </a>
+              </li>
+              <li>
+                <a href="https://github.com/zboya" title="GitHub">
+                  <span class="fa-stack fa-lg">
+                    <i class="fa fa-circle fa-stack-2x"></i>
+                    <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                  </span>
+                </a>
+              </li>
+          
+        </ul>
+        <p class="credits copyright text-muted">
+          
+            
+              <a href="zboya.github.io">boya</a>
+            
+          
+
+          &nbsp;&bull;&nbsp;
+          2019
+
+          
+            &nbsp;&bull;&nbsp;
+            <a href="https://zboya.github.io/">boya blog</a>
+          
+        </p>
+        
+        <p class="credits theme-by text-muted">
+          <a href="http://gohugo.io">Hugo v0.59.1</a> powered &nbsp;&bull;&nbsp; Theme by <a href="http://deanattali.com/beautiful-jekyll/">Beautiful Jekyll</a> adapted to <a href="https://github.com/halogenica/beautifulhugo">Beautiful Hugo</a>
+          
+        </p>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.7.1/katex.min.js" integrity="sha384-/y1Nn9+QQAipbNQWU65krzJralCnuOasHncUFXGkdwntGeSvQicrYkiUBwsgUqc1" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.7.1/contrib/auto-render.min.js" integrity="sha384-dq1/gEHSxPZQ7DdrM82ID4YVol9BYyU7GbWlIwnwyPzotpoc57wDw/guX8EaYGPx" crossorigin="anonymous"></script>
+<script src="https://code.jquery.com/jquery-1.12.4.min.js" integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ=" crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+<script src="https://zboya.github.io/js/main.js"></script><script> renderMathInElement(document.body); </script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/photoswipe/4.1.2/photoswipe.min.js" integrity="sha384-QELNnmcmU8IR9ZAykt67vGr9/rZJdHbiWi64V88fCPaOohUlHCqUD/unNN0BXSqy" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/photoswipe/4.1.2/photoswipe-ui-default.min.js" integrity="sha384-m67o7SkQ1ALzKZIFh4CiTA8tmadaujiTa9Vu+nqPSwDOqHrDmxLezTdFln8077+q" crossorigin="anonymous"></script>
+<script src="https://zboya.github.io/js/load-photoswipe.js"></script>
+
+
+
+
+
+
+  </body>
+</html>
+

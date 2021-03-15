@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Ens on boya blog</title>
@@ -6,6 +6,8 @@
     <description>Recent content in Ens on boya blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
+    <managingEditor>listomebao@gmail.com (boya)</managingEditor>
+    <webMaster>listomebao@gmail.com (boya)</webMaster>
     
 	<atom:link href="https://zboya.github.io/en/index.xml" rel="self" type="application/rss+xml" />
     
@@ -14,7 +16,7 @@
       <title></title>
       <link>https://zboya.github.io/en/go_walkthrough_bytes_strings/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      
+      <author>listomebao@gmail.com (boya)</author>
       <guid>https://zboya.github.io/en/go_walkthrough_bytes_strings/</guid>
       <description>Writing databases and distributed systems in Go.
 Aug 912 min read
@@ -26,7 +28,7 @@ In the previous post we covered byte streams but sometimes we need to work wit
       <title></title>
       <link>https://zboya.github.io/en/go_walkthrough_io/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      
+      <author>listomebao@gmail.com (boya)</author>
       <guid>https://zboya.github.io/en/go_walkthrough_io/</guid>
       <description></description>
     </item>

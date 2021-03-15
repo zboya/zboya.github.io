@@ -8,7 +8,7 @@
   <title>boya blog</title>
   <meta property="og:title" content="boya blog" />
   <meta name="twitter:title" content="boya blog" />
-  <meta name="author" content=""/>
+  <meta name="author" content="boya"/>
   <link href='https://zboya.github.io/img/favicon.ico' rel='icon' type='image/x-icon'/>
   <meta property="og:image" content="https://zboya.github.io/img/favicon.ico" />
   <meta name="twitter:image" content="https://zboya.github.io/img/favicon.ico" />
@@ -17,7 +17,7 @@
   <meta property="og:type" content="website" />
   <meta property="og:site_name" content="boya blog" />
 
-  <meta name="generator" content="Hugo 0.26" />
+  <meta name="generator" content="Hugo 0.59.1" />
   <link rel="canonical" href="https://zboya.github.io/" />
   <link rel="alternate" href="https://zboya.github.io/index.xml" type="application/rss+xml" title="boya blog">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.7.1/katex.min.css" integrity="sha384-wITovz90syo1dJWVh32uuETPVEtGigN07tkttEqPv+uR2SE/mbQcG7ATL28aI9H0" crossorigin="anonymous">
@@ -186,8 +186,8 @@
           
           
             <article class="post-preview">
-              <a href="https://zboya.github.io/post/go_scheduler/">
-                <h2 class="post-title">深入golang runtime的调度</h2>
+              <a href="https://zboya.github.io/post/">
+                <h2 class="post-title">Posts</h2>
                 
                 
               </a>
@@ -204,414 +204,7 @@
 
               <div class="post-entry">
                 
-                  深入golang runtime的调度 zboya listomebao@gmail.com 版权所有，转载请注明原文地址。
-很多gopher懂GPM，更多gopher不懂GPM！
-相关项目地址在https://github.com/zboya/golang_runtime_reading，下文若有任何错误的地方欢迎指出。
- 深入golang runtime的调度  理解调度器启动  相关术语 主要源码文件 调度基本组件  G（goroutine） P（processor） M（machine）  GPM的关系示意图 整体流程概览 go进程的启动 runtime调度器的启动  getg() 函数 g0和m0 mstartfn 真正的调度函数 schedule  runtime.main 的执行  调度机制  调度架构概览图 基本思想 类比模型 关于G  G的结构 G的新建 G的栈 G的状态  关于P  P的结构 P的分配 P的状态  关于M  M的结构 M的新建 辛勤工作的M M的状态 M的管理  抢占的实现 调度跟踪信息可视化  ref   理解调度器启动 本小节主要讲解golang程序启动到执行用户 package main 中的main函数的整个流程，也就是runtime启动到执行用户代码的流程。
-                  <a href="https://zboya.github.io/post/go_scheduler/" class="post-read-more">[Read More]</a>
-                
-              </div>
-
-              
-                <div class="blog-tags">
                   
-                    <a href="https://zboya.github.io//tags/go/">Go</a>&nbsp;
-                  
-                </div>
-              
-            </article>
-          
-            <article class="post-preview">
-              <a href="https://zboya.github.io/post/list_of_pointer_to_pointer/">
-                <h2 class="post-title">golang二级指针操作链表</h2>
-                
-                
-              </a>
-
-              <span class="post-meta">
-  
-  
-  <i class="fa fa-calendar-o"></i>&nbsp;Posted on August 26, 2018
-  
-  
-  
-</span>
-
-
-              <div class="post-entry">
-                
-                  golang利用二级指针操作链表 以下所有观点都是个人愚见，有不同建议或补充的的欢迎emial我aboutme
-导读 之前开了个项目来看golang runtime源码https://github.com/zboya/golang_runtime_reading，发现实现全局P链表的代码挺有趣的，遂研究记录一下。
-先看个例子 package ptplist import ( &quot;log&quot; &quot;testing&quot; &quot;unsafe&quot; ) type puintptr uintptr //go:nosplit func (pp puintptr) ptr() *p { return (*p)(unsafe.Pointer(pp)) } //go:nosplit func (pp *puintptr) set(p *p) { *pp = puintptr(unsafe.Pointer(p)) } type p struct { id int link puintptr } var pidleList puintptr func pidleput(_p_ *p) { _p_.link = pidleList pidleList.set(_p_) } func pidleget() *p { _p_ := pidleList.ptr() if _p_ != nil { pidleList = _p_.
-                  <a href="https://zboya.github.io/post/list_of_pointer_to_pointer/" class="post-read-more">[Read More]</a>
-                
-              </div>
-
-              
-                <div class="blog-tags">
-                  
-                    <a href="https://zboya.github.io//tags/go/">Go</a>&nbsp;
-                  
-                </div>
-              
-            </article>
-          
-            <article class="post-preview">
-              <a href="https://zboya.github.io/post/google_golang_netstack/">
-                <h2 class="post-title">gvisor的网络栈实现-简介</h2>
-                
-                
-              </a>
-
-              <span class="post-meta">
-  
-  
-  <i class="fa fa-calendar-o"></i>&nbsp;Posted on June 30, 2018
-  
-  
-  
-</span>
-
-
-              <div class="post-entry">
-                
-                  gvisor的网络栈实现-简介 这篇是一系列文章的第一篇，介绍网络栈的基础知识。文章打算从上层往下层写，后面打算的继续写的内容有：
-netstack-基本数据结构的实现
-netstack-udp的实现
-netstack-tcp的实现
-netstack-ip的实现
-netstack-link的实现
-以下所有观点都是个人愚见，有不同建议或补充的的欢迎emialaboutme
-原文章地址
-gvisor简介 gvisor是google新推出一款沙箱运行时，他可以和docker和k8s无缝连接。 gVisor能够在保证轻量化优势的同时，提供与虚拟机类似的隔离效果。gVisor的核心为一套运行非特权普通进程的内核， 且支持大多数Linux系统调用。该内核使用Go编写，这主要是考虑到Go语言拥有良好的内存管理机制与类型安全性。 与在虚拟机当中一样，gVisor沙箱中运行的应用程序也将获得自己的内核与一组虚拟设备——这一点与主机及其它沙箱方案有所区别。 当然gvisor实现的不仅仅是一个完整的网络栈，还实现了文件系统等，但这里我只对网络栈感兴趣，所以也只讲网络栈的实现
-netstack gvisor的网络实现在readme里有介绍，是另一个google项目，netstack, 详细介绍期源码前我们先复习一下网络栈的一些知识。
-理论和现实 网络信息的传输其实很复杂，一个信息传到另一个地方，需要各种过五关斩六将。但庆幸的是，网络硬件已经帮我们做了大部分的事，我们只要考虑软件的事。
-理论七层模型 +------------------------------+ | 应用层 | Application +------------------------------+ | 表示层 | Presentation +------------------------------+ | 会话层 | Session +------------------------------+ | 传输层 | Transport +------------------------------+ | 网络层 | Network +------------------------------+ | 链路层 | Link +------------------------------+ | 物理层 | Physical +------------------------------+  现实五层模型（tcpip网络分层） +------------------------------+ | 应用层 | Application +------------------------------+ | 传输层 | Transport +------------------------------+ | 网络层 | Network +------------------------------+ | 链路层 | Link +------------------------------+ | 物理层 | Physical +------------------------------+  现实中大部分的实现都是按tcpip网络分层来实现的，netstack也不例外，可以说现在的网络是tcpip的天下，据说史前公网上还是有其他协议的， 反正数据包不是用ip报文来传输的，但后来都被淘汰了，作为一个90后，我也只是听说，从来没见过除了ip之外的其他协议，即使有，现在也不必深究。 netstack其实只实现了链路层、网络层、传输层这三层。
-                  <a href="https://zboya.github.io/post/google_golang_netstack/" class="post-read-more">[Read More]</a>
-                
-              </div>
-
-              
-                <div class="blog-tags">
-                  
-                    <a href="https://zboya.github.io//tags/go/">Go</a>&nbsp;
-                  
-                </div>
-              
-            </article>
-          
-            <article class="post-preview">
-              <a href="https://zboya.github.io/post/golang_pprof_over_https/">
-                <h2 class="post-title">golang在自定义的https服务器中启用pprof接口</h2>
-                
-                
-              </a>
-
-              <span class="post-meta">
-  
-  
-  <i class="fa fa-calendar-o"></i>&nbsp;Posted on May 20, 2018
-  
-  
-  
-</span>
-
-
-              <div class="post-entry">
-                
-                  以下所有观点都是个人愚见，有不同建议或补充的的欢迎emial, aboutme
-原文章地址
-pprof的简介 pprof是golang标准库里面的其中一个库，它通过其HTTP服务器得到运行时的分析数据，从而给pprof可视化工具提供数据分析来源。它可以用来分析性能消耗，分析内存泄漏，死锁等。
-具体使用可以了解官方包pprof，那我如何在http中使用pprof？如何在已有http或者https服务上使用pprof呢？ 这些答案在标准库找不到，随在此记录一下。
-如何启动pprof 在官方包中已经给出了例子:
-package main import &quot;net/http&quot; import _ &quot;net/http/pprof&quot; // 初始化pprof func main() { // do something ... go func() { log.Println(http.ListenAndServe(&quot;localhost:6060&quot;, nil)) //启动http服务器 }() }  启动完后，就可以使用go自动的工具go tool pprof
-如：
-go tool pprof http://localhost:6060/debug/pprof/heap // 获取堆的相关数据 go tool pprof http://localhost:6060/debug/pprof/profile // 获取30s内cpu的相关数据 go tool pprof http://localhost:6060/debug/pprof/block // 在你程序调用 runtime.SetBlockProfileRate ，查看goroutine阻塞的相关数据 go tool pprof http://localhost:6060/debug/pprof/mutex // 在你程序调用 runtime.SetMutexProfileFraction，查看谁占用mutex  为什么我自定义mux的http服务不能用？ 启动自定义mux的http服务器
-package main import ( &quot;net/http&quot; _ &quot;net/http/pprof&quot; ) func main() { // 启动一个自定义mux的http服务器 mux := http.
-                  <a href="https://zboya.github.io/post/golang_pprof_over_https/" class="post-read-more">[Read More]</a>
-                
-              </div>
-
-              
-                <div class="blog-tags">
-                  
-                    <a href="https://zboya.github.io//tags/go/">Go</a>&nbsp;
-                  
-                </div>
-              
-            </article>
-          
-            <article class="post-preview">
-              <a href="https://zboya.github.io/post/golang_diff_ways_block_forever/">
-                <h2 class="post-title">在Golang中各种永远阻塞的姿势</h2>
-                
-                
-              </a>
-
-              <span class="post-meta">
-  
-  
-  <i class="fa fa-calendar-o"></i>&nbsp;Posted on April 24, 2018
-  
-  
-  
-</span>
-
-
-              <div class="post-entry">
-                
-                  在Golang中各种永远阻塞的姿势 Go的运行时的当前设计，假定程序员自己负责检测何时终止一个goroutine以及何时终止该程序。 可以通过调用os.Exit或从main()函数的返回来以正常方式终止程序。而有时候我们需要的是使程序阻塞在这一行。
-使用sync.WaitGroup 一直等待直到WaitGroup等于0
-package main import &quot;sync&quot; func main() { var wg sync.WaitGroup wg.Add(1) wg.Wait() }  空select select{}是一个没有任何case的select，它会一直阻塞
-package main func main() { select{} }  死循环 虽然能阻塞，但会100%占用一个cpu。不建议使用
-package main func main() { for {} }  用sync.Mutex 一个已经锁了的锁，再锁一次会一直阻塞，这个不建议使用
-package main import &quot;sync&quot; func main() { var m sync.Mutex m.Lock() m.Lock() }  os.Signal 系统信号量，在go里面也是个channel，在收到特定的消息之前一直阻塞
-package main import ( &quot;os&quot; &quot;syscall&quot; &quot;os/signal&quot; ) func main() { sig := make(chan os.
-                  <a href="https://zboya.github.io/post/golang_diff_ways_block_forever/" class="post-read-more">[Read More]</a>
-                
-              </div>
-
-              
-                <div class="blog-tags">
-                  
-                    <a href="https://zboya.github.io//tags/go/">Go</a>&nbsp;
-                  
-                </div>
-              
-            </article>
-          
-            <article class="post-preview">
-              <a href="https://zboya.github.io/post/p2p_by_non_servers/">
-                <h2 class="post-title">利用DDoS模型来通信</h2>
-                
-                
-              </a>
-
-              <span class="post-meta">
-  
-  
-  <i class="fa fa-calendar-o"></i>&nbsp;Posted on March 9, 2018
-  
-  
-  
-</span>
-
-
-              <div class="post-entry">
-                
-                  
-
-<h1 id="利用ddos来通信">利用DDoS来通信</h1>
-
-<p>前两天看到一个新闻，世界上最大的同性交友网站github遭受了DDoS攻击了，最高的流量达到1.35Tbps（心疼github 10秒钟）。有别于普通的DDoS，该DDoS称为反射型DDoS攻击，也称放大型攻击，我个人认为放大型攻击毕竟形象。</p>
-
-<p>以下想法纯属个人意见。有不同建议或补充的的欢迎emial我<a href="https://zboya.github.io/about/">aboutme</a></p>
-
-<h2 id="放大型ddos攻击的原理简单解释">放大型DDoS攻击的原理简单解释</h2>
-
-<p>一句话解释就是攻击者伪装源目标服务器IP，发送给中间人，中间人放大后发送给目标服务器。
-稍微详细的讲：假设有三台服务器A、B、C，A的IP为ip1，B的IP为ip2, C的IP为ip3，A要攻击C。</p>
-
-<pre><code>  +------+            +------+              +------+   
-  |      |            |      |   ----&gt;      |      |
-  |   A  |   ---&gt;     |   B  |   ----&gt;      |   C  |
-  |      |            |      |   ----&gt;      |      |
-  +------+            +------+              +------+
-    ip1                  ip2                   ip3
-</code></pre>
-
-<p>放大型攻击的前提条件是，有个服务器会放大你的报文，并返回给你，比如这的B服务器，假设它监听UDP端口6677，且你给这个UDP端口发送消息（或者特定的消息）后会返回更多的数据给你。那么攻击者A只需要做以下事情。<br />
-A发送数据给B，并更改自己的源IP为ip3，B接收到A的数据后根据源IP返回给原来的IP地址，也就是C，此时C就收到了来自A的成吨伤害，因为B将数据包放大了，原来A可能只发送了“hello”给B，而B却发送了“hello，hello，hello”给C。</p>
-
-<h2 id="放大型ddos攻击也是一种通信模型">放大型DDoS攻击也是一种通信模型</h2>
-
-<p>其实仔细想想，放大型DDoS攻击也是一种通信模型，这种模型将A的数据发送给了C，这模型很有意思是，我发送的源IP变成了我真正的目的IP，我在想，那么在公网上我更改ICMP报文的源IP，然后利用ICMP的payload来实现自己的协议，从而完成A到C的通信。不过这种模型有个很致命的特点，就是不能实现两个都在内网的机器通信，假设A、C都在内网，B在公网，A发送到B的数据包经过snat后，源IP都被更改为了A出口路由器的IP了。A、C一个在公网一个在内网也可以通信，不过需要知道C的mac地址，和公网IP。</p>
-
-<h2 id="利用这种模型来选路">利用这种模型来选路？</h2>
-
-<p>如果在有些条件下，A可以访问B，但A不能直接访问C，而B可以访问C，我又不想申请任何服务器，那么理论上可以利用这个模型来通信。
-假设A在内网内，B是公网中的一些服务器。</p>
-
-<ol>
-<li>找到B服务器，B服务器的条件是，只要没有禁止ping包（当然有其他反射型的端口报文也可以）。<br /></li>
-<li>需要有自己的C服务器，来接收B发送的报文并处理。</li>
-<li>更改A的源IP为C的IP，发送报文即可。</li>
-</ol>
-
-<p>其实如果能找到有那么一种B服务器，能发射TCP数据包，理论上没有C也可以访问在C区域的一些公开服务。</p>
-
-<h2 id="结论">结论</h2>
-
-<p>以上纯属个人瞎想。</p>
-
-                
-              </div>
-
-              
-                <div class="blog-tags">
-                  
-                    <a href="https://zboya.github.io//tags/idea/">Idea</a>&nbsp;
-                  
-                </div>
-              
-            </article>
-          
-            <article class="post-preview">
-              <a href="https://zboya.github.io/post/golang_for_range_complete_guide/">
-                <h2 class="post-title">golang for语句完全指南</h2>
-                
-                
-              </a>
-
-              <span class="post-meta">
-  
-  
-  <i class="fa fa-calendar-o"></i>&nbsp;Posted on January 13, 2018
-  
-  
-  
-</span>
-
-
-              <div class="post-entry">
-                
-                  以下所有观点都是个人愚见，有不同建议或补充的的欢迎emialaboutme
-原文章地址
-关于for语句的疑问
-for语句的规范
-for语句的内部实现-array
-问题解答
-关于for语句的疑问 我们都知道在golang中，循环语句只有for这一个，在代码中写一个循环都一般都需要用到for(当然你用goto也是可以的)， 虽然golang的for语句很方便，但不少初学者一样对for语句持有不少疑问，如：
- for语句一共有多少种表达式格式？ for语句中临时变量是怎么回事？（为什么有时遍历赋值后，所有的值都等于最后一个元素） range后面支持的数据类型有哪些？ range string类型为何得到的是rune类型？ 遍历slice的时候增加或删除数据会怎么样？ 遍历map的时候增加或删除数据会怎么样？  其实这里的很多疑问都可以看golang编程语言规范, 有兴趣的同学完全可以自己看，然后根据自己的理解来解答这些问题。
-for语句的规范 for语句的功能用来指定重复执行的语句块，for语句中的表达式有三种：
-官方的规范： ForStmt = &quot;for&quot; [ Condition | ForClause | RangeClause ] Block .
- Condition = Expression .
- ForClause = [ InitStmt ] &ldquo;;&rdquo; [ Condition ] &ldquo;;&rdquo; [ PostStmt ] .
- RangeClause = [ ExpressionList &ldquo;=&rdquo; | IdentifierList &ldquo;:=&rdquo; ] &ldquo;range&rdquo; Expression .
-  单个条件判断 形式：
-                  <a href="https://zboya.github.io/post/golang_for_range_complete_guide/" class="post-read-more">[Read More]</a>
-                
-              </div>
-
-              
-                <div class="blog-tags">
-                  
-                    <a href="https://zboya.github.io//tags/go/">Go</a>&nbsp;
-                  
-                </div>
-              
-            </article>
-          
-            <article class="post-preview">
-              <a href="https://zboya.github.io/post/golang_list/">
-                <h2 class="post-title">链表以及golang介入式链表的实现</h2>
-                
-                
-              </a>
-
-              <span class="post-meta">
-  
-  
-  <i class="fa fa-calendar-o"></i>&nbsp;Posted on October 14, 2017
-  
-  
-  
-</span>
-
-
-              <div class="post-entry">
-                
-                  链表以及golang介入式链表的实现 今天看tcp/ip协议栈的代码时看到一个双向链表，链表吗？听过它的顶顶大名，知道它是由节点构成的，每个节点还有个指针指向下一个节点，但是从来没自己实现过一个，没有实践就不能深刻理解，遂有此文。
-以下所有观点都是个人愚见，有不同建议或补充的的欢迎emial我aboutme
-何为链表？ 链表（Linked list）是一种常见的基础数据结构，是一种线性表，但是并不会按线性的顺序存储数据，而是在每一个节点里存到下一个节点的指针(Pointer)。由于不必须按顺序存储，链表在插入的时候可以达到O(1)的复杂度，比另一种线性表顺序表快得多，但是查找一个节点或者访问特定编号的节点则需要O(n)的时间，而顺序表相应的时间复杂度分别是O(logn)和O(1)。
-简单的说链表是一个具有逻辑顺序的线性表，每一个节点里存到下一个节点的指针。
-图示 单链表 双向链表 链表有啥用？ 因为链表插入很快，而且具有动态性，想添加几个元素就添加几个（内存空间足够），不像数组一样那么死板，正因为链表的灵活性，所有链表的用处是大大的有啊。
-链表最适合用于频繁更新变化的数据，比如一个需要异步执行并且不可丢失的命令序列、一个需要进行实时加载与卸载的驱动，无序且数量未知，这个时候就需要链表结构来协助完成数据的管理。如果不需要过度关注数据的顺序，还可以用链表方便快捷地在任意一个地方插入或删除一个元素，并且不会影响到其它的元素。
-又或者我在今天看tcp/ip源码中，链表用来构造队列，作为数据段的队列。我想链表用于队列应该是最多的。如果你看过linux内核源码，应该会发现linux内核中多处使用链表这种结构。
-go标准库的双向链表 golang的标准库中实现了一个双向链表，该链表可以存储任何数据，先看看使用标准库链表的例子：
-package list_test import ( &quot;container/list&quot; &quot;fmt&quot; &quot;testing&quot; ) func TestList(t *testing.T) { // Create a new list and put some numbers in it. l := list.New() e4 := l.PushBack(4) e1 := l.PushFront(1) l.InsertBefore(3, e4) l.InsertAfter(2, e1) // Iterate through list and print its contents. for e := l.Front(); e != nil; e = e.
-                  <a href="https://zboya.github.io/post/golang_list/" class="post-read-more">[Read More]</a>
-                
-              </div>
-
-              
-                <div class="blog-tags">
-                  
-                    <a href="https://zboya.github.io//tags/go/">Go</a>&nbsp;
-                  
-                </div>
-              
-            </article>
-          
-            <article class="post-preview">
-              <a href="https://zboya.github.io/post/golang_byte_slice_and_string/">
-                <h2 class="post-title">golang string和[]byte的对比</h2>
-                
-                
-              </a>
-
-              <span class="post-meta">
-  
-  
-  <i class="fa fa-calendar-o"></i>&nbsp;Posted on September 30, 2017
-  
-  
-  
-</span>
-
-
-              <div class="post-entry">
-                
-                  golang string和[]byte的对比 为啥string和[]byte类型转换需要一定的代价？
-为啥内置函数copy会有一种特殊情况copy(dst []byte, src string) int?
-string和[]byte，底层都是数组，但为什么[]byte比string灵活，拼接性能也更高（动态字符串拼接性能对比）?
-今天看了源码探究了一下。
-以下所有观点都是个人愚见，有不同建议或补充的的欢迎emial我aboutme
-何为string？ 什么是字符串？标准库builtin的解释：
-type string string is the set of all strings of 8-bit bytes, conventionally but not necessarily representing UTF-8-encoded text. A string may be empty, but not nil. Values of string type are immutable.  简单的来说字符串是一系列8位字节的集合，通常但不一定代表UTF-8编码的文本。字符串可以为空，但不能为nil。而且字符串的值是不能改变的。
-不同的语言字符串有不同的实现，在go的源码中src/runtime/string.go，string的定义如下：
-type stringStruct struct { str unsafe.Pointer len int }  可以看到str其实是个指针，指向某个数组的首地址，另一个字段是len长度。那到这个数组是什么呢？ 在实例化这个stringStruct的时候：
-func gostringnocopy(str *byte) string { ss := stringStruct{str: unsafe.
-                  <a href="https://zboya.github.io/post/golang_byte_slice_and_string/" class="post-read-more">[Read More]</a>
-                
-              </div>
-
-              
-                <div class="blog-tags">
-                  
-                    <a href="https://zboya.github.io//tags/go/">Go</a>&nbsp;
-                  
-                </div>
-              
-            </article>
-          
-            <article class="post-preview">
-              <a href="https://zboya.github.io/post/tcp_rto_research_and_golang_implement/">
-                <h2 class="post-title">TCP RTO计算方法以及go实现验证</h2>
-                
-                
-              </a>
-
-              <span class="post-meta">
-  
-  
-  <i class="fa fa-calendar-o"></i>&nbsp;Posted on September 4, 2017
-  
-  
-  
-</span>
-
-
-              <div class="post-entry">
-                
-                  TCP RTO计算方法和思考以及go实现验证 概述 最近在研究tcp的重传机制，tcp的重传大概有三种，超时重传(rto)、快速重传(fack)、早期重传(er)。今天讲讲rto，并用go实现其算法，探究一下。主要参考tcp/ip-guid
-基本概念 RTO即超时重传时间
-RTT数据包往返时间
-平均偏差是指单项测定值与平均值的偏差（取绝对值）之和，除以测定次数。
-RTO计算算法 RTO的计算依赖于RTT值，或者说一系列RTT值。rto=f(rtt)
-在Linux中，最开始实现的是一个比较简单的经典算法RFC793，后来1988年提出了新的算法计算rto值，文档为RFC6298. 下面对比一下两种算法。
-经典算法 rfc原文  An Example Retransmission Timeout Procedure Measure the elapsed time between sending a data octet with a particular sequence number and receiving an acknowledgment that covers that sequence number (segments sent do not have to match segments received). This measured elapsed time is the Round Trip Time (RTT). Next compute a Smoothed Round Trip Time (SRTT) as: SRTT = ( ALPHA * SRTT ) + ((1-ALPHA) * RTT) and based on this, compute the retransmission timeout (RTO) as: RTO = min[UBOUND,max[LBOUND,(BETA*SRTT)]] where UBOUND is an upper bound on the timeout (e.
-                  <a href="https://zboya.github.io/post/tcp_rto_research_and_golang_implement/" class="post-read-more">[Read More]</a>
                 
               </div>
 
@@ -620,15 +213,6 @@ RTO计算算法 RTO的计算依赖于RTT值，或者说一系列RTT值。rto=f(r
           
         </div>
 
-        
-          <ul class="pager main-pager">
-            
-            
-              <li class="next">
-                <a href="https://zboya.github.io/page/2/">Older Posts &rarr;</a>
-              </li>
-            
-          </ul>
         
       </div>
     </div>
@@ -640,9 +224,29 @@ RTO计算算法 RTO的计算依赖于RTT值，或者说一系列RTT值。rto=f(r
       <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
         <ul class="list-inline text-center footer-links">
           
+              <li>
+                <a href="mailto:listomebao@gmail.com" title="Email me">
+                  <span class="fa-stack fa-lg">
+                    <i class="fa fa-circle fa-stack-2x"></i>
+                    <i class="fa fa-envelope fa-stack-1x fa-inverse"></i>
+                  </span>
+                </a>
+              </li>
+              <li>
+                <a href="https://github.com/zboya" title="GitHub">
+                  <span class="fa-stack fa-lg">
+                    <i class="fa fa-circle fa-stack-2x"></i>
+                    <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                  </span>
+                </a>
+              </li>
           
         </ul>
         <p class="credits copyright text-muted">
+          
+            
+              <a href="zboya.github.io">boya</a>
+            
           
 
           &nbsp;&bull;&nbsp;
@@ -655,7 +259,7 @@ RTO计算算法 RTO的计算依赖于RTT值，或者说一系列RTT值。rto=f(r
         </p>
         
         <p class="credits theme-by text-muted">
-          <a href="http://gohugo.io">Hugo v0.26</a> powered &nbsp;&bull;&nbsp; Theme by <a href="http://deanattali.com/beautiful-jekyll/">Beautiful Jekyll</a> adapted to <a href="https://github.com/halogenica/beautifulhugo">Beautiful Hugo</a>
+          <a href="http://gohugo.io">Hugo v0.59.1</a> powered &nbsp;&bull;&nbsp; Theme by <a href="http://deanattali.com/beautiful-jekyll/">Beautiful Jekyll</a> adapted to <a href="https://github.com/halogenica/beautifulhugo">Beautiful Hugo</a>
           
         </p>
       </div>

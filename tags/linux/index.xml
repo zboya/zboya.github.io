@@ -1,11 +1,13 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Linux on boya blog</title>
+    <title>linux on boya blog</title>
     <link>https://zboya.github.io/tags/linux/</link>
-    <description>Recent content in Linux on boya blog</description>
+    <description>Recent content in linux on boya blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
+    <managingEditor>listomebao@gmail.com (boya)</managingEditor>
+    <webMaster>listomebao@gmail.com (boya)</webMaster>
     <lastBuildDate>Sat, 26 Aug 2017 15:15:40 +0800</lastBuildDate>
     
 	<atom:link href="https://zboya.github.io/tags/linux/index.xml" rel="self" type="application/rss+xml" />
@@ -15,7 +17,7 @@
       <title>Linux 中的虚拟网络-简介</title>
       <link>https://zboya.github.io/post/virtual_network_in_linux/</link>
       <pubDate>Sat, 26 Aug 2017 15:15:40 +0800</pubDate>
-      
+      <author>listomebao@gmail.com (boya)</author>
       <guid>https://zboya.github.io/post/virtual_network_in_linux/</guid>
       <description>Linux 中的虚拟网络-简介 引言 随着云计算的兴起，计算机的虚拟化达到了空前的热度，计算机的虚拟化加强了服务器负载的能力，更有效的利用计算机资源。
 Linux中的真实网络设备 Linux的网络设备像一个双向的管道，数据从一头进，就会从另一头出，关键要看这两头是什么？真实的网络设备中，如下图的eth0，

@@ -8,7 +8,7 @@
   <title>Go</title>
   <meta property="og:title" content="Go" />
   <meta name="twitter:title" content="Go" />
-  <meta name="author" content=""/>
+  <meta name="author" content="boya"/>
   <link href='https://zboya.github.io/img/favicon.ico' rel='icon' type='image/x-icon'/>
   <meta property="og:image" content="https://zboya.github.io/img/favicon.ico" />
   <meta name="twitter:image" content="https://zboya.github.io/img/favicon.ico" />
@@ -17,7 +17,7 @@
   <meta property="og:type" content="website" />
   <meta property="og:site_name" content="boya blog" />
 
-  <meta name="generator" content="Hugo 0.26" />
+  <meta name="generator" content="Hugo 0.59.1" />
   <link rel="canonical" href="https://zboya.github.io/tags/go/" />
   <link rel="alternate" href="https://zboya.github.io/tags/go/index.xml" type="application/rss+xml" title="boya blog">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.7.1/katex.min.css" integrity="sha384-wITovz90syo1dJWVh32uuETPVEtGigN07tkttEqPv+uR2SE/mbQcG7ATL28aI9H0" crossorigin="anonymous">
@@ -581,7 +581,8 @@ buf := make([]byte, 8) if _, err := io.
                 
                   golang 代码片段 by boya
 老司机请忽略！
- 用chan实现斐波那契数列  import &quot;fmt&quot; func fibonacci(c, quit chan int) { x, y := 0, 1 for { select { case c &lt;- x: x, y = y, x+y case &lt;-quit: fmt.Println(&quot;quit&quot;) return } } } func main() { c := make(chan int) quit := make(chan int) go func() { for i := 0; i &lt; 10; i++ { fmt.Println(&lt;-c) } quit &lt;- 0 }() fibonacci(c, quit) }   字符串的简单映射  func main() { rot13 := func(r rune) rune { switch { case r &gt;= 'A' &amp;&amp; r &lt;= 'Z': return 'A' + (r-'A'+13)%26 case r &gt;= 'a' &amp;&amp; r &lt;= 'z': return 'a' + (r-'a'+13)%26 } return r } fmt.
+ 用chan实现斐波那契数列
+import &quot;fmt&quot; func fibonacci(c, quit chan int) { x, y := 0, 1 for { select { case c &lt;- x: x, y = y, x+y case &lt;-quit: fmt.Println(&quot;quit&quot;) return } } } func main() { c := make(chan int) quit := make(chan int) go func() { for i := 0; i &lt; 10; i++ { fmt.Println(&lt;-c) } quit &lt;- 0 }() fibonacci(c, quit) }  字符串的简单映射
                   <a href="https://zboya.github.io/post/golang_code_slice/" class="post-read-more">[Read More]</a>
                 
               </div>
@@ -617,9 +618,29 @@ buf := make([]byte, 8) if _, err := io.
       <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
         <ul class="list-inline text-center footer-links">
           
+              <li>
+                <a href="mailto:listomebao@gmail.com" title="Email me">
+                  <span class="fa-stack fa-lg">
+                    <i class="fa fa-circle fa-stack-2x"></i>
+                    <i class="fa fa-envelope fa-stack-1x fa-inverse"></i>
+                  </span>
+                </a>
+              </li>
+              <li>
+                <a href="https://github.com/zboya" title="GitHub">
+                  <span class="fa-stack fa-lg">
+                    <i class="fa fa-circle fa-stack-2x"></i>
+                    <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                  </span>
+                </a>
+              </li>
           
         </ul>
         <p class="credits copyright text-muted">
+          
+            
+              <a href="zboya.github.io">boya</a>
+            
           
 
           &nbsp;&bull;&nbsp;
@@ -632,7 +653,7 @@ buf := make([]byte, 8) if _, err := io.
         </p>
         
         <p class="credits theme-by text-muted">
-          <a href="http://gohugo.io">Hugo v0.26</a> powered &nbsp;&bull;&nbsp; Theme by <a href="http://deanattali.com/beautiful-jekyll/">Beautiful Jekyll</a> adapted to <a href="https://github.com/halogenica/beautifulhugo">Beautiful Hugo</a>
+          <a href="http://gohugo.io">Hugo v0.59.1</a> powered &nbsp;&bull;&nbsp; Theme by <a href="http://deanattali.com/beautiful-jekyll/">Beautiful Jekyll</a> adapted to <a href="https://github.com/halogenica/beautifulhugo">Beautiful Hugo</a>
           
         </p>
       </div>

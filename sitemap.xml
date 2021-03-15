@@ -1,6 +1,36 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
+  
+  <url>
+    <loc>https://zboya.github.io/</loc>
+    <lastmod>2019-06-15T23:58:40+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://zboya.github.io/categories/</loc>
+    <lastmod>2019-06-15T23:58:40+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://zboya.github.io/categories/development/</loc>
+    <lastmod>2019-06-15T23:58:40+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://zboya.github.io/tags/go/</loc>
+    <lastmod>2019-06-15T23:58:40+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://zboya.github.io/post/</loc>
+    <lastmod>2019-06-15T23:58:40+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://zboya.github.io/tags/</loc>
+    <lastmod>2019-06-15T23:58:40+08:00</lastmod>
+  </url>
   
   <url>
     <loc>https://zboya.github.io/post/go_scheduler/</loc>
@@ -25,6 +55,11 @@
   <url>
     <loc>https://zboya.github.io/post/golang_diff_ways_block_forever/</loc>
     <lastmod>2018-04-24T11:58:40+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://zboya.github.io/tags/idea/</loc>
+    <lastmod>2018-03-09T11:58:40+08:00</lastmod>
   </url>
   
   <url>
@@ -58,7 +93,17 @@
   </url>
   
   <url>
+    <loc>https://zboya.github.io/tags/linux/</loc>
+    <lastmod>2017-08-26T15:15:40+08:00</lastmod>
+  </url>
+  
+  <url>
     <loc>https://zboya.github.io/post/virtual_network_in_linux/</loc>
+    <lastmod>2017-08-26T15:15:40+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://zboya.github.io/categories/network/</loc>
     <lastmod>2017-08-26T15:15:40+08:00</lastmod>
   </url>
   
@@ -103,6 +148,16 @@
   </url>
   
   <url>
+    <loc>https://zboya.github.io/categories/life/</loc>
+    <lastmod>2016-12-31T11:58:40+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://zboya.github.io/tags/life/</loc>
+    <lastmod>2016-12-31T11:58:40+08:00</lastmod>
+  </url>
+  
+  <url>
     <loc>https://zboya.github.io/post/mylife_2016/</loc>
     <lastmod>2016-12-31T11:58:40+08:00</lastmod>
   </url>
@@ -118,7 +173,17 @@
   </url>
   
   <url>
+    <loc>https://zboya.github.io/tags/rtmp/</loc>
+    <lastmod>2016-09-13T11:58:40+08:00</lastmod>
+  </url>
+  
+  <url>
     <loc>https://zboya.github.io/post/rtmp_note/</loc>
+    <lastmod>2016-09-13T11:58:40+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://zboya.github.io/categories/stream/</loc>
     <lastmod>2016-09-13T11:58:40+08:00</lastmod>
   </url>
   
@@ -143,103 +208,32 @@
   </url>
   
   <url>
+    <loc>https://zboya.github.io/about/</loc>
+    <lastmod>2016-05-12T21:08:59+00:00</lastmod>
+  </url>
+  
+  <url>
     <loc>https://zboya.github.io/en/go_walkthrough_bytes_strings/</loc>
+    <priority>0</priority>
   </url>
   
   <url>
     <loc>https://zboya.github.io/en/go_walkthrough_io/</loc>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://zboya.github.io/post/gops/</loc>
+    <priority>0</priority>
   </url>
   
   <url>
     <loc>https://zboya.github.io/post/%E5%A6%82%E4%BD%95%E6%8E%92%E9%99%A4%E5%92%8C%E5%A4%84%E7%90%86bug/</loc>
-  </url>
-  
-  <url>
-    <loc>https://zboya.github.io/about/</loc>
-    <lastmod>2016-05-12T21:08:59+00:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>https://zboya.github.io/categories/</loc>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>https://zboya.github.io/categories/development/</loc>
-    <lastmod>2019-06-15T23:58:40+08:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
     <loc>https://zboya.github.io/en/</loc>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>https://zboya.github.io/tags/go/</loc>
-    <lastmod>2019-06-15T23:58:40+08:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>https://zboya.github.io/tags/idea/</loc>
-    <lastmod>2018-03-09T11:58:40+08:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>https://zboya.github.io/categories/life/</loc>
-    <lastmod>2016-12-31T11:58:40+08:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>https://zboya.github.io/tags/life/</loc>
-    <lastmod>2016-12-31T11:58:40+08:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>https://zboya.github.io/tags/linux/</loc>
-    <lastmod>2017-08-26T15:15:40+08:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>https://zboya.github.io/categories/network/</loc>
-    <lastmod>2017-08-26T15:15:40+08:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>https://zboya.github.io/post/</loc>
-    <lastmod>2019-06-15T23:58:40+08:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>https://zboya.github.io/tags/rtmp/</loc>
-    <lastmod>2016-09-13T11:58:40+08:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>https://zboya.github.io/categories/stream/</loc>
-    <lastmod>2016-09-13T11:58:40+08:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>https://zboya.github.io/tags/</loc>
-    <lastmod>2019-06-15T23:58:40+08:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>https://zboya.github.io/</loc>
-    <lastmod>2019-06-15T23:58:40+08:00</lastmod>
-    <priority>0</priority>
   </url>
   
 </urlset>
